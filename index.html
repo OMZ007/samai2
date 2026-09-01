@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>سماي 2</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB5MT0iMSIgeDI9IjAiPgogICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdmYzI0MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuNCIgc3RvcC1jb2xvcj0iIzAwYWQ4YiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzJmMzA2OCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTYuMDY5IDQuMTE0aDEydjE2LjExNWgtMTJ6Ii8+CiAgPHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTkuOTA5IDEuODg2IDMuNzM3IDUuNDE3djE2LjczMmgxNi41MjZWMS44ODZ6bS0zLjQ2MyA4LjYwNnEwLTEuMzM4LjM0My0yLjQ2OWE1LjQyIDUuNDIgMCAwIDEgMi45MTQtMy4zOTRxMS4wNjMtLjQ4IDIuNTAzLS40OCAxLjA5NyAwIDIuMDU3LjMwOC45MjUuMzc4IDEuNzQ5Ljk5NGE0Ljg0IDQuODQgMCAwIDEgMS42NDUgMy42NjljMCAxLjQ3NC0uNjUxIDIuODgtMS43NDggMy45MDlsLTEuMDYzLjg1Ny0yLjI5NyAxLjU0M3EtLjg1Ny42NTEtMS41NzcgMS4zNzFoNi43NTR2My4yMjNINi4xMDN2LS4zMDlxMC0xLjM3LjM3Ny0yLjM2NWE4LjQgOC40IDAgMCAxIDEuMTMxLTEuODE3IDguNiA4LjYgMCAwIDEgMS41NDMtMS40NGwyLjg4LTIuMDIzLjk5NS0uNzU1cS40MTEtLjQxMS43Mi0uODkxLjI3NC0uNDQ1LjI3NC0xLjA2My0uMDM0LS45Ni0uNTQ5LTEuNDc0YTEuODggMS44OCAwIDAgMC0xLjQwNS0uNTQ5cS0uNjE4IDAtLjk2LjI3NGEyIDIgMCAwIDAtLjY1Mi43MiAyLjYgMi42IDAgMCAwLS4zNzcuOTk1bC0uMTAzIDEuMTY2di4zMDhINi40NDZ6Ii8+Cjwvc3ZnPgo=">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+/* The closed scales the whole system is built from, and what the document
+   does before anything is drawn on it. Nothing downstream may invent a
+   colour, a radius, a size or a shadow: if a value is not here, it does not
+   exist. Component geometry a token cannot express — the diameter of a
+   wheel, the box of a thumbnail — stays in the lesson that owns it.
+
+   Every other sheet in this folder is written against these, so base comes
+   first. */
+
+/* Design tokens */
+/* The five official SAMAI 2 brand colours. Nothing else counts as brand. */
+:root{--primary:#2F3068;--teal:#00AD8B;--green:#7FC242;--grey:#7B868C;--black:#101820}
+
+/* Brand ramp. Tints and shades of the five, for gradients and hover states. */
+:root{--primary-2:#3E4089;--teal-2:#00806A;--green-2:#5E9430;--green-3:#A8DC7C}
+
+/* Text and surfaces. */
+:root{--ink:#101820;--muted:#7B868C;--page:#F4F7F9;--page-top:#FBFDFF;--surface:#FFFFFF;--surface-soft:#F7FAFB;--surface-veil:#FFFFFFFA}
+
+/* Text and fills that sit on a dark or brand-coloured background. */
+:root{--on-dark:#FFFFFF;--on-dark-soft:#FFFFFFF2;--on-dark-muted:#FFFFFFA6;--on-dark-accent:#A8DC7C}
+
+/* Translucent tints. The only legal way to lay one brand colour over another. */
+:root{--border:#2F30681F;--border-strong:#00AD8B45;--tint-primary:#2F30680F;--tint-primary-2:#2F30681A;--tint-teal:#00AD8B14;--tint-teal-2:#00AD8B1F;--tint-green:#7FC2421F;--tint-green-2:#7FC2422B;--veil:#FFFFFF1F;--veil-strong:#FFFFFF33;--veil-line:#FFFFFF29;--veil-sheen:#FFFFFF59;--tint-danger:#C0392B0F;--border-danger:#C0392B66;--tint-warning:#B789001F;--border-warning:#B7890059;--border-green:#7FC2428C;--scrim:#10182030}
+
+/* Glows. Soft brand-coloured light, only ever behind or under an element. */
+:root{--glow-teal:#00AD8B33;--glow-green:#7FC2421F;--glow-hero:#7FC24247}
+
+/* State colours. Outside the brand five, reserved for correctness feedback. */
+:root{--danger:#C0392B;--warning:#B78900;--success:#00806A}
+
+/* Category colours. Used by the classification activities in U3 and U6_L2. */
+:root{--cat-r:#00AD8B;--cat-i:#7FC242;--cat-c:#E0A128;--cat-e:#8E5FB0;--tint-cat-c:#E0A1281F;--tint-cat-e:#8E5FB01F;--border-cat-e:#8E5FB066}
+
+/* Spacing scale. */
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-7:28px;--space-8:32px;--space-10:40px}
+
+/* Radius scale. */
+:root{--radius-2xs:9px;--radius-xs:11px;--radius-sm:14px;--radius-md:18px;--radius-lg:22px;--radius-pill:999px}
+
+/* Shadow scale. */
+:root{--shadow:0 14px 30px #2F306812,0 2px 8px #10182008;--shadow-hover:0 22px 46px #2F306824;--shadow-glow-card:0 28px 58px #2F306829,0 0 0 1px #00AD8B33,0 0 30px #00AD8B2B;--shadow-card:0 4px 12px #2F30680F;--shadow-bar:0 8px 24px #1018204D;--shadow-nav:0 8px 22px #2F306817;--shadow-active:0 6px 16px #2F30682E;--shadow-hero:0 16px 36px #2F306833;--shadow-hub:0 14px 32px #2F306847;--shadow-glow:0 -2px 12px #00AD8B47;--shadow-ring:0 0 0 4px #7FC24238;--shadow-text:0 2px 10px #10182026;--shadow-logo:drop-shadow(0 2px 6px #10182073);--shadow-inset:inset 0 1px 0 #FFFFFF;--shadow-raised:0 10px 24px #2F306838}
+
+/* Type scale. */
+:root{--text-3xs:10.5px;--text-2xs:11.5px;--text-xs:12.5px;--text-sm:13px;--text-md:14px;--text-base:14.5px;--text-lg:15.5px;--text-xl:17px;--text-2xl:20px;--text-3xl:22px;--text-display:26px;--text-h2:clamp(21px,2.3vw,27px);--text-h1:clamp(27px,3.3vw,40px);--text-lead:clamp(14.5px,1.25vw,16.5px);--text-nav:clamp(11.5px,1.05vw,13.5px)}
+
+/* Line heights and weights. */
+:root{--leading-tight:1.35;--leading-snug:1.5;--leading-relaxed:1.75;--leading-normal:1.85;--leading-loose:1.95;--weight-normal:500;--weight-medium:700;--weight-bold:800;--weight-black:900}
+
+/* Layout. */
+:root{--font:"IBM Plex Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;--width:1120px;--gutter:clamp(20px,4vw,48px);--scroll-offset:88px}
+
+/* Logo sizing and the brand clear-space rule.
+   Once the logo renders taller than 8mm (~30.2px at 96dpi) it must keep a
+   clear space of 36% of its own height on every side. --logo-clear is that
+   distance; the brand bar feeds it into its own padding and gap as a
+   minimum, so the rule is honoured without inflating the bar. Below 8mm the
+   rule does not apply, and the ordinary padding already exceeds it. */
+:root{--logo-height:36px;--logo-clear:calc(var(--logo-height) * .36)}
+
+/* Document defaults */
+/* Rules that paint a gradient carry background-origin:border-box. The
+   `background` shorthand resets that property to padding-box, so on a
+   bordered element the gradient is sized to the padding box yet painted
+   over the border box, and the far end wraps onto the near edge as a thin
+   fringe. Setting it after the shorthand is the only thing that sticks —
+   a universal rule earlier in the sheet does not survive. */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{min-height:100%;margin:0;overflow-x:clip}
+body{font-family:var(--font);color:var(--ink);line-height:var(--leading-normal);background:radial-gradient(1100px 560px at 92% -12%,var(--tint-teal),transparent 60%),radial-gradient(900px 500px at -8% 34%,var(--tint-green),transparent 55%),linear-gradient(180deg,var(--page-top) 0%,var(--page) 100%);background-origin:border-box}
+button,input,textarea,select{font:inherit}
+button,a,[role="button"]{touch-action:manipulation;-webkit-tap-highlight-color:var(--tint-primary)}
+button:not([hidden]),[role="button"]{min-height:44px}
+a{color:var(--primary)}
+:focus-visible{outline:3px solid var(--border-strong);outline-offset:3px}
+[hidden]{display:none!important}
+
+/* Link mark */
+/* A link that leaves the lesson. Written as [label](address) in the copy. */
+.away{color:var(--teal);font-weight:var(--weight-black);text-decoration:none}
+.away:hover{text-decoration:underline}
+.away>i{margin-inline-start:var(--space-1);font-size:10px}
+
+/* Button
+   Every control a lesson gives the learner: the quiz's own navigation, a
+   simulator's reset, a workshop's next step. Ghost by default, filled when
+   it is the one action the block is asking for. */
+.btn{padding:11px var(--space-5);display:inline-flex;align-items:center;justify-content:center;gap:9px;appearance:none;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--primary);font-family:inherit;font-size:var(--text-sm);font-weight:var(--weight-black);cursor:pointer;transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
+.btn i{font-size:11px}
+.btn:hover:not(:disabled){border-color:var(--border-strong);box-shadow:var(--shadow-nav)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.is-primary{border-color:transparent;background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);background-origin:border-box}
+.btn.is-primary:hover:not(:disabled){box-shadow:var(--shadow-raised);transform:translateY(-2px)}
+
+/* Narrow screens and other media */
+@media (max-width:720px){
+  :root{--gutter:20px;--logo-height:22px}
+}
+
+/* Narrow screens and other media */
+@media (max-width:560px){
+  .btn{padding:11px 15px;font-size:var(--text-xs)}
+}
+
+/* Narrow screens and other media */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* Narrow screens and other media */
+@media print{
+  body{background:var(--surface)}
+}
+    </style>
+    <style>
+/* ======================================================================
+   The course shell. It links the shared stylesheet for its tokens and
+   adds only the rules the shell itself needs: the lesson frame, the
+   outline panel, and the rail the panel collapses into.
+
+   Every colour, radius and shadow below comes from a token — the shell
+   invents none. What is left is geometry no token can express: the
+   width of the panel, the width of the rail, and the diameter of a
+   unit's progress ring.
+   ====================================================================== */
+
+/* The panel is as wide as the longest lesson title needs to stay on one
+   line, and no wider. */
+/* One slide for the panel and the rail: they move together, so they
+   cannot be timed apart. */
+:root{--outline-width:min(360px,86vw);--rail-width:44px;--ring:36px;--mark:24px;--slide:.32s}
+
+/* The shell never scrolls; the lesson scrolls inside its own frame. */
+html,body{height:100%;overflow:hidden}
+body{background:var(--page)}
+
+.shell{height:100%}
+.stage{width:100%;height:100%;display:block;border:0}
+
+/* ---- Outline panel ----------------------------------------------------- */
+
+/* Physical left, not inline-start: the panel sits on the same edge in
+   this right-to-left document as it does in the design. */
+.outline{position:fixed;inset-block:0;left:0;z-index:200;width:var(--outline-width);display:flex;flex-direction:column;border-right:1px solid var(--border);background:var(--surface-veil);box-shadow:var(--shadow-hover);backdrop-filter:blur(14px);transition:transform var(--slide) ease,visibility var(--slide)}
+.shell:not(.is-open) .outline{visibility:hidden;transform:translateX(-100%)}
+
+.outline-head{position:relative;padding:var(--space-3) var(--space-4);display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;overflow:hidden;background:var(--black)}
+.outline-head::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(320px 140px at 80% 50%,var(--glow-teal),transparent 70%),radial-gradient(320px 140px at 20% 50%,var(--glow-green),transparent 70%);background-origin:border-box}
+.outline-head>*{position:relative;z-index:1}
+.outline-logo{grid-column:2;justify-self:center;width:auto;height:var(--logo-height);display:block;filter:var(--shadow-logo)}
+.outline-reset{grid-column:3;appearance:none;width:44px;height:44px;padding:0;display:grid;place-items:center;border:1px solid var(--veil-line);border-radius:var(--radius-xs);background:var(--veil);color:var(--on-dark);cursor:pointer;transition:background .2s ease}
+.outline-reset:hover{background:var(--veil-strong)}
+
+/* The whole course, in one bar. */
+.outline-track{height:4px;background:var(--tint-primary-2)}
+.outline-track i{width:0;height:100%;display:block;background:linear-gradient(90deg,var(--primary),var(--teal),var(--green));box-shadow:var(--shadow-glow);transition:width .3s ease;background-origin:border-box}
+
+.outline-units{flex:1 1 auto;padding:var(--space-3);display:flex;flex-direction:column;gap:var(--space-2);overflow-y:auto}
+
+.unit{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface-soft);transition:border-color .25s ease,background .25s ease,box-shadow .25s ease}
+.unit.is-open{border-color:var(--border-strong);background:var(--surface);box-shadow:var(--shadow-card)}
+
+/* Number first, then title: both the ring and the lesson dots sit on
+   the reading side, where the eye starts. */
+.unit-head{appearance:none;width:100%;padding:var(--space-3);display:grid;grid-template-columns:var(--ring) minmax(0,1fr);align-items:center;gap:var(--space-2);border:0;border-radius:var(--radius-md);background:none;color:var(--primary);font-size:var(--text-base);font-weight:var(--weight-bold);line-height:var(--leading-tight);text-align:start;cursor:pointer}
+.unit-head:hover{color:var(--primary-2)}
+.unit.is-open .unit-head{font-weight:var(--weight-black)}
+
+/* Ring, track and number share one box. */
+.unit-ring{position:relative;width:var(--ring);height:var(--ring);display:grid;place-items:center}
+.unit-ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.unit-ring .ring-track{fill:var(--surface);stroke:var(--border);stroke-width:2}
+/* The ring is the same reading as the dots below it, so it is drawn in
+   the same colour a completed lesson carries. */
+.unit-ring .ring-fill{fill:none;stroke:var(--success);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset .35s ease}
+.unit-ring b{position:relative;color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-black)}
+.unit.is-open .unit-ring b{color:var(--primary)}
+
+.unit-lessons{padding-block:0 var(--space-3);padding-inline:var(--space-3) var(--space-2);display:flex;flex-direction:column;gap:var(--space-1)}
+
+/* The dot's cell is as wide as the ring above it and carries the same
+   gap, so every indicator in the panel stands on one axis and every
+   title starts on another. */
+.lesson{display:grid;grid-template-columns:var(--ring) minmax(0,1fr);align-items:center;gap:var(--space-2)}
+
+/* A dense list, so a unit reads as one block: both controls drop the
+   44px minimum the shared sheet puts on every button, which is meant
+   for the buttons inside a lesson rather than for an index of them. */
+/* The block hangs back over its own padding, so the title starts on the
+   very axis the unit title above it starts on. */
+.unit-lessons .lesson-link{position:relative;min-height:0;margin-inline-start:calc(var(--space-2) * -1);padding:var(--space-1) var(--space-2);border:0;border-radius:var(--radius-xs);background:none;color:var(--grey);font-size:var(--text-xs);font-weight:var(--weight-medium);line-height:var(--leading-snug);text-align:start;cursor:pointer;transition:background .2s ease,color .2s ease}
+.unit-lessons .lesson-link:hover{background:var(--tint-teal);color:var(--ink)}
+.unit-lessons .lesson-link.is-current{background:var(--tint-primary-2);color:var(--primary);font-weight:var(--weight-bold)}
+/* The marker stands in the block's own gutter, beside the dot. */
+.unit-lessons .lesson-link.is-current::after{content:"";position:absolute;inset-block:4px;inset-inline-start:0px;width:3px;border-radius:var(--radius-pill);background:var(--teal)}
+
+.unit-lessons .lesson-state{width:var(--ring);height:var(--mark);min-height:0;padding:0;display:grid;place-items:center;border:0;border-radius:var(--radius-pill);background:none;color:var(--grey);font-size:var(--text-lg);line-height:1;cursor:pointer;transition:color .2s ease,transform .2s ease}
+.unit-lessons .lesson-state:hover{transform:scale(1.12)}
+.unit-lessons .lesson-state.is-doing{color:var(--teal)}
+.unit-lessons .lesson-state.is-done{color:var(--success)}
+
+/* ---- Rail -------------------------------------------------------------- */
+
+/* Half a rail peeks over the lesson, so the learner keeps the full page
+   to read; hovering it brings the other half in. While the panel is
+   open the rail rides its edge instead. */
+/* The corners clip the buttons, so each one can run the full width of
+   the rail and still leave the strip rounded. */
+.rail{position:fixed;left:0;top:50%;z-index:190;width:var(--rail-width);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);border-left:0;border-radius:0 var(--radius-sm) var(--radius-sm) 0;background:var(--surface-veil);box-shadow:var(--shadow-nav);backdrop-filter:blur(10px);transform:translate(calc(var(--rail-width) / -2),-50%);transition:transform var(--slide) ease}
+.rail:hover{transform:translate(0,-50%)}
+/* Keyboard focus brings the rail out; a press that merely leaves focus
+   behind must not pin it there. */
+.rail:has(:focus-visible){transform:translate(0,-50%)}
+.shell.is-open .rail{transform:translate(var(--outline-width),-50%)}
+
+.rail button{width:100%;height:38px;min-height:0;padding:0;display:grid;place-items:center;border:0;border-radius:0;background:none;color:var(--primary);font-size:var(--text-md);cursor:pointer;transition:background .2s ease,color .2s ease}
+.rail button + button{border-block-start:1px solid var(--border)}
+.rail button:hover{background:var(--tint-teal);color:var(--teal-2)}
+.rail button:disabled{background:none;color:var(--border);cursor:default}
+.rail-open img{width:22px;height:22px;display:block;transition:transform .2s ease}
+.rail-open:hover img{transform:scale(1.08)}
+
+/* Too narrow to give the panel a lane of its own: the rail stays put
+   and the panel covers it. */
+@media (max-width:900px){
+  .shell.is-open .rail{transform:translate(calc(var(--rail-width) / -2),-50%)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .outline,.rail,.rail-open img,.lesson-state,.outline-track i,.unit-ring .ring-fill{transition:none}
+}
+    </style>
+  </head>
+  <body>
+    <!-- Built by build.mjs from src/shell.mjs. -->
+    <div class="shell"></div>
+
+    <script>window.SAMAI_ASSETS={"assets/icon.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB5MT0iMSIgeDI9IjAiPgogICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdmYzI0MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuNCIgc3RvcC1jb2xvcj0iIzAwYWQ4YiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzJmMzA2OCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTYuMDY5IDQuMTE0aDEydjE2LjExNWgtMTJ6Ii8+CiAgPHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTkuOTA5IDEuODg2IDMuNzM3IDUuNDE3djE2LjczMmgxNi41MjZWMS44ODZ6bS0zLjQ2MyA4LjYwNnEwLTEuMzM4LjM0My0yLjQ2OWE1LjQyIDUuNDIgMCAwIDEgMi45MTQtMy4zOTRxMS4wNjMtLjQ4IDIuNTAzLS40OCAxLjA5NyAwIDIuMDU3LjMwOC45MjUuMzc4IDEuNzQ5Ljk5NGE0Ljg0IDQuODQgMCAwIDEgMS42NDUgMy42NjljMCAxLjQ3NC0uNjUxIDIuODgtMS43NDggMy45MDlsLTEuMDYzLjg1Ny0yLjI5NyAxLjU0M3EtLjg1Ny42NTEtMS41NzcgMS4zNzFoNi43NTR2My4yMjNINi4xMDN2LS4zMDlxMC0xLjM3LjM3Ny0yLjM2NWE4LjQgOC40IDAgMCAxIDEuMTMxLTEuODE3IDguNiA4LjYgMCAwIDEgMS41NDMtMS40NGwyLjg4LTIuMDIzLjk5NS0uNzU1cS40MTEtLjQxMS43Mi0uODkxLjI3NC0uNDQ1LjI3NC0xLjA2My0uMDM0LS45Ni0uNTQ5LTEuNDc0YTEuODggMS44OCAwIDAgMC0xLjQwNS0uNTQ5cS0uNjE4IDAtLjk2LjI3NGEyIDIgMCAwIDAtLjY1Mi43MiAyLjYgMi42IDAgMCAwLS4zNzcuOTk1bC0uMTAzIDEuMTY2di4zMDhINi40NDZ6Ii8+Cjwvc3ZnPgo=","assets/logo.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzcwIDY2NCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB5MT0iMSIgeDI9IjAiPgogICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdmYzI0MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuNCIgc3RvcC1jb2xvcj0iIzAwYWQ4YiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzJmMzA2OCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTY4IDY1aDM0MHY0NjVINjh6Ii8+CiAgPHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTE3OSAwIDAgMTAzdjQ4OGg0ODFWMFpNNzkgMjUxcS0xLTM5IDktNzIgMTEtMzUgMzItNTkgMjEtMjYgNTMtNDB0NzMtMTRxMzIgMCA2MCA5IDI4IDExIDUxIDI5YTEzNyAxMzcgMCAwMTQ4IDEwNyAxNTQgMTU0IDAgMDEtMjUgODRxLTExIDE2LTI2IDMwLTE0IDE0LTMxIDI1bC02NyA0NWE0MDkgNDA5IDAgMDAtNDYgNDBoMTk3djk0SDY5di05cTAtNDAgMTEtNjkgMTItMzAgMzItNTMgMTktMjMgNDUtNDJsODQtNTlxMTYtMTAgMjktMjIgMTItMTIgMjEtMjYgOC0xMyA4LTMxLTEtMjgtMTYtNDNhNTUgNTUgMCAwMC00MS0xNnEtMTggMC0yOCA4LTEyIDctMTkgMjEtNyAxMy0xMSAyOWwtMyAzNHY5SDc5eiIvPgogIDxwYXRoIGZpbGw9IiNmZmYiIGQ9Im02OTQgNjI2LTEwIDM4IDY3LTM4ek01NTEgODJjMCA1NiA0NiA2OCA5NiA3NCAyNSAzIDQ2IDYgNDYgMjNxLTIgMjQtMzUgMjVjLTI2IDAtNDUtMTUtNDUtMzV2LTFoLTYzcTAgMTggNyAzM2MxNCAzMyA1MiA1NSA5OSA1NSA2MyAwIDEwNy0zNSAxMDctODYgMC01Ni00Ny02OS05NS03NC0yNy0zLTQ3LTUtNDctMjJxMi0yMSAzNS0yMmMyNCAwIDQxIDEzIDQxIDMxbDU0LTMxYy0xNS0zMi01MS01Mi05Ny01Mi02MCAwLTEwMyAzMi0xMDMgODJtNzk2LTc0aC03NmwtNTEgMTc4LTUyLTE3OGgtMTM0djIzOWg3M1Y1NWw2MCAxOTJoMTA1bDYwLTE5MnYxOTJoNzNWOHptMTUxIDAtNzUgMjM5aDc2bDE0LTQ3IDY2LTM4aC01NmwyOC05MyAyOCA5MyAyNCA4NWg3NkwxNjA0IDh6TTgzOCA4bC03NSAyMzloNzZsMTQtNDcgNjYtMzhoLTU2bDI4LTkzIDI4IDkzIDI0IDg1aDc2TDk0NCA4em04NTkgNDJ2MTk3aDczVjhaTTkyNiAzNTJ2MTU1cTAgMjQgNyA0MCA2IDE2IDE3IDI2IDEyIDkgMjggMTQgMTUgNCAzNCA0aDUzcTE4IDAgMzItNCAxNS0zIDMwLTE5IDI0IDE2IDQ3IDIzIDIzIDYgNDUgNiAyOSAwIDUwLTEwIDIwLTEwIDMyLTMwYTc0IDc0IDAgMDA2NCAzNGgycTM2IDAgNTktNSAyNC00IDM5LTI0IDkgMTAgMjcgMjAgMjAgOSA0OCA5bDM4LTRxMTAtMyAxOS05IDExLTYgMTgtMTYgMTEgMTUgMjYgMjJ0NDQgN2g4NVYzNzBsLTcyIDQydjExNWgtMzVxLTMyIDAtMzItMzh2LTk0bC03MiA0MXY2NHEwIDE3LTEyIDIyLTExIDUtMjcgNS0yMSAwLTMwLTEwLTEwLTEwLTEwLTI4di05NGwtNzEgNDF2NjRsLTIgMTVxLTMgNS03IDgtNiAzLTEzIDNsLTIwIDFxLTEzIDAtMjgtNS0xNS02LTIyLTE5di0xNHEwLTI0LTctNDYtOS0yMS0yMi0zNmE5NSA5NSAwIDAwLTczLTMxcS0xNS0xLTMwIDUtMTUgNS0zMSAxNy0xNSAxMy0zMCAzMy0xNCAyMS0yNiA1My04IDIxLTE3IDMyLTEwIDExLTE3IDExaC0zOXEtMTMgMC0yMC01LTYtNi03LTI1VjMxMHptMjU3IDE3NHEtMTItNS0yNi0xNCA5LTM5IDI0LTU1IDE1LTE1IDMwLTE1YTMyIDMyIDAgMDEyOCAxNGw2IDE1IDIgMTdxMCAxOS0xMCAzMS05IDEyLTI3IDEyLTE1IDAtMjctNU04MDkgMzI3cS0yMiA0LTM3IDEzLTEyIDktMjAgMTlhNjEgNjEgMCAwMC05IDUzcTMgMTUgMTUgMzJsMzggNTYgNCA5IDEgNnEwIDctOCAxMGwtMjAgMkg2NTRsLTIwLTJxLTctMy03LTEwYTI3IDI3IDAgMDE1LTE1bDEwLTE2IDE3LTI1IDExLTE3aC04OHEtMTUgMjQtMjIgNDEtMTAgMjAtMTAgMzggMCAxNSA1IDI3YTYxIDYxIDAgMDAzOCAzN3ExNSA2IDM2IDZoMTcwcTIxIDAgMzUtNiAxNS02IDI1LTE1IDktOSAxNC0yMiA1LTEyIDUtMjcgMC0xOC0xMC0zOGMtNy0xNC0xMC0yMi0yMy00M2wtNi0xMC00LTdxLTQtNi01LTExLTItNyAzLTExbDYtMyAxMC0yaDU2bC01MC03NHpNNjM3IDYyNmwtMTAgMzggNjctMzh6Ii8+Cjwvc3ZnPgo="}</script>
+    <script>
+(() => {
+"use strict";
+
+/* The vocabulary every page is built with: what the runtime says, where its
+   files are, and the only sanctioned way to make DOM — no innerHTML, no
+   string concatenation of tags.
+
+   The runtime is one program written across the files in this folder, and the
+   build joins the ones a page needs. It is a classic script, not an ES
+   module, so a page still works opened straight from disk over file:// where
+   module requests are blocked. base comes first: it makes window.SAMAI, and
+   every other part adds to it. */
+
+  // Claims the page for the runtime. The stylesheet hides sections for their
+  // reveal only under this class, so a lesson whose script never loads still
+  // renders its content instead of a blank page. Set before first paint.
+  document.documentElement.classList.add("js");
+
+  // Every string the runtime renders. Lessons pass content, never chrome copy.
+  const STRINGS = {
+    title: "سماي 2",
+    fullscreen: "ملء الشاشة",
+    exitFullscreen: "الخروج من ملء الشاشة",
+    progress: "تقدم قراءة الدرس",
+    conclusion: "خلاصة الدرس",
+    conclusionShort: "الخلاصة",
+    references: "المراجع",
+    logoAlt: "سماي 2",
+    overview: "نظرة عامة",
+    goals: "أهداف الوحدة",
+    goalsShort: "الأهداف",
+    goalsLead: "بعد إكمال هذه الوحدة، ستكون قادرًا على",
+    outline: "محتوى الوحدة",
+    outlineShort: "المحتوى",
+    terms: "أبرز مصطلحات الوحدة",
+    termsShort: "المصطلحات",
+    termArabic: "المصطلح",
+    termLatin: "المصطلح بالإنجليزية",
+    termDefinition: "التعريف",
+    quizQuestion: "السؤال",
+    quizOf: "من",
+    quizQuestionOne: "سؤال",
+    quizQuestionTwo: "سؤالين",
+    quizQuestionsFew: "أسئلة",
+    quizQuestionsMany: "سؤالًا",
+    quizHits: "إجابات صحيحة",
+    quizSelectAll: "اختر كل ما ينطبق",
+    quizCheck: "تحقّق من إجابتك",
+    quizPrevious: "السابق",
+    quizNext: "التالي",
+    quizFinish: "إظهار النتيجة",
+    quizRetry: "إعادة المحاولة",
+    quizResult: "أجبت بشكل صحيح عن"
+  };
+
+  // Where the page keeps the files it shows. A built page carries them beside
+  // it and asks for them by path; a page built with --embed carries them
+  // inside it instead, and the build leaves their data URIs here under the
+  // very paths the lessons ask for. Either way a lesson names one file one
+  // way, and asset() answers with whatever this page was built to carry.
+  const ASSETS = window.SAMAI_ASSETS || {};
+
+  function asset(path) {
+    const name = asText(path);
+    return Object.prototype.hasOwnProperty.call(ASSETS, name) ? ASSETS[name] : name;
+  }
+
+  // The brand mark. Exported because a lesson may need it in its own content —
+  // U6_L2's printable plan sheet carries it — and no lesson should hardcode
+  // the path.
+  const LOGO = asset("assets/logo.svg");
+
+  // Whether the learner has asked for less movement. Read by anything that
+  // would otherwise animate.
+  const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /** Coerces any value to a string, with a fallback for null and undefined. */
+  function asText(value, fallback) {
+    if (value === undefined || value === null) return fallback || "";
+    return String(value);
+  }
+
+  function asArray(value) {
+    return Array.isArray(value) ? value : [];
+  }
+
+  /** Appends children to a parent, flattening arrays and skipping empties. */
+  function append(parent, items) {
+    const list = Array.isArray(items) ? items.flat(Infinity) : [items];
+    for (const item of list) {
+      if (item === undefined || item === null || item === false) continue;
+      parent.append(item instanceof Node ? item : document.createTextNode(String(item)));
+    }
+    return parent;
+  }
+
+  /** Builds an element. `options` covers the attributes used across lessons. */
+  function el(tagName, options, items) {
+    const node = document.createElement(tagName);
+    const settings = options || {};
+    if (settings.id) node.id = settings.id;
+    if (settings.className) node.className = settings.className;
+    if (settings.text !== undefined) node.textContent = settings.text;
+    if (settings.type) node.type = settings.type;
+    if (settings.hidden) node.hidden = true;
+    for (const [name, value] of Object.entries(settings.attrs || {})) {
+      if (value === undefined || value === null || value === false) continue;
+      node.setAttribute(name, value === true ? "" : String(value));
+    }
+    return append(node, items || []);
+  }
+
+  /** Expands a bare icon name into a Font Awesome class list. */
+  function iconName(value, fallback) {
+    const name = asText(value || fallback).trim();
+    if (!name) return "";
+    if (/\s/.test(name)) return name;
+    return `fa-solid ${name.startsWith("fa-") ? name : `fa-${name}`}`;
+  }
+
+  /** Builds a decorative icon. Always hidden from assistive technology. */
+  function icon(value, fallback) {
+    return el("i", { className: iconName(value, fallback), attrs: { "aria-hidden": "true" } });
+  }
+
+  function fragment(items) {
+    return append(document.createDocumentFragment(), items || []);
+  }
+
+  // SVG elements need their namespace, and their class is read-only, so el()
+  // cannot build them. Lesson artwork goes through here instead.
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
+  function svg(tagName, options, items) {
+    const node = document.createElementNS(SVG_NS, tagName);
+    const settings = options || {};
+    if (settings.className) node.setAttribute("class", settings.className);
+    for (const [name, value] of Object.entries(settings.attrs || {})) {
+      if (value === undefined || value === null || value === false) continue;
+      node.setAttribute(name, value === true ? "" : String(value));
+    }
+    return append(node, items || []);
+  }
+
+  /**
+   * A flat drawing, given as plain shape data so the artwork stays in the
+   * lesson's content rather than its code:
+   *
+   *   drawing("0 0 74 58", [{ tag: "circle", cls: "tv-node", cx: 13, cy: 42, r: 5 }])
+   *
+   * `text` is the shape's content, for the one tag that has any:
+   *
+   *   { tag: "text", x: 31, y: 30, "text-anchor": "middle", text: "يُقبل" }
+   *
+   * A drawing is hidden from assistive technology, so whatever it says has to
+   * be said again by whatever frames it. `label` puts that on the drawing
+   * itself for the cases with no frame to carry it.
+   */
+  function drawing(viewBox, shapes, label) {
+    return svg("svg", {
+      attrs: label
+        ? { viewBox, role: "img", "aria-label": asText(label) }
+        : { viewBox, "aria-hidden": "true" }
+    }, asArray(shapes).map(({ tag, cls, text, ...attrs }) => svg(tag, { className: cls, attrs }, text)));
+  }
+
+  /** Icon followed by its label, the order used by buttons and nav items. */
+  function iconText(iconValue, text, fallback) {
+    return fragment([icon(iconValue, fallback), el("span", { text: asText(text) })]);
+  }
+
+  /** Label followed by its icon, the order used by disclosure summaries. */
+  function textIcon(text, iconValue, fallback) {
+    return fragment([el("span", { text: asText(text) }), icon(iconValue, fallback)]);
+  }
+
+  // Lesson copy is written in a small markdown of two marks and nothing else:
+  //
+  //   **قدرةً وطنيةً تُبنى**              the phrase the sentence turns on
+  //   [سدايا](https://sdaia.gov.sa)   a link away from the lesson
+  //
+  // A sentence stays one string in the content that way, rather than being cut
+  // into the pieces around its own emphasis. Raw inline HTML still passes for
+  // what the two marks cannot say — a <br>, or a <span dir="ltr"> around a
+  // Latin term inside Arabic — but anything outside INLINE_TAGS is unwrapped,
+  // keeping its text and losing its tag, and every attribute but dir and lang
+  // is dropped. Links are built after that pass rather than read out of the
+  // copy, so the only <a> on a page is one the mark above made, with an
+  // address the mark itself has already vouched for.
+  const INLINE_TAGS = new Set(["B", "STRONG", "I", "EM", "SPAN", "SMALL", "CODE", "BR"]);
+
+  const BOLD = /\*\*([^\s*](?:[^*\n]*[^\s*])?)\*\*/g;
+
+  const LINK = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g;
+
+  /**
+   * A link that opens away from the lesson. Given words it says so with the
+   * mark for it; given nodes it carries them as they are, for the cases —
+   * a picture with its caption — where the mark belongs somewhere inside.
+   */
+  function away(href, content, title) {
+    return el("a", {
+      className: "away",
+      attrs: { href, target: "_blank", rel: "noopener noreferrer", title }
+    }, typeof content === "string"
+      ? [el("span", { text: content }), icon("arrow-up-right-from-square")]
+      : content);
+  }
+
+  /** Turns every [label](address) still sitting in the text into a link. */
+  function linkify(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const carrying = [];
+    while (walker.nextNode()) {
+      LINK.lastIndex = 0;
+      if (LINK.test(walker.currentNode.data)) carrying.push(walker.currentNode);
+    }
+
+    for (const node of carrying) {
+      const pieces = [];
+      let at = 0;
+      let found;
+      LINK.lastIndex = 0;
+      while ((found = LINK.exec(node.data)) !== null) {
+        if (found.index > at) pieces.push(document.createTextNode(node.data.slice(at, found.index)));
+        pieces.push(away(found[2], found[1]));
+        at = found.index + found[0].length;
+      }
+      if (at < node.data.length) pieces.push(document.createTextNode(node.data.slice(at)));
+      node.replaceWith(...pieces);
+    }
+
+    return root;
+  }
+
+  function markup(html) {
+    const text = asText(html);
+    const template = document.createElement("template");
+    template.innerHTML = text.replace(BOLD, "<b>$1</b>");
+    for (const node of [...template.content.querySelectorAll("*")]) {
+      if (!INLINE_TAGS.has(node.tagName)) {
+        node.replaceWith(...node.childNodes);
+        continue;
+      }
+      for (const attribute of [...node.attributes]) {
+        if (attribute.name !== "dir" && attribute.name !== "lang") node.removeAttribute(attribute.name);
+      }
+    }
+    return text.includes("](") ? linkify(template.content) : template.content;
+  }
+
+  /**
+   * A control. `primary` fills it, for the one action a block is asking for;
+   * everything else stays a ghost.
+   *
+   *   button({ text: "إعادة المحاولة", icon: "rotate-right", primary: true })
+   */
+  function button(config) {
+    const settings = config || {};
+    return el("button", {
+      className: settings.primary ? "btn is-primary" : "btn",
+      type: "button",
+      attrs: { disabled: settings.disabled }
+    }, [settings.icon ? icon(settings.icon) : null, ` ${asText(settings.text)}`]);
+  }
+
+  /** The document title the browser tab shows. */
+  function pageTitle(meta) {
+    const settings = meta || {};
+    return settings.lesson
+      ? `${STRINGS.title} - الوحدة ${settings.module} - الدرس ${settings.lesson}`
+      : `${STRINGS.title} - الوحدة ${settings.module}`;
+  }
+
+  window.SAMAI = {
+    asArray, el, svg, drawing, iconName, icon, fragment, iconText, textIcon, markup, asset,
+    away, button, pageTitle, STRINGS, LOGO, REDUCED_MOTION
+  };
+})();
+    </script>
+    <script>
+(() => {
+"use strict";
+
+const meta = {
+  base: "shell",
+  title: "سماي 2"
+};
+
+/* The course shell: one lesson at a time in a frame, with the outline beside
+   it and the learner's progress kept in local storage.
+
+   COURSE is what the build reads out of the lesson modules — every unit in
+   teaching order, with the lessons inside it:
+
+     [{ title: "…", lessons: ["…", "…"] }]
+
+   A lesson listed there has a page at U{unit}_L{lesson}.html. Lesson 0, the
+   unit overview, is implied by the unit rather than listed, since it never
+   appears in the outline and is reached by expanding the unit. */
+
+const shell = (S, COURSE) => {
+  const { el, svg, icon, fragment } = S;
+
+  // Every string the shell renders. The lessons own their own copy.
+  const STRINGS = {
+    outline: "محتوى الدورة",
+    lesson: "الدرس",
+    logoAlt: "سماي 2",
+    reset: "إعادة تعيين التقدم",
+    resetConfirm: "سيُمسح تقدمك في جميع الدروس. هل تريد المتابعة؟",
+    courseProgress: "تقدمك في الدورة",
+    openOutline: "إظهار المحتوى",
+    closeOutline: "إخفاء المحتوى",
+    previous: "الدرس السابق",
+    next: "الدرس التالي",
+    none: "لم يبدأ",
+    doing: "قيد التقدم",
+    done: "مكتمل"
+  };
+
+  /* ==================================================================
+     2 · PROGRESS
+     One record per lesson, in one of three states, kept in local
+     storage so a learner who closes the tab comes back to where they
+     left off. Lesson 0 is left out: a unit overview is not a lesson
+     to complete.
+     ================================================================== */
+
+  const STORE = "samai.outline.v1";
+  const STATES = ["none", "doing", "done"];
+  const WEIGHT = { none: 0, doing: 0.5, done: 1 };
+
+  const key = (unit, lesson) => `u${unit}l${lesson}`;
+  const page = (unit, lesson) => `U${unit}_L${lesson}.html`;
+
+  // The whole course as one reading order, overviews included, so the
+  // rail can step from the end of one unit into the start of the next.
+  const ORDER = COURSE.flatMap((entry, index) =>
+    [key(index + 1, 0), ...entry.lessons.map((title, lesson) => key(index + 1, lesson + 1))]);
+
+  function readStore() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORE) || "{}");
+      return {
+        progress: saved && typeof saved.progress === "object" && saved.progress ? saved.progress : {},
+        last: typeof saved.last === "string" ? saved.last : "",
+        outline: saved.outline !== false
+      };
+    } catch (error) {
+      return { progress: {}, last: "", outline: true };
+    }
+  }
+
+  const state = readStore();
+
+  function writeStore() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify(state));
+    } catch (error) {
+      /* A learner browsing with storage blocked keeps the session. */
+    }
+  }
+
+  const stateOf = (id) => (STATES.includes(state.progress[id]) ? state.progress[id] : "none");
+
+  /**
+   * Records a state. Reading a lesson only ever moves it forward — a
+   * learner who scrolls back up has not un-read it — while a press on
+   * the indicator is the learner's own word, and sets whatever it says.
+   */
+  function record(id, next, told) {
+    if (!told && STATES.indexOf(next) <= STATES.indexOf(stateOf(id))) return;
+    if (next === "none") delete state.progress[id];
+    else state.progress[id] = next;
+    writeStore();
+    paint();
+  }
+
+  /** How far through a list of lessons the learner is, from 0 to 1. */
+  function shareOf(ids) {
+    if (!ids.length) return 0;
+    return ids.reduce((sum, id) => sum + WEIGHT[stateOf(id)], 0) / ids.length;
+  }
+
+  const unitIds = (unit) => COURSE[unit - 1].lessons.map((title, index) => key(unit, index + 1));
+  const courseIds = () => COURSE.flatMap((entry, index) => unitIds(index + 1));
+
+  /* ==================================================================
+     3 · THE SHELL
+     A lesson at a time: the frame carries one page, and moving to
+     another lesson is what loads it.
+     ================================================================== */
+
+  // Where the learner is. The unit they are in is the unit the outline
+  // lists, which is what keeps exactly one expanded at all times.
+  const here = { unit: 1, lesson: 0 };
+
+  const frame = el("iframe", { className: "stage", attrs: { title: STRINGS.lesson } });
+
+  const track = el("i");
+  const bar = el("div", {
+    className: "outline-track",
+    attrs: {
+      role: "progressbar",
+      "aria-label": STRINGS.courseProgress,
+      "aria-valuemin": "0",
+      "aria-valuemax": "100",
+      "aria-valuenow": "0"
+    }
+  }, track);
+
+  const reset = el("button", {
+    className: "outline-reset",
+    type: "button",
+    attrs: { "aria-label": STRINGS.reset, title: STRINGS.reset }
+  }, icon("rotate-left"));
+
+  const units = el("nav", { className: "outline-units", attrs: { "aria-label": STRINGS.outline } });
+
+  const outline = el("aside", { className: "outline" }, [
+    el("div", { className: "outline-head" }, [
+      el("img", { className: "outline-logo", attrs: { src: S.LOGO, alt: STRINGS.logoAlt } }),
+      reset
+    ]),
+    bar,
+    units
+  ]);
+
+  const stepper = (offset, label, glyph) => el("button", {
+    className: "rail-step",
+    type: "button",
+    attrs: { "aria-label": label, title: label, "data-step": offset }
+  }, icon(glyph));
+
+  const previous = stepper("-1", STRINGS.previous, "chevron-up");
+  const next = stepper("1", STRINGS.next, "chevron-down");
+
+  const opener = el("button", {
+    className: "rail-open",
+    type: "button",
+    attrs: { "aria-label": STRINGS.openOutline, title: STRINGS.openOutline, "aria-expanded": "false" }
+  }, el("img", { attrs: { src: S.asset("assets/icon.svg"), alt: "" } }));
+
+  const rail = el("div", { className: "rail" }, [previous, opener, next]);
+
+  const shell = document.querySelector(".shell");
+  shell.append(frame, outline, rail);
+
+  /**
+   * Opens and closes the panel, and remembers which it was. A refresh
+   * leaves it as the learner left it: open on a first visit, and folded
+   * away once they have started reading.
+   */
+  function show(on) {
+    shell.classList.toggle("is-open", on);
+    opener.setAttribute("aria-expanded", String(on));
+    const label = on ? STRINGS.closeOutline : STRINGS.openOutline;
+    opener.setAttribute("aria-label", label);
+    opener.title = label;
+    if (on === state.outline) return;
+    state.outline = on;
+    writeStore();
+  }
+
+  /* ==================================================================
+     4 · THE OUTLINE
+     Redrawn whenever the route or a lesson's state changes. The panel
+     is small enough that redrawing it costs nothing, and it keeps the
+     rings, the bar and the indicators from drifting out of step.
+     ================================================================== */
+
+  const RADIUS = 15;
+  const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
+  /** A unit's number, inside a ring of how much of it is behind them. */
+  function ring(unit) {
+    return el("span", { className: "unit-ring" }, [
+      svg("svg", { attrs: { viewBox: "0 0 36 36", "aria-hidden": "true" } }, [
+        svg("circle", { className: "ring-track", attrs: { cx: 18, cy: 18, r: RADIUS } }),
+        svg("circle", {
+          className: "ring-fill",
+          attrs: {
+            cx: 18,
+            cy: 18,
+            r: RADIUS,
+            "stroke-dasharray": CIRCUMFERENCE,
+            "stroke-dashoffset": CIRCUMFERENCE * (1 - shareOf(unitIds(unit)))
+          }
+        })
+      ]),
+      el("b", { text: String(unit) })
+    ]);
+  }
+
+  /** One lesson: a title that navigates, an indicator that cycles. */
+  function row(unit, lesson, title) {
+    const id = key(unit, lesson);
+    const current = here.unit === unit && here.lesson === lesson;
+    const status = stateOf(id);
+    const glyph = status === "done" ? "circle-check"
+      : status === "doing" ? "circle-half-stroke"
+      : "fa-regular fa-circle";
+
+    const link = el("button", {
+      className: current ? "lesson-link is-current" : "lesson-link",
+      type: "button",
+      text: title,
+      attrs: { "aria-current": current ? "true" : false }
+    });
+    link.addEventListener("click", () => go(unit, lesson));
+
+    const mark = el("button", {
+      className: `lesson-state is-${status}`,
+      type: "button",
+      attrs: { "aria-label": `${STRINGS[status]} - ${title}`, title: STRINGS[status] }
+    }, icon(glyph));
+    mark.addEventListener("click", () => {
+      record(id, STATES[(STATES.indexOf(status) + 1) % STATES.length], true);
+    });
+
+    return el("div", { className: "lesson" }, [mark, link]);
+  }
+
+  /** One unit: its head, and its lessons while it is the open one. */
+  function block(unit, entry) {
+    const expanded = here.unit === unit;
+
+    const head = el("button", {
+      className: "unit-head",
+      type: "button",
+      attrs: { "aria-expanded": String(expanded) }
+    }, [ring(unit), el("span", { text: entry.title })]);
+
+    // Expanding a unit is how a learner reaches its overview, and the
+    // unit they are in is the one the outline lists — so a press on the
+    // open unit is a press on the overview it is already showing, and
+    // does nothing once they are reading it.
+    head.addEventListener("click", () => {
+      if (!expanded || here.lesson !== 0) go(unit, 0);
+    });
+
+    return el("section", { className: expanded ? "unit is-open" : "unit" }, [
+      head,
+      expanded
+        ? el("div", { className: "unit-lessons" },
+          entry.lessons.map((title, index) => row(unit, index + 1, title)))
+        : null
+    ]);
+  }
+
+  function paint() {
+    units.replaceChildren(fragment(COURSE.map((entry, index) => block(index + 1, entry))));
+
+    const percent = Math.round(shareOf(courseIds()) * 100);
+    track.style.width = `${percent}%`;
+    bar.setAttribute("aria-valuenow", String(percent));
+
+    const at = ORDER.indexOf(key(here.unit, here.lesson));
+    previous.disabled = at <= 0;
+    next.disabled = at < 0 || at >= ORDER.length - 1;
+  }
+
+  /* ==================================================================
+     5 · ROUTING
+     The hash is the address of a lesson: #u3l2 is unit 3, lesson 2. A
+     visit with no address resumes where the course stands rather than
+     where the learner last was — the first lesson they have yet to
+     finish.
+     ================================================================== */
+
+  function parse(hash) {
+    const match = /^#u(\d+)l(\d+)$/i.exec(hash || "");
+    if (!match) return null;
+    const unit = Number(match[1]);
+    const lesson = Number(match[2]);
+    const entry = COURSE[unit - 1];
+    if (!entry || lesson > entry.lessons.length) return null;
+    return { unit, lesson };
+  }
+
+  /**
+   * Where a visit with no address lands: the first lesson the learner
+   * has yet to finish. A unit they have not started at all opens on its
+   * overview instead, since that is where the unit begins. With the
+   * whole course behind them, the lesson they last opened.
+   */
+  function resume() {
+    for (const [index, entry] of COURSE.entries()) {
+      const unit = index + 1;
+      for (let lesson = 1; lesson <= entry.lessons.length; lesson++) {
+        const status = stateOf(key(unit, lesson));
+        if (status === "done") continue;
+        return { unit, lesson: lesson === 1 && status === "none" ? 0 : lesson };
+      }
+    }
+    return parse(`#${state.last}`) || { unit: 1, lesson: 0 };
+  }
+
+  /** Moves to a lesson through the hash, so the address stays true. */
+  function go(unit, lesson) {
+    const id = key(unit, lesson);
+    if (window.location.hash.toLowerCase() === `#${id}`) route();
+    else window.location.hash = id;
+  }
+
+  function route() {
+    const asked = parse(window.location.hash);
+    const target = asked || resume();
+    if (!asked) window.history.replaceState(null, "", `#${key(target.unit, target.lesson)}`);
+
+    here.unit = target.unit;
+    here.lesson = target.lesson;
+
+    // The tab names the lesson being read. The shell says it, not the
+    // frame: a lesson served from another origin cannot be asked.
+    const entry = COURSE[target.unit - 1];
+    const name = target.lesson ? entry.lessons[target.lesson - 1] : S.STRINGS.overview;
+    document.title = `${S.pageTitle({ module: target.unit, lesson: target.lesson })} | ${name}`;
+
+    state.last = key(target.unit, target.lesson);
+    writeStore();
+
+    const src = page(target.unit, target.lesson);
+    if (frame.getAttribute("src") !== src) frame.setAttribute("src", src);
+
+    paint();
+  }
+
+  window.addEventListener("hashchange", route);
+
+  for (const button of [previous, next]) {
+    button.addEventListener("click", () => {
+      const at = ORDER.indexOf(key(here.unit, here.lesson));
+      const target = parse(`#${ORDER[at + Number(button.dataset.step)]}`);
+      if (target) go(target.unit, target.lesson);
+    });
+  }
+
+  opener.addEventListener("click", () => show(!shell.classList.contains("is-open")));
+
+  reset.addEventListener("click", () => {
+    if (!window.confirm(STRINGS.resetConfirm)) return;
+    state.progress = {};
+    writeStore();
+    paint();
+  });
+
+  /* ==================================================================
+     6 · WHAT THE LESSON SAYS
+     The page in the frame reports being touched, and how far it has
+     been read. Both arrive as messages rather than being read out of
+     the frame: a course opened from disk gives every page an origin
+     of its own, and a frame like that cannot be reached into at all.
+
+     The touch is also why nothing of the shell's covers the lesson.
+     An overlay would have to swallow the very press or scroll it was
+     there to notice, and the learner would be left doing it twice.
+     ================================================================== */
+
+  window.addEventListener("message", (event) => {
+    if (event.source !== frame.contentWindow) return;
+
+    const said = event.data;
+    if (!said) return;
+
+    if (said.samai === "touched") {
+      show(false);
+      return;
+    }
+
+    if (said.samai !== "reading" || !STATES.includes(said.state)) return;
+
+    const target = parse(`#${key(said.module, said.lesson)}`);
+    if (target && target.lesson) record(key(target.unit, target.lesson), said.state);
+  });
+
+  /* ==================================================================
+     7 · CLOSING THE PANEL
+     A press or a scroll on the shell itself, anywhere but the panel
+     and the rail, and the Escape key. Inside the lesson it is the
+     frame's own report that folds the panel away.
+     ================================================================== */
+
+  /** True while the panel is open and the event landed outside it. */
+  function outside(event) {
+    if (!shell.classList.contains("is-open")) return false;
+    const target = event.target;
+    return !(target instanceof Node && (outline.contains(target) || rail.contains(target)));
+  }
+
+  for (const name of ["pointerdown", "wheel", "touchmove"]) {
+    document.addEventListener(name, (event) => {
+      if (outside(event)) show(false);
+    }, { passive: true });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") show(false);
+  });
+
+  show(state.outline);
+  route();
+};
+
+shell(SAMAI, [
+  {
+    "title": "الذكاء الاصطناعي في قطاع التعليم",
+    "lessons": [
+      "ما هو الذكاء الاصطناعي؟",
+      "كيف تعمل تطبيقات الذكاء الاصطناعي؟",
+      "الذكاء الاصطناعي في قطاع التعليم"
+    ]
+  },
+  {
+    "title": "قدرات الذكاء الاصطناعي",
+    "lessons": [
+      "قدرات تطبيقات الذكاء الاصطناعي",
+      "قدرات وكلاء الذكاء الاصطناعي",
+      "قدرات نماذج الذكاء الاصطناعي"
+    ]
+  },
+  {
+    "title": "رفع الإنتاجية بالذكاء الاصطناعي",
+    "lessons": [
+      "هندسة الأوامر (Prompt Engineering)",
+      "الإنتاجية باستخدام تطبيقات الذكاء الاصطناعي",
+      "اختيار تطبيق الذكاء الاصطناعي المناسب للمهمة"
+    ]
+  },
+  {
+    "title": "الأتمتة والبرمجة التوليدية",
+    "lessons": [
+      "أتمتة العمليات",
+      "البرمجة التوليدية"
+    ]
+  },
+  {
+    "title": "الاستخدام المسؤول للذكاء الاصطناعي",
+    "lessons": [
+      "مبادئ أخلاقيات الذكاء الاصطناعي",
+      "التعامل مع البيانات عند استخدام الذكاء الاصطناعي",
+      "مراجعة المخرجات والتحقق من الجودة"
+    ]
+  },
+  {
+    "title": "تبنّي الذكاء الاصطناعي في قطاع التعليم",
+    "lessons": [
+      "الاتجاهات المستقبلية ومواكبة المستجدات",
+      "خطّة تبنّي الذكاء الاصطناعي"
+    ]
+  }
+]);
+})();
+    </script>
+  </body>
+</html>

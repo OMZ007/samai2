@@ -1,0 +1,3342 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>سماي 2</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB5MT0iMSIgeDI9IjAiPgogICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdmYzI0MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuNCIgc3RvcC1jb2xvcj0iIzAwYWQ4YiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzJmMzA2OCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTYuMDY5IDQuMTE0aDEydjE2LjExNWgtMTJ6Ii8+CiAgPHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTkuOTA5IDEuODg2IDMuNzM3IDUuNDE3djE2LjczMmgxNi41MjZWMS44ODZ6bS0zLjQ2MyA4LjYwNnEwLTEuMzM4LjM0My0yLjQ2OWE1LjQyIDUuNDIgMCAwIDEgMi45MTQtMy4zOTRxMS4wNjMtLjQ4IDIuNTAzLS40OCAxLjA5NyAwIDIuMDU3LjMwOC45MjUuMzc4IDEuNzQ5Ljk5NGE0Ljg0IDQuODQgMCAwIDEgMS42NDUgMy42NjljMCAxLjQ3NC0uNjUxIDIuODgtMS43NDggMy45MDlsLTEuMDYzLjg1Ny0yLjI5NyAxLjU0M3EtLjg1Ny42NTEtMS41NzcgMS4zNzFoNi43NTR2My4yMjNINi4xMDN2LS4zMDlxMC0xLjM3LjM3Ny0yLjM2NWE4LjQgOC40IDAgMCAxIDEuMTMxLTEuODE3IDguNiA4LjYgMCAwIDEgMS41NDMtMS40NGwyLjg4LTIuMDIzLjk5NS0uNzU1cS40MTEtLjQxMS43Mi0uODkxLjI3NC0uNDQ1LjI3NC0xLjA2My0uMDM0LS45Ni0uNTQ5LTEuNDc0YTEuODggMS44OCAwIDAgMC0xLjQwNS0uNTQ5cS0uNjE4IDAtLjk2LjI3NGEyIDIgMCAwIDAtLjY1Mi43MiAyLjYgMi42IDAgMCAwLS4zNzcuOTk1bC0uMTAzIDEuMTY2di4zMDhINi40NDZ6Ii8+Cjwvc3ZnPgo=">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+/* ==========================================================================
+   SAMAI 2 — shared stylesheet
+   Every lesson links this file, then adds only its own lesson-specific rules.
+
+   Four parts:
+     1. Design tokens — the closed scales the whole system is built from.
+        Nothing downstream may invent a colour, a radius, a size or a shadow:
+        if a value is not here, it does not exist. Component geometry a token
+        cannot express — the diameter of a wheel, the box of a thumbnail —
+        stays in the lesson that owns the component.
+     2. Design primitives — the shapes those tokens make. The card, the tile,
+        the badge and the grid every lesson is assembled from, each with one
+        rule behind it and no second way to draw it.
+     3. The mock application and its tour — the window every unit that shows
+        an application shows, and the walk around it.
+     4. Shared chrome and content components — brand bar, lesson nav, hero,
+        section shell, callouts, conclusion, references, the three sections
+        every unit overview is made of, and the understanding check.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1 · DESIGN TOKENS
+   ========================================================================== */
+
+/* The five official SAMAI 2 brand colours. Nothing else counts as brand. */
+:root{--primary:#2F3068;--teal:#00AD8B;--green:#7FC242;--grey:#7B868C;--black:#101820}
+
+/* Brand ramp. Tints and shades of the five, for gradients and hover states. */
+:root{--primary-2:#3E4089;--teal-2:#00806A;--green-2:#5E9430;--green-3:#A8DC7C}
+
+/* Text and surfaces. */
+:root{--ink:#101820;--muted:#7B868C;--page:#F4F7F9;--page-top:#FBFDFF;--surface:#FFFFFF;--surface-soft:#F7FAFB;--surface-veil:#FFFFFFFA}
+
+/* Text and fills that sit on a dark or brand-coloured background. */
+:root{--on-dark:#FFFFFF;--on-dark-soft:#FFFFFFF2;--on-dark-muted:#FFFFFFA6;--on-dark-accent:#A8DC7C}
+
+/* Translucent tints. The only legal way to lay one brand colour over another. */
+:root{--border:#2F30681F;--border-strong:#00AD8B45;--tint-primary:#2F30680F;--tint-primary-2:#2F30681A;--tint-teal:#00AD8B14;--tint-teal-2:#00AD8B1F;--tint-green:#7FC2421F;--tint-green-2:#7FC2422B;--veil:#FFFFFF1F;--veil-strong:#FFFFFF33;--veil-line:#FFFFFF29;--veil-sheen:#FFFFFF59;--tint-danger:#C0392B0F;--border-danger:#C0392B66;--tint-warning:#B789001F;--border-warning:#B7890059;--border-green:#7FC2428C;--scrim:#10182030}
+
+/* Glows. Soft brand-coloured light, only ever behind or under an element. */
+:root{--glow-teal:#00AD8B33;--glow-green:#7FC2421F;--glow-hero:#7FC24247}
+
+/* State colours. Outside the brand five, reserved for correctness feedback. */
+:root{--danger:#C0392B;--warning:#B78900;--success:#00806A}
+
+/* Category colours. Used by the classification activities in U3 and U6_L2. */
+:root{--cat-r:#00AD8B;--cat-i:#7FC242;--cat-c:#E0A128;--cat-e:#8E5FB0;--tint-cat-c:#E0A1281F;--tint-cat-e:#8E5FB01F;--border-cat-e:#8E5FB066}
+
+/* Spacing scale. */
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-7:28px;--space-8:32px;--space-10:40px}
+
+/* Radius scale. */
+:root{--radius-2xs:9px;--radius-xs:11px;--radius-sm:14px;--radius-md:18px;--radius-lg:22px;--radius-pill:999px}
+
+/* Shadow scale. */
+:root{--shadow:0 14px 30px #2F306812,0 2px 8px #10182008;--shadow-hover:0 22px 46px #2F306824;--shadow-glow-card:0 28px 58px #2F306829,0 0 0 1px #00AD8B33,0 0 30px #00AD8B2B;--shadow-card:0 4px 12px #2F30680F;--shadow-bar:0 8px 24px #1018204D;--shadow-nav:0 8px 22px #2F306817;--shadow-active:0 6px 16px #2F30682E;--shadow-hero:0 16px 36px #2F306833;--shadow-hub:0 14px 32px #2F306847;--shadow-glow:0 -2px 12px #00AD8B47;--shadow-ring:0 0 0 4px #7FC24238;--shadow-text:0 2px 10px #10182026;--shadow-logo:drop-shadow(0 2px 6px #10182073);--shadow-inset:inset 0 1px 0 #FFFFFF;--shadow-raised:0 10px 24px #2F306838}
+
+/* Type scale. */
+:root{--text-3xs:10.5px;--text-2xs:11.5px;--text-xs:12.5px;--text-sm:13px;--text-md:14px;--text-base:14.5px;--text-lg:15.5px;--text-xl:17px;--text-2xl:20px;--text-3xl:22px;--text-display:26px;--text-h2:clamp(21px,2.3vw,27px);--text-h1:clamp(27px,3.3vw,40px);--text-lead:clamp(14.5px,1.25vw,16.5px);--text-nav:clamp(11.5px,1.05vw,13.5px)}
+
+/* Line heights and weights. */
+:root{--leading-tight:1.35;--leading-snug:1.5;--leading-relaxed:1.75;--leading-normal:1.85;--leading-loose:1.95;--weight-normal:500;--weight-medium:700;--weight-bold:800;--weight-black:900}
+
+/* Layout. */
+:root{--font:"IBM Plex Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;--width:1180px;--gutter:14px;--scroll-offset:88px}
+
+/* Logo sizing and the brand clear-space rule.
+   Once the logo renders taller than 8mm (~30.2px at 96dpi) it must keep a
+   clear space of 36% of its own height on every side. --logo-clear is that
+   distance; the brand bar feeds it into its own padding and gap as a
+   minimum, so the rule is honoured without inflating the bar. Below 8mm the
+   rule does not apply, and the ordinary padding already exceeds it. */
+:root{--logo-height:36px;--logo-clear:calc(var(--logo-height) * .36)}
+
+
+/* ==========================================================================
+   2 · DOCUMENT DEFAULTS
+   ========================================================================== */
+
+/* Rules that paint a gradient carry background-origin:border-box. The
+   `background` shorthand resets that property to padding-box, so on a
+   bordered element the gradient is sized to the padding box yet painted
+   over the border box, and the far end wraps onto the near edge as a thin
+   fringe. Setting it after the shorthand is the only thing that sticks —
+   a universal rule earlier in the sheet does not survive. */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{min-height:100%;margin:0;overflow-x:clip}
+body{font-family:var(--font);color:var(--ink);line-height:var(--leading-normal);background:radial-gradient(1100px 560px at 92% -12%,var(--tint-teal),transparent 60%),radial-gradient(900px 500px at -8% 34%,var(--tint-green),transparent 55%),linear-gradient(180deg,var(--page-top) 0%,var(--page) 100%);background-origin:border-box}
+button,input,textarea,select{font:inherit}
+button,a,[role="button"]{touch-action:manipulation;-webkit-tap-highlight-color:var(--tint-primary)}
+button:not([hidden]),[role="button"]{min-height:44px}
+a{color:var(--primary)}
+:focus-visible{outline:3px solid var(--border-strong);outline-offset:3px}
+[hidden]{display:none!important}
+
+
+/* ==========================================================================
+   3 · DESIGN PRIMITIVES
+   The closed set of shapes a lesson builds from. Every card, panel, well and
+   tile in the twenty-two lessons is one of these, so a block in unit 1 and the
+   same block in unit 6 cannot drift apart: there is only one rule behind them.
+
+   Colour is not written into a shape. A block declares a tone and the shapes
+   inside it read --tone and its ramp, so one word in a lesson's content
+   recolours a card, its rule, its tile and its badge together.
+   ========================================================================== */
+
+:root{--tone:var(--primary);--tone-2:var(--teal);--tone-ink:var(--primary);--tone-tint:var(--tint-primary)}
+.tone-primary{--tone:var(--primary);--tone-2:var(--primary-2);--tone-ink:var(--primary);--tone-tint:var(--tint-primary)}
+.tone-teal{--tone:var(--teal);--tone-2:var(--teal-2);--tone-ink:var(--teal-2);--tone-tint:var(--tint-teal)}
+.tone-green{--tone:var(--green);--tone-2:var(--green-2);--tone-ink:var(--green-2);--tone-tint:var(--tint-green)}
+.tone-warning{--tone:var(--warning);--tone-2:var(--cat-c);--tone-ink:var(--warning);--tone-tint:var(--tint-warning)}
+.tone-danger{--tone:var(--danger);--tone-2:var(--danger);--tone-ink:var(--danger);--tone-tint:var(--tint-danger)}
+
+/* ---- The one bordered surface ------------------------------------------ */
+
+.card{position:relative;min-width:0;padding:var(--space-5);overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow)}
+/* The corner and the shadow follow the room inside: a card the size of a
+   chip should not carry the radius and the lift of one the size of a panel. */
+.card-bare{padding:0}
+.card-tight{padding:var(--space-3);border-radius:var(--radius-xs);box-shadow:var(--shadow-card)}
+.card-snug{padding:var(--space-4);border-radius:var(--radius-sm);box-shadow:var(--shadow-card)}
+.card-wide{padding:var(--space-6);border-radius:var(--radius-lg)}
+.card-soft{background:linear-gradient(180deg,var(--surface),var(--surface-soft));background-origin:border-box}
+.card-sunken{background:var(--surface-soft);box-shadow:none}
+.card-dark{border-color:transparent;background:linear-gradient(140deg,var(--black),var(--primary));color:var(--on-dark);box-shadow:var(--shadow-hero);background-origin:border-box}
+.card.is-center{text-align:center}
+
+/* The brand laid across the top edge, for a card that opens a set. */
+.card.has-rule::before{content:"";position:absolute;inset-block-start:0;inset-inline:0;height:4px;background:linear-gradient(90deg,var(--tone),var(--tone-2),var(--green));background-origin:border-box}
+
+/* A card that is a choice rises to say so. One distance, so a page of cards
+   moves as one page rather than each card by its own amount. */
+.card.is-lift{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.card.is-lift:hover{border-color:var(--border-strong);box-shadow:var(--shadow-hover);transform:translateY(-4px)}
+
+/* ---- The marks a card carries ------------------------------------------ */
+
+.tile{flex:none;display:grid;place-items:center;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--tone),var(--tone-2));color:var(--on-dark);background-origin:border-box}
+.tile-xs{width:28px;height:28px;border-radius:var(--radius-2xs);font-size:var(--text-2xs)}
+.tile-sm{width:36px;height:36px;border-radius:var(--radius-2xs);font-size:var(--text-sm)}
+.tile-md{width:46px;height:46px;font-size:var(--text-xl)}
+.tile-lg{width:52px;height:52px;font-size:var(--text-2xl)}
+.tile-xl{width:58px;height:58px;border-radius:var(--radius-md);font-size:var(--text-3xl)}
+
+.badge{padding:5px 13px;display:inline-flex;align-items:center;gap:6px;border-radius:var(--radius-pill);background:linear-gradient(135deg,var(--tone),var(--tone-2));color:var(--on-dark);font-size:var(--text-xs);font-weight:var(--weight-black);letter-spacing:.02em;white-space:nowrap;background-origin:border-box}
+.badge>i{font-size:10px}
+.badge.is-plain{border:1px solid var(--border);background:var(--tone-tint);color:var(--tone-ink)}
+
+.card-head{margin-block-end:var(--space-3);display:flex;align-items:center;gap:var(--space-3)}
+.card-head.is-center{flex-direction:column;text-align:center}
+.card-head-body{min-width:0;flex:1}
+.card-eyebrow{margin-block-end:2px;display:block;color:var(--teal-2);font-size:var(--text-3xs);font-weight:var(--weight-black)}
+.card-title{margin:0;min-width:0;color:var(--primary);font-size:var(--text-lg);font-weight:var(--weight-black);line-height:var(--leading-tight)}
+.card-trail{margin-inline-start:auto;flex:none}
+.card-head.is-center .card-trail{margin-inline-start:0}
+
+/* A link that leaves the lesson. Written as [label](address) in the copy. */
+.away{color:var(--teal);font-weight:var(--weight-black);text-decoration:none}
+.away:hover{text-decoration:underline}
+.away>i{margin-inline-start:var(--space-1);font-size:10px}
+
+/* ---- Rows of them ------------------------------------------------------
+   auto-fit with a named floor, so a set of three and a set of four each fill
+   their row without a per-lesson column count, and the floors themselves come
+   off one five-step scale rather than being guessed a pixel at a time. */
+
+.grid{display:grid;gap:14px}
+.gap-tight{gap:var(--space-2)}
+.gap-loose{gap:var(--space-5)}
+.grid-xs{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+.grid-sm{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.grid-md{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.grid-lg{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.grid-xl{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+
+/* ==========================================================================
+   4 · THE MOCK APPLICATION AND ITS TOUR
+   One window, shown by every unit that shows one, so a learner taught its
+   parts in unit 1 meets the same parts in unit 6 rather than a second
+   mock-up that happens to look similar.
+
+   Nothing in it is operable — the lesson driving it says what it shows — so
+   it carries no controls, and the sizes are deliberately under the body
+   scale: it is a window seen at a distance, not a second interface inside
+   the page.
+   ========================================================================== */
+
+.win{overflow:hidden;pointer-events:none;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);box-shadow:var(--shadow-card)}
+.win-top{padding:9px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:var(--space-3);border-block-end:1px solid var(--border);background:var(--surface-soft)}
+.win-brand{min-width:0;display:flex;align-items:center;gap:10px}
+.win-dots{flex:none;display:flex;gap:5px;direction:ltr}
+.win-dots i{width:9px;height:9px;border-radius:50%}
+.win-dots i:nth-child(1){background:var(--danger)}
+.win-dots i:nth-child(2){background:var(--warning)}
+.win-dots i:nth-child(3){background:var(--success)}
+.win-name{overflow:hidden;color:var(--primary);font-size:var(--text-xs);font-weight:var(--weight-black);text-overflow:ellipsis;white-space:nowrap}
+.win-agents{padding:3px;display:inline-flex;gap:2px;border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--tint-primary)}
+.win-agent{min-height:32px;padding:6px 18px;display:grid;place-items:center;border-radius:var(--radius-pill);color:var(--muted);font-size:var(--text-2xs);font-weight:var(--weight-black);white-space:nowrap}
+.win-agent.is-on{background:var(--surface);color:var(--primary);box-shadow:var(--shadow-card)}
+
+/* A lesson that needs a taller window or a wider sidebar raises the two
+   below rather than restyling the window; everything else about it is fixed. */
+.win-body{min-height:var(--win-height,266px);display:grid;grid-template-columns:var(--win-side,154px) minmax(0,1fr)}
+.win-body.is-bare{min-height:0;grid-template-columns:minmax(0,1fr)}
+.win-side{padding:var(--space-3) 10px;display:flex;flex-direction:column;gap:var(--space-2);border-inline-end:1px solid var(--border);background:var(--surface-soft)}
+.win-new{min-height:32px;padding:var(--space-2) 10px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:var(--radius-2xs);background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);font-size:var(--text-3xs);font-weight:var(--weight-black);background-origin:border-box}
+.win-new>i{font-size:9px}
+.win-thread{height:10px;flex:none;border-radius:5px;background:var(--tint-primary-2)}
+.win-thread.is-current{background:var(--border-strong)}
+/* Named destinations, for the units teaching what the parts are called. */
+.win-item{padding:7px 9px;display:flex;align-items:center;gap:8px;border-radius:var(--radius-2xs);color:var(--ink);font-size:var(--text-3xs);font-weight:var(--weight-bold);text-align:start}
+.win-item>i{width:14px;flex:none;color:var(--muted);text-align:center}
+.win-item.is-on{background:var(--tint-primary-2);color:var(--primary);font-weight:var(--weight-black)}
+.win-item.is-on>i{color:var(--primary)}
+.win-group{padding:11px 9px 3px;color:var(--muted);font-size:var(--text-3xs);font-weight:var(--weight-black)}
+.win-fill{flex:1}
+.win-account{padding:7px var(--space-2);display:flex;align-items:center;gap:var(--space-2);border-block-start:1px solid var(--border);color:var(--muted)}
+.win-avatar{width:24px;height:24px;flex:none;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);font-size:10px;background-origin:border-box}
+.win-account-text{min-width:0;display:grid}
+.win-account-text b{overflow:hidden;color:var(--primary);font-size:var(--text-3xs);font-weight:var(--weight-black);text-overflow:ellipsis;white-space:nowrap}
+.win-account-text small{overflow:hidden;font-size:var(--text-3xs);font-weight:var(--weight-medium);text-overflow:ellipsis;white-space:nowrap}
+.win-account>i:last-child{margin-inline-start:auto;font-size:10px}
+.win-account.is-on{background:var(--tint-primary-2)}
+.win-account.is-on .win-account-text b{color:var(--primary)}
+.win-main{min-width:0;display:grid;align-content:stretch}
+.win-screen-top{padding:9px 13px;display:flex;align-items:center;justify-content:space-between;border-block-end:1px solid var(--border);color:var(--primary);font-size:var(--text-3xs);font-weight:var(--weight-black)}
+.win-screen-top>i{color:var(--muted)}
+.win-screen{min-width:0;min-height:0;padding:13px;display:grid;align-content:stretch;overflow:hidden}
+/* A screen whose own surface is the point paints to the frame instead. */
+.win-screen.is-bleed{padding:0}
+
+/* ---- The conversation inside it ---------------------------------------- */
+
+.win-chat{display:grid;align-content:space-between;gap:14px}
+.win-messages{display:grid;align-content:start;gap:10px}
+.win-empty{margin:22px 0;color:var(--muted);font-size:var(--text-2xs);font-weight:var(--weight-bold);text-align:center}
+.win-msg{margin:0;padding:10px 13px;border-radius:var(--radius-sm);font-size:var(--text-2xs);font-weight:var(--weight-bold);line-height:var(--leading-relaxed)}
+.win-msg p{margin:0}
+.win-msg.is-user{max-width:82%;justify-self:start;border:1px solid var(--border-strong);background:var(--tint-teal-2);color:var(--teal-2)}
+.win-msg.is-assistant{width:86%;justify-self:end;border:1px solid var(--border);background:var(--surface-soft)}
+.win-msg.is-pending{padding:13px;display:grid;gap:7px}
+.win-msg.is-pending i{height:7px;border-radius:4px;background:var(--tint-primary-2)}
+.win-msg.is-pending i:last-child{width:58%}
+.win-msg-files{margin-block-end:var(--space-2);display:flex;flex-wrap:wrap;gap:6px}
+.win-msg .win-file{border-color:var(--border-strong);background:var(--surface-veil)}
+
+/* ---- The row the learner writes in -------------------------------------- */
+
+.win-composer{padding:var(--space-2) 10px;display:grid;gap:var(--space-2);border:1px solid var(--border);border-radius:15px;background:var(--surface);box-shadow:var(--shadow-card)}
+.win-files{display:flex;flex-wrap:wrap;gap:6px}
+.win-file{padding:5px 9px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:9px;background:var(--surface-soft);color:var(--primary);font-size:var(--text-3xs);font-weight:var(--weight-bold)}
+.win-file>i{color:var(--primary-2);font-size:11px}
+.win-row{display:flex;align-items:center;gap:var(--space-2)}
+.win-field{min-width:0;flex:1 1 120px;overflow:hidden;display:flex;align-items:center;gap:1px;font-size:var(--text-2xs);font-weight:var(--weight-medium);white-space:nowrap}
+.win-placeholder{overflow:hidden;color:var(--muted);text-overflow:ellipsis}
+.win-typed{overflow:hidden;color:var(--ink);font-weight:var(--weight-bold);text-overflow:ellipsis}
+.win-caret{width:1.5px;height:14px;flex:none;display:none;background:var(--primary)}
+.win-field.is-typing .win-caret{display:block;animation:win-caret 1.06s steps(2,jump-none) infinite}
+@keyframes win-caret{from{opacity:1}to{opacity:0}}
+.win-tools{position:relative;flex:none}
+.win-plus{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--border);border-radius:50%;background:var(--surface-soft);color:var(--primary);font-size:var(--text-2xs);transition:background .2s ease,border-color .2s ease,transform .2s ease}
+.win-tools.is-open .win-plus{border-color:var(--teal);background:var(--tint-teal-2);transform:rotate(45deg)}
+.win-pickers{flex:none;display:flex;gap:6px}
+.win-picker{position:relative}
+.win-picker-button{min-height:34px;padding:6px var(--space-3);display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--surface-soft);color:var(--muted);font-size:var(--text-3xs);font-weight:var(--weight-bold);white-space:nowrap;transition:background .2s ease,border-color .2s ease}
+.win-picker-button>i{color:var(--muted);font-size:9px}
+.win-picker-value{overflow:hidden;color:var(--primary);font-weight:var(--weight-black);text-overflow:ellipsis}
+.win-picker.is-open .win-picker-button{border-color:var(--teal);background:var(--tint-teal)}
+.win-menu{position:absolute;inset-block-end:calc(100% + 7px);inset-inline-start:0;z-index:3;min-width:172px;padding:6px;display:none;border:1px solid var(--border);border-radius:13px;background:var(--surface);box-shadow:var(--shadow-hover)}
+.win-picker .win-menu{min-width:148px;inset-inline-start:auto;inset-inline-end:0}
+.is-open>.win-menu{display:grid;gap:2px}
+.win-option{padding:var(--space-2) 10px;display:flex;align-items:center;gap:9px;border-radius:9px;color:var(--ink);font-size:var(--text-2xs);font-weight:var(--weight-bold);white-space:nowrap}
+.win-option>i{width:13px;color:var(--teal-2);font-size:11px;text-align:center}
+.win-option[data-value]>i{visibility:hidden}
+.win-option.is-current{background:var(--tint-teal-2);color:var(--teal-2)}
+.win-option.is-current>i{visibility:visible}
+.win-send{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--green));color:var(--on-dark);font-size:var(--text-2xs);background-origin:border-box}
+
+/* ---- The conversation on its screen -------------------------------------
+   Who is speaking, then what they said. A learner's own turn runs the other
+   way and takes a tint, so the two sides read apart without either being
+   labelled. */
+
+.chat{display:grid;gap:10px}
+.msg{display:flex;align-items:flex-start;gap:8px}
+.msg.is-you{flex-direction:row-reverse}
+.avatar{width:24px;height:24px;flex:none;display:grid;place-items:center;border-radius:50%;background:var(--tint-primary-2);color:var(--primary);font-size:var(--text-3xs)}
+.bubble{max-width:82%;padding:10px 12px;border-radius:var(--radius-sm);background:var(--surface-soft);color:var(--ink);font-size:var(--text-3xs);font-weight:var(--weight-medium);line-height:var(--leading-relaxed)}
+.msg.is-you .bubble{border-start-end-radius:5px;background:var(--tint-primary)}
+
+/* ---- The tour around it -------------------------------------------------
+   The stage clips its own overflow and carries extra headroom at the top,
+   which is where the spotlight's label sits without being cut off. */
+
+.sim{padding:var(--space-5);border:1px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(180deg,var(--surface),var(--surface-soft));box-shadow:var(--shadow);background-origin:border-box}
+.sim-lead{margin:0 0 var(--space-4);color:var(--ink);font-size:var(--text-sm);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+.sim-stage{position:relative;overflow:hidden;padding:40px 18px 18px;border-radius:var(--radius-md);background:linear-gradient(180deg,var(--tint-primary),var(--surface-soft));background-origin:border-box}
+.sim-spot{position:absolute;top:0;left:0;z-index:2;border:2px solid var(--teal);border-radius:var(--radius-sm);background:var(--tint-teal);opacity:0;pointer-events:none;cursor:pointer;box-shadow:0 0 0 9999px var(--scrim);transition:opacity .25s ease,top .3s ease,left .3s ease,width .3s ease,height .3s ease}
+.sim-spot.is-on{opacity:1;pointer-events:auto}
+/* Placed from measured pixels, so "left" is physical; the translate keeps
+   the label anchored to the reading edge of the spotlight either way. */
+.sim-tag{position:absolute;top:0;left:0;z-index:4;padding:4px 11px;border-radius:var(--radius-2xs);background:var(--teal);color:var(--on-dark);font-size:var(--text-2xs);font-weight:var(--weight-black);line-height:var(--leading-relaxed);white-space:nowrap;opacity:0;pointer-events:none;transform:translateX(-100%);transition:opacity .25s ease}
+.sim-tag.is-on{opacity:1}
+.sim-caption{margin-block-start:18px;display:grid;grid-template-columns:34px minmax(0,1fr);align-items:start;gap:var(--space-3)}
+.sim-caption.is-plain{grid-template-columns:minmax(0,1fr)}
+.sim-number{width:34px;height:34px;display:grid;place-items:center;border-radius:var(--radius-xs);background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);font-size:var(--text-md);font-weight:var(--weight-black);background-origin:border-box}
+.sim-text{margin:0;min-height:62px;color:var(--ink);font-size:var(--text-base);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+.sim-note{margin:14px 0 0;color:var(--muted);font-size:var(--text-2xs);font-weight:var(--weight-medium);line-height:var(--leading-normal);text-align:center}
+
+/* Anything that steps through a sequence shares this control row. Equal side
+   columns keep the middle dead centre when the next label swaps to the wider
+   restart label. */
+.sim-steps{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}
+.sim-steps>button{padding:9px var(--space-4);display:inline-flex;align-items:center;gap:var(--space-2);border:1px solid var(--border-strong);border-radius:var(--radius-xs);background:var(--surface);color:var(--primary);font-size:var(--text-xs);font-weight:var(--weight-black);cursor:pointer;transition:border-color .2s ease,background .2s ease}
+.sim-steps>button:first-child{justify-self:start}
+.sim-steps>button:last-child{justify-self:end}
+.sim-steps>button:hover:not(:disabled){border-color:var(--teal);background:var(--tint-teal)}
+.sim-steps>button:disabled{opacity:.45;cursor:default}
+.sim-dots{display:flex;gap:7px}
+.sim-dots button{width:11px;height:11px;min-height:0;padding:0;border:0;border-radius:50%;background:var(--tint-primary-2);cursor:pointer;transition:background .2s ease,transform .2s ease}
+.sim-dots button.is-on{background:var(--teal);transform:scale(1.25)}
+.sim-dots button.is-done{background:var(--border-strong)}
+
+
+/* ==========================================================================
+   5 · BRAND BAR
+   ========================================================================== */
+
+.brand-bar{position:relative;z-index:80;width:min(var(--width),calc(100% - (var(--gutter) * 2)));min-height:72px;margin:0 auto;padding:max(14px,var(--logo-clear)) max(var(--space-7),var(--logo-clear));display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:max(var(--space-4),var(--logo-clear));overflow:hidden;border-radius:0 0 var(--radius-lg) var(--radius-lg);background:var(--black);color:var(--on-dark);box-shadow:var(--shadow-bar)}
+.brand-bar::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px 180px at 80% 50%,var(--glow-teal),transparent 70%),radial-gradient(420px 180px at 20% 50%,var(--glow-green),transparent 70%);background-origin:border-box}
+.brand-bar>*{position:relative;z-index:1}
+.brand-action{display:flex;align-items:center}
+.brand-heading{min-width:0;text-align:center;line-height:var(--leading-tight)}
+.brand-title{overflow:hidden;color:var(--on-dark);font-size:15px;font-weight:var(--weight-black);text-overflow:ellipsis;white-space:nowrap}
+.brand-subtitle{margin-block-start:2px;overflow:hidden;color:var(--on-dark-muted);font-size:var(--text-2xs);font-weight:var(--weight-medium);text-overflow:ellipsis;white-space:nowrap}
+.brand-logo-wrap{display:flex;align-items:center}
+.brand-logo{width:auto;height:var(--logo-height);display:block;filter:var(--shadow-logo)}
+.fullscreen{appearance:none;width:44px;height:44px;padding:0;display:grid;place-items:center;border:1px solid var(--veil-line);border-radius:var(--radius-xs);background:var(--veil);color:var(--on-dark);cursor:pointer;transition:background .2s ease,transform .2s ease}
+.fullscreen:hover{background:var(--veil-strong);transform:scale(1.06)}
+
+
+/* ==========================================================================
+   6 · SECTION INDICATOR AND READING PROGRESS
+   The indicator is a read-out of where the learner is, not a control: the
+   items are inert spans and the strip is hidden from assistive technology,
+   which reads position from the section headings instead.
+   ========================================================================== */
+
+.nav-shell{position:sticky;inset-block-start:0;z-index:70;width:min(var(--width),calc(100% - (var(--gutter) * 2)));margin:var(--space-4) auto 0}
+.nav{padding:7px;display:flex;gap:5px;overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface-veil);box-shadow:var(--shadow-nav);backdrop-filter:blur(10px)}
+.nav-link{min-width:0;flex:1 1 0;padding:10px var(--space-2);display:block;overflow:hidden;border-radius:var(--radius-xs);color:var(--muted);font-size:var(--text-nav);font-weight:var(--weight-black);line-height:normal;text-align:center;text-overflow:ellipsis;white-space:nowrap;transition:background .3s ease,color .3s ease,box-shadow .3s ease}
+.nav-link.is-active{background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);box-shadow:var(--shadow-active);background-origin:border-box}
+
+/* Sits outside the nav shell so it survives the shell being hidden on phones. */
+.progress{position:fixed;inset-inline:0;inset-block-end:0;z-index:120;width:100%;height:4px;pointer-events:none}
+.progress i{width:0;height:100%;display:block;background:linear-gradient(90deg,var(--primary),var(--teal),var(--green));box-shadow:var(--shadow-glow);transition:width .12s linear;background-origin:border-box}
+
+
+/* ==========================================================================
+   7 · SECTION SHELL
+   ========================================================================== */
+
+.section{scroll-margin-block-start:var(--scroll-offset);width:min(var(--width),calc(100% - (var(--gutter) * 2)));margin:22px auto;padding:30px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow)}
+
+/* Sections only start hidden once the runtime has claimed the page. Without
+   the .js gate a lesson whose script never runs would render blank. */
+.js .section[data-reveal]{opacity:0;transform:translateY(14px)}
+.js .section[data-reveal].is-visible{animation:reveal .55s ease both}
+@keyframes reveal{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fade-down{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+.section-title{margin:0 0 var(--space-2);display:flex;align-items:center;gap:10px;color:var(--primary);font-size:var(--text-h2);font-weight:var(--weight-black);letter-spacing:-.01em;line-height:var(--leading-tight)}
+.section-title>i{color:var(--teal);font-size:.72em}
+.section-num{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:var(--radius-2xs);background:var(--tint-primary);color:var(--primary);font-size:var(--text-md)}
+.section-subtitle{margin:0 0 var(--space-6);color:var(--muted);font-size:var(--text-base);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+.section-subtitle b{color:var(--primary);font-weight:var(--weight-black)}
+.subheading{margin:var(--space-6) 0 var(--space-3);color:var(--primary);font-size:var(--text-xl);font-weight:var(--weight-black);line-height:var(--leading-snug)}
+
+
+/* ==========================================================================
+   8 · HERO
+   ========================================================================== */
+
+.hero-section{margin-block-start:var(--space-5);padding:0;overflow:hidden;border:0;background:transparent;box-shadow:none}
+.hero{position:relative;overflow:hidden;border:none;border-radius:24px;background:linear-gradient(125deg,var(--primary) 0%,var(--primary-2) 48%,var(--teal) 100%);color:#fff;padding:40px 34px;box-shadow:0 18px 40px rgba(36,55,113,.22),0 2px 6px rgba(36,55,113,.10)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(520px 260px at 95% -20%,rgba(115,194,103,.30),transparent 60%),radial-gradient(420px 220px at -5% 110%,rgba(115,194,103,.17),transparent 60%),radial-gradient(420px 260px at 45% 55%,rgba(255,255,255,.06),transparent 65%)}
+.hero>*{position:relative;z-index:1}
+.hero-copy{min-width:0;max-width:none}
+.hero h1{margin:0 0 13px;color:#fff;font-size:min(42px,calc(4.3vw - 3px));font-weight:900;line-height:1.25;letter-spacing:-.02em;text-shadow:0 2px 10px rgba(0,0,0,.15);white-space:nowrap;overflow-wrap:normal}
+.hero-copy>p{margin:0;color:rgba(255,255,255,.95);font-size:clamp(15px,1.3vw,18px);font-weight:500;line-height:1.9}
+
+
+/* ==========================================================================
+   9 · CALLOUTS AND INTERACTION HINT
+   ========================================================================== */
+
+.callout{padding:14px var(--space-5);display:flex;align-items:flex-start;gap:var(--space-3);border-radius:var(--radius-sm);font-size:var(--text-base);font-weight:var(--weight-bold);line-height:var(--leading-loose)}
+.callout>i{flex:none;margin-block-start:5px}
+.callout p{margin:0}
+.callout b{font-weight:var(--weight-black)}
+
+/* Bridges one section into the next. */
+.callout-keyline{margin-block-start:var(--space-5);padding:var(--space-5);gap:14px;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:linear-gradient(135deg,var(--tint-primary),var(--tint-teal));color:var(--primary);background-origin:border-box}
+.callout-keyline>i{margin-block-start:4px;color:var(--teal);font-size:var(--text-xl)}
+
+/* Carries the single idea a section turns on. */
+.callout-focus{margin-block-end:var(--space-5);padding:19px var(--space-6);align-items:center;gap:15px;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--primary),var(--primary-2) 58%,var(--teal));color:var(--on-dark);background-origin:border-box}
+.callout-focus>i{width:38px;height:38px;flex:none;margin:0;display:grid;place-items:center;border-radius:var(--radius-sm);background:var(--veil);color:var(--on-dark-accent);font-size:var(--text-lg)}
+.callout-focus b{color:var(--on-dark-accent)}
+
+/* Sets down a rule the learner should carry out of the block above it. It
+   stands off whatever it follows, and its accent sits on the inline start,
+   which the RTL page puts on the right. */
+.callout-note{margin-block-start:var(--space-5);border-inline-start:4px solid var(--teal);background:var(--tint-teal);color:var(--teal-2)}
+.callout-note>i{color:var(--teal)}
+
+/* The same, for a caution the learner has to read before acting. */
+.callout-warn{margin-block-start:var(--space-5);border-inline-start:4px solid var(--warning);background:var(--tint-warning);color:var(--warning)}
+.callout-warn>i{color:var(--warning)}
+
+/* Tells the learner a block is interactive. */
+.hint{margin:0 0 14px;padding:7px 14px;display:inline-flex;align-items:center;gap:var(--space-2);border:1px dashed var(--border);border-radius:var(--radius-xs);background:var(--tint-primary);color:var(--primary);font-size:var(--text-2xs);font-weight:var(--weight-black)}
+.hint>i{color:var(--teal)}
+
+
+/* ==========================================================================
+   10 · BUTTON
+   Every control a lesson gives the learner: the quiz's own navigation, a
+   simulator's reset, a workshop's next step. Ghost by default, filled when
+   it is the one action the block is asking for.
+   ========================================================================== */
+
+.btn{padding:11px var(--space-5);display:inline-flex;align-items:center;justify-content:center;gap:9px;appearance:none;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--primary);font-family:inherit;font-size:var(--text-sm);font-weight:var(--weight-black);cursor:pointer;transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease}
+.btn i{font-size:11px}
+.btn:hover:not(:disabled){border-color:var(--border-strong);box-shadow:var(--shadow-nav)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.is-primary{border-color:transparent;background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);background-origin:border-box}
+.btn.is-primary:hover:not(:disabled){box-shadow:var(--shadow-raised);transform:translateY(-2px)}
+
+
+/* ==========================================================================
+   11 · DISCLOSURE LIST
+   A list where one item is open at a time, used wherever a lesson wants the
+   learner to work through a set rather than read it all at once.
+   ========================================================================== */
+
+/* A hint on one side, a count on the other. */
+.acc-top{margin-block-end:var(--space-4);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-3)}
+.acc-top .hint{margin:0}
+.tally{padding:9px var(--space-5);display:inline-flex;align-items:center;gap:9px;border:1.5px solid var(--border);border-radius:var(--radius-pill);background:var(--surface);color:var(--primary);font-size:var(--text-md);font-weight:var(--weight-black);box-shadow:var(--shadow)}
+.tally>i{color:var(--teal)}
+.tally b{color:var(--teal);font-size:var(--text-xl)}
+.acc{display:grid;gap:10px}
+.acc-item{overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow)}
+.acc-head{width:100%;min-height:72px;padding:15px var(--space-5);display:flex;align-items:center;gap:var(--space-3);appearance:none;border:none;background:var(--surface);color:var(--primary);font-family:inherit;font-size:var(--text-lg);font-weight:var(--weight-black);text-align:start;cursor:pointer;user-select:none;transition:background .2s ease}
+.acc-head:hover{background:var(--surface-soft)}
+.acc-name{flex:1;min-width:0}
+.acc-name>b{display:block;font-weight:var(--weight-black)}
+.acc-name>small{margin-block-start:2px;display:block;color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-bold);line-height:var(--leading-relaxed)}
+.acc-chev{flex:none;color:var(--muted);font-size:var(--text-md);transition:transform .3s ease,color .3s ease}
+.acc-item.is-open .acc-head{background:var(--tint-teal)}
+.acc-item.is-open .acc-chev{transform:rotate(180deg);color:var(--teal)}
+/* An item already opened keeps a tick, so what is left can be seen rather
+   than counted. */
+.acc-item.is-seen .acc-head::after{content:"\f00c";width:21px;height:21px;flex:none;order:-1;display:grid;place-items:center;border-radius:50%;background:var(--tint-teal-2);color:var(--teal-2);font-family:"Font Awesome 6 Free";font-size:var(--text-3xs);font-weight:var(--weight-black)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.acc-item.is-open .acc-body{max-height:760px}
+.acc-inner{margin:0 var(--space-5) var(--space-5);padding:var(--space-4);border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-soft)}
+
+/* ==========================================================================
+   12 · CONCLUSION
+   Three or four recap cards, the bridge into the next lesson, then the
+   references. The cards are the shared card on the shared grid, so only what
+   is particular to a recap is written here.
+   ========================================================================== */
+
+.rc .tile{margin-block-end:13px}
+.rc .card-title{margin-block-end:6px}
+.rc p{margin:0;color:var(--muted);font-size:var(--text-sm);font-weight:var(--weight-medium);line-height:var(--leading-normal)}
+
+.bridge{margin-block-start:var(--space-5);padding:var(--space-4) 21px;display:flex;align-items:center;gap:var(--space-3);border-radius:var(--radius-md);background:linear-gradient(135deg,var(--primary),var(--primary-2));color:var(--on-dark);font-size:var(--text-md);font-weight:var(--weight-bold);line-height:var(--leading-normal);background-origin:border-box}
+.bridge>i{flex:none;color:var(--on-dark-accent);font-size:var(--text-xl)}
+.bridge p{margin:0}
+.bridge b{color:var(--on-dark-accent)}
+
+
+/* ==========================================================================
+   13 · REFERENCES
+   ========================================================================== */
+
+.refs{margin-block-start:var(--space-6);padding-block-start:var(--space-4);border-block-start:1px dashed var(--border)}
+.refs summary{padding:9px var(--space-4);display:inline-flex;align-items:center;gap:9px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--tint-teal);color:var(--teal);font-size:var(--text-xs);font-weight:var(--weight-black);list-style:none;cursor:pointer;user-select:none;transition:background .2s ease}
+.refs summary::-webkit-details-marker{display:none}
+.refs summary::marker{content:""}
+.refs summary:hover{background:var(--tint-teal-2)}
+.refs summary .fa-chevron-down{font-size:10px;transition:transform .25s ease}
+.refs[open] summary .fa-chevron-down{transform:rotate(180deg)}
+.refs-body{margin-block-start:13px;display:grid;gap:9px;animation:fade-down .28s ease}
+.refs-body a{display:inline-flex;align-items:flex-start;gap:var(--space-2);color:var(--teal);font-size:var(--text-xs);font-weight:var(--weight-bold);line-height:var(--leading-normal);text-decoration:none}
+.refs-body a:hover{text-decoration:underline}
+.refs-body a>i{margin-block-start:5px;flex:none;font-size:9px}
+
+
+/* ==========================================================================
+   14 · UNIT OVERVIEW
+   The three sections every unit opens with: what the learner will be able to
+   do, what the unit covers lesson by lesson, and the terms it uses. The first
+   two are the shared card on the shared grid; what is left here is what only
+   a goal or a lesson plan has.
+   ========================================================================== */
+
+/* The tile turns as the card rises, so a goal answers the pointer. */
+.goal .tile{margin-block-end:14px;transition:transform .4s ease}
+.goal:hover .tile{transform:rotate(-8deg) scale(1.1)}
+.goal p{margin:0;color:var(--ink);font-size:var(--text-md);font-weight:var(--weight-medium);line-height:var(--leading-normal)}
+
+.plan-num{position:relative;min-width:42px;height:42px;margin-block-end:var(--space-3);padding-inline:10px;display:inline-grid;place-items:center;overflow:hidden;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);font-size:var(--text-lg);font-weight:var(--weight-black);background-origin:border-box}
+/* The sheen crosses the badge on hover. It starts off the leading edge and
+   ends off the trailing one, so it only ever shows while it is travelling. */
+.plan-num::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,var(--veil-sheen) 50%,transparent 70%);transform:translateX(100%);transition:transform .8s ease;background-origin:border-box}
+.plan-card:hover .plan-num::before{transform:translateX(-100%)}
+.plan-card .card-title{margin-block-end:var(--space-3)}
+.plan-items{margin:0;padding:0;display:grid;gap:var(--space-2);list-style:none}
+.plan-items li{padding:var(--space-2) 10px;display:flex;align-items:flex-start;gap:7px;border:1px solid var(--border);border-radius:var(--radius-xs);background:var(--surface);color:var(--primary);font-size:var(--text-xs);font-weight:var(--weight-black);line-height:var(--leading-relaxed)}
+.plan-items li>i{margin-block-start:5px;flex:none;color:var(--teal);font-size:10px}
+
+/* The table sets its own minimum width and the wrapper scrolls it, so a long
+   definition never squeezes the two term columns into single letters. */
+.terms{overflow:auto;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow)}
+.terms table{width:100%;min-width:560px;border-collapse:collapse;text-align:start}
+.terms th{padding:13px 15px;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:var(--on-dark);font-size:var(--text-sm);font-weight:var(--weight-black);text-align:start;background-origin:border-box}
+.terms td{padding:13px 15px;border-block-start:1px solid var(--border);color:var(--ink);font-size:var(--text-md);font-weight:var(--weight-medium);line-height:var(--leading-relaxed);vertical-align:top}
+.terms tbody tr:nth-child(even){background:var(--surface-soft)}
+.terms .term{color:var(--primary);font-weight:var(--weight-black);white-space:nowrap}
+.terms .term-en{color:var(--teal);font-weight:var(--weight-bold);white-space:nowrap}
+
+
+/* ==========================================================================
+   15 · UNDERSTANDING CHECK
+   One question card is visible at a time; the rest stay in the DOM so a
+   learner can step back to an answer without losing it. A question whose key
+   holds more than one option is answered by choosing freely and pressing
+   تحقّق, so those options carry a third state — chosen but not yet checked.
+   ========================================================================== */
+
+.quiz{padding:var(--space-5);border:1.5px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(180deg,var(--surface-soft),var(--tint-teal));box-shadow:var(--shadow-inset);background-origin:border-box}
+.q-bar{margin-block-end:var(--space-4);display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.q-step{color:var(--primary);font-size:var(--text-xs);font-weight:var(--weight-black);white-space:nowrap}
+.q-step b{color:var(--teal)}
+.q-track{flex:1 1 120px;min-width:90px;height:7px;overflow:hidden;border-radius:var(--radius-pill);background:var(--tint-primary-2)}
+.q-track i{width:0;height:100%;display:block;border-radius:var(--radius-pill);background:linear-gradient(90deg,var(--primary),var(--teal),var(--green));transition:width .35s ease;background-origin:border-box}
+.q-score{padding:6px 13px;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--surface);color:var(--muted);font-size:var(--text-2xs);font-weight:var(--weight-black);white-space:nowrap}
+.q-score i{color:var(--green);font-size:11px}
+.q-score b{color:var(--primary);font-size:var(--text-sm)}
+
+.qcard{display:none;padding:var(--space-5);border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow-card);animation:fade-up .32s ease}
+.qcard.is-current{display:block}
+/* What the question is about, when a lesson groups its questions by topic. */
+.q-tag{margin:0 0 var(--space-3);padding:5px 11px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--tint-teal);color:var(--teal-2);font-size:var(--text-3xs);font-weight:var(--weight-black)}
+.q-tag>i{color:var(--teal);font-size:10px}
+.q-txt{margin-block-end:var(--space-4);display:flex;align-items:flex-start;gap:13px}
+.q-n{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);font-size:var(--text-sm);font-weight:var(--weight-black);background-origin:border-box}
+.q-txt h3{margin:0;color:var(--primary);font-size:var(--text-lg);font-weight:var(--weight-black);line-height:var(--leading-relaxed)}
+.q-lead{margin:calc(var(--space-3) * -1) 0 var(--space-4);color:var(--muted);font-size:var(--text-md);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+.q-multi{margin:calc(var(--space-3) * -1) 0 var(--space-3);display:flex;align-items:center;gap:7px;color:var(--teal);font-size:var(--text-2xs);font-weight:var(--weight-black)}
+.q-opts{display:grid;gap:9px}
+.qopt{width:100%;padding:13px 15px;display:flex;align-items:flex-start;gap:var(--space-3);border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink);font-family:inherit;font-size:var(--text-sm);font-weight:var(--weight-medium);line-height:var(--leading-normal);text-align:start;cursor:pointer;transition:border-color .2s ease,background .2s ease,transform .2s ease}
+.qopt:hover:not(:disabled){border-color:var(--border-strong);background:var(--surface-soft);transform:translateX(-3px)}
+.qopt:disabled{cursor:default}
+.q-l{width:27px;height:27px;flex:none;display:grid;place-items:center;border-radius:var(--radius-2xs);background:var(--tint-primary);color:var(--primary);font-size:12px;font-weight:var(--weight-black);transition:background .2s ease,color .2s ease}
+.qopt.is-chosen{border-color:var(--border-strong);background:var(--tint-teal)}
+.qopt.is-chosen .q-l{background:var(--teal);color:var(--on-dark)}
+.q-act{margin-block-start:var(--space-3);display:flex}
+
+/* Once answered the card dims every option but the key and the learner's own. */
+.qcard.is-done .qopt{opacity:.62}
+.qcard.is-done .qopt.is-right{opacity:1;border-color:var(--border-green);background:linear-gradient(145deg,var(--surface),var(--tint-green));background-origin:border-box}
+.qcard.is-done .qopt.is-right .q-l{background:var(--green);color:var(--on-dark)}
+/* A right answer the learner did not choose: shown, but as an outline. */
+.qcard.is-done .qopt.is-missed{border-style:dashed}
+.qcard.is-done .qopt.is-picked{opacity:1}
+.qcard.is-done .qopt.is-picked.is-wrong{border-color:var(--border-danger);background:linear-gradient(145deg,var(--surface),var(--tint-danger));background-origin:border-box}
+.qcard.is-done .qopt.is-picked.is-wrong .q-l{background:var(--danger);color:var(--on-dark)}
+
+.q-why{display:none;margin-block-start:14px;padding:14px 15px;gap:var(--space-3);border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--tint-primary),var(--tint-teal));background-origin:border-box}
+.qcard.is-done .q-why{display:flex;animation:fade-down .3s ease}
+.q-why>i{flex:none;margin-block-start:3px;color:var(--teal);font-size:var(--text-lg)}
+.q-note{min-width:0;display:grid;gap:var(--space-2)}
+.q-note p{margin:0;color:var(--ink);font-size:var(--text-sm);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+.q-note p b{color:var(--primary);font-weight:var(--weight-black)}
+
+.q-nav{margin-block-start:var(--space-4);display:flex;justify-content:space-between;gap:var(--space-3)}
+
+.q-done{padding:26px var(--space-5);text-align:center;animation:fade-up .35s ease}
+.q-done>i{width:56px;height:56px;margin:0 auto 14px;display:grid;place-items:center;border-radius:var(--radius-md);background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);font-size:22px;background-origin:border-box}
+.q-done p{margin:var(--space-2) 0 0;color:var(--muted);font-size:var(--text-md);font-weight:var(--weight-bold)}
+.q-done p b{color:var(--teal);font-size:20px}
+.q-msg{display:block;max-width:56ch;margin:10px auto 18px;color:var(--muted);font-size:var(--text-sm);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+
+
+/* ==========================================================================
+   16 · RESPONSIVE
+   ========================================================================== */
+
+@media (max-width:720px){
+  :root{--gutter:20px;--logo-height:22px}
+  .brand-bar{min-height:60px;padding:10px var(--space-4);gap:var(--space-4);border-radius:0 0 var(--radius-md) var(--radius-md)}
+  .brand-title,.brand-subtitle{overflow:visible;text-overflow:clip;white-space:normal}
+  .brand-subtitle{margin-block-start:0;line-height:var(--leading-normal)}
+  .nav-shell{display:none}
+  .section{padding:var(--space-5) 17px;border-radius:var(--radius-md)}
+  .hero{padding:28px 20px;border-radius:24px}
+  /* Every row of cards becomes one column, whether it was fitting itself to
+     the screen or holding a count it had been given. */
+  .grid,.cols-2,.cols-3,.cols-4{grid-template-columns:1fr}
+}
+
+/* The window folds to one column: the sidebar goes, the bubbles take the
+   full width, and the composer puts its pickers on a row of their own. */
+@media (max-width:720px){
+  .sim{padding:var(--space-4)}
+  .sim-stage{padding:38px var(--space-3) var(--space-3)}
+  .sim-text{font-size:var(--text-sm)}
+  .sim-steps{grid-template-columns:1fr 1fr}
+  .sim-steps>button{justify-self:stretch;justify-content:center}
+  .sim-dots{order:-1;grid-column:1/-1;justify-content:center}
+  .win-top{grid-template-columns:minmax(0,1fr);justify-items:center;gap:9px}
+  .win-top-end{display:none}
+  .win-agent{padding:6px 13px}
+  .win-body{grid-template-columns:minmax(0,1fr)}
+  .win-side{display:none}
+  .win-msg.is-user{max-width:100%}
+  .win-msg.is-assistant{width:100%}
+  .win-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"tools field send" "run run run"}
+  .win-tools{grid-area:tools}
+  .win-field{grid-area:field}
+  .win-send{grid-area:send}
+  /* Too little room to hang a menu off one picker, so it spans the row. */
+  .win-pickers{position:relative;grid-area:run}
+  .win-picker{position:static;flex:1 1 0}
+  .win-picker-button{width:100%;justify-content:center}
+  .win-picker .win-menu{min-width:0;inset-inline:0}
+}
+
+@media (max-width:560px){
+  .quiz{padding:14px}
+  .qcard{padding:var(--space-4) 14px}
+  .qopt{padding:var(--space-3) 13px;font-size:var(--text-xs)}
+  .btn{padding:11px 15px;font-size:var(--text-xs)}
+  .q-nav{gap:var(--space-2)}
+}
+
+/* A pointer that cannot hover leaves the hover state stuck on whatever was
+   last tapped, so the card stays put and only its border and shadow answer.
+   Written against the primitive: a lesson's own class is one class weaker
+   than .card.is-lift:hover and would lose to it. */
+@media (hover:none){
+  .card.is-lift:hover{transform:none}
+  .goal:hover .tile{transform:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .win-tools.is-open .win-plus{transform:none}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .js .section[data-reveal]{opacity:1;transform:none}
+}
+
+@media print{
+  body{background:var(--surface)}
+  .brand-bar,.nav-shell,.progress,.fullscreen{display:none!important}
+  .section{width:100%;margin:var(--space-3) 0;box-shadow:none;break-inside:avoid}
+  .js .section[data-reveal]{opacity:1;transform:none}
+  .refs-body{display:block!important}
+}
+    </style>
+    <style>
+/* ---- 1 · The guided tour ---------------------------------------------
+   The window, the walk around it and the row of controls under it are all
+   shared: the tour in section 1 and the journey in section 3 both put the
+   one application on screen on purpose, so the two read as the same window
+   rather than two mock-ups that happen to look alike. The row of dots the
+   journey steps with is the tour's row, down to the class it wears. */
+
+/* ---- 2 · The four components -----------------------------------------
+   One tone per component, set once here and read by everything that
+   carries it: the cards below, their drawings, the journey's nodes, its
+   tool tags and its status line. So the same four colours name the same
+   four things wherever the lesson mentions them. */
+.is-app{--tone:var(--primary);--tone-2:var(--primary-2);--tone-tint:var(--tint-primary);--tone-ink:var(--primary)}
+.is-agent{--tone:var(--teal);--tone-2:var(--teal-2);--tone-tint:var(--tint-teal-2);--tone-ink:var(--teal-2)}
+.is-tools{--tone:var(--cat-c);--tone-2:var(--warning);--tone-tint:var(--tint-cat-c);--tone-ink:var(--warning)}
+.is-model{--tone:var(--cat-e);--tone-2:var(--primary-2);--tone-tint:var(--tint-cat-e);--tone-ink:var(--cat-e)}
+
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-4)}
+.part{padding:var(--space-5);display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow)}
+.part-figure{margin:calc(var(--space-5) * -1) calc(var(--space-5) * -1) var(--space-4);padding:15px var(--space-4) 13px;border-block-end:1px solid var(--border);border-start-start-radius:var(--radius-md);border-start-end-radius:var(--radius-md);background:var(--tone-tint)}
+.part-head{display:flex;align-items:center;gap:var(--space-3)}
+.part-head>span{width:46px;height:46px;flex:none;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,var(--tone),var(--tone-2));color:var(--on-dark);font-size:var(--text-xl);background-origin:border-box}
+.part-head h3{margin:0;color:var(--primary);font-size:var(--text-lg);font-weight:var(--weight-black);line-height:var(--leading-tight)}
+.part-text{margin:var(--space-3) 0 var(--space-4);color:var(--muted);font-size:var(--text-sm);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+.part-examples-title{margin:auto 0 var(--space-3);display:flex;align-items:center;gap:var(--space-2);color:var(--muted);font-size:var(--text-3xs);font-weight:var(--weight-black)}
+.part-examples-title::before,.part-examples-title::after{content:"";flex:1;border-block-start:1px dashed var(--border)}
+.part-examples{margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;list-style:none}
+.part-examples li{padding:9px var(--space-2);display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:var(--radius-xs);background:var(--tone-tint);color:var(--ink);font-size:var(--text-2xs);font-weight:var(--weight-bold);line-height:var(--leading-tight);text-align:center}
+
+/* The drawings take their colours from the card's tone, so the artwork is
+   shape data and nothing else — see the diagram() helper below. */
+.dg{width:100%;height:auto;display:block}
+.dg-frame{fill:var(--surface);stroke:var(--tone);stroke-width:2}
+.dg-panel{fill:var(--tone-tint);stroke:var(--tone);stroke-width:2}
+.dg-rule{fill:none;stroke:var(--tone);stroke-width:1.6}
+.dg-web{fill:none;stroke:var(--tone);stroke-width:1.5;opacity:.45}
+.dg-node{fill:var(--tone)}
+.dg-soft{fill:var(--tone-tint)}
+.dg-bar{fill:var(--tint-primary-2)}
+.dg-mark{fill:none;stroke:var(--tone-2);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.dg-tick{fill:none;stroke:var(--tone-2);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.dg-open{fill:none;stroke:var(--tone);stroke-width:2.4;stroke-dasharray:3 3}
+
+/* ---- 3 · The journey behind the window -------------------------------
+   The section opens as one full-width window — the state the tour ended
+   in — then the first press of the controls narrows it and lets the engine
+   panel in beside it. */
+.journey-grid{display:grid;grid-template-columns:var(--journey-screen,380px) minmax(0,1fr);align-items:stretch;gap:var(--journey-gap,22px);transition:grid-template-columns .75s cubic-bezier(.4,0,.2,1),gap .75s ease}
+.journey.is-full .journey-grid{--journey-screen:100%;--journey-gap:0px}
+.journey-screen{min-width:0;display:flex;flex-direction:column}
+.journey-stage{flex:1;display:flex;flex-direction:column}
+.journey-screen .win{flex:1;display:flex;flex-direction:column}
+.journey-screen .win-body{flex:1;grid-template-columns:auto minmax(0,1fr)}
+.journey-screen .win-chat{align-content:space-between}
+/* The rail and the agent switcher are the interface being minimised: they
+   collapse as the panes split, leaving the conversation and the prompt
+   field. The switcher leaves the layout as well as the eye, or it keeps
+   its share of the top bar and the app name gets ellipsised. */
+.journey-screen .win-side{max-width:154px;overflow:hidden;transition:max-width .75s cubic-bezier(.4,0,.2,1),padding .75s ease,opacity .4s ease,border-width .4s ease}
+.journey:not(.is-full) .win-side{max-width:0;padding-inline:0;border-inline-end-width:0;opacity:0}
+.journey:not(.is-full) .win-agents{display:none}
+.journey:not(.is-full) .win-top{grid-template-columns:minmax(0,1fr) auto}
+.journey-screen .win-name{overflow:visible;text-overflow:clip}
+.journey-screen [data-chat]{opacity:0;transform:translateY(var(--space-2));transition:opacity .45s ease,transform .45s ease}
+.journey-screen [data-chat].is-on{opacity:1;transform:none}
+.journey-screen [data-chat]:not(.is-on){display:none}
+.answer{margin:var(--space-2) 0 0;padding-inline-start:18px;color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-medium);line-height:2}
+
+/* What the engine is doing and the fact it is still doing it, on one line.
+   It holds its height once it carries text, so the bubble does not resize
+   under the learner on the steps that report nothing — the dots carry on
+   alone there, which is how the first two steps read. */
+.status{min-height:42px;max-width:88%;padding:9px 14px;display:flex;align-items:center;gap:9px;justify-self:start;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-soft);color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-black);line-height:var(--leading-relaxed);transition:border-color .35s ease,background .35s ease,color .35s ease}
+.status.is-agent,.status.is-tools,.status.is-model{border-color:var(--tone);background:var(--tone-tint);color:var(--tone-ink)}
+.status-icon{display:grid;place-items:center;font-size:var(--text-2xs)}
+.status-icon:empty,.status-text:empty{display:none}
+.status-dots{flex:none;display:flex;gap:5px}
+.status-dots i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:status-bob 1.1s infinite}
+.status-dots i:nth-child(2){animation-delay:.15s}
+.status-dots i:nth-child(3){animation-delay:.3s}
+@keyframes status-bob{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+
+.journey-engine{position:relative;min-height:520px;padding:22px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow);transition:opacity .45s ease .3s}
+.journey.is-full .journey-engine{overflow:hidden;opacity:0;transition-delay:0s}
+.journey-engine-title{margin:0 0 var(--space-4);display:flex;align-items:center;gap:9px;color:var(--muted);font-size:var(--text-sm);font-weight:var(--weight-black)}
+.journey-engine-title::after{content:"";flex:1;height:1px;background:var(--border)}
+/* The track scrolls inside the panel rather than moving the page, and the
+   mask keeps the nodes at either end from ending abruptly at the edge. */
+.journey-view{position:relative;height:430px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;-webkit-mask-image:linear-gradient(180deg,transparent,var(--black) 9%,var(--black) 91%,transparent);mask-image:linear-gradient(180deg,transparent,var(--black) 9%,var(--black) 91%,transparent)}
+.journey-track{margin:0;padding:6px 2px;display:grid;gap:28px;list-style:none}
+
+.node{position:relative;padding:var(--space-4) 18px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);opacity:.38;transform:scale(.985);transition:opacity .45s ease,transform .45s ease,box-shadow .45s ease,border-color .45s ease}
+.node.is-on{opacity:1;transform:none;box-shadow:var(--shadow-hover)}
+.node.is-active{border-color:var(--teal)}
+/* The connector to the next node, drawn as a rotated corner so it needs no
+   icon font. The borders are physical on purpose: border-inline-start
+   resolves to the right edge in RTL, which turns the chevron a quarter
+   turn and points it sideways. */
+.node:not(:last-child)::after{content:"";position:absolute;bottom:-20px;left:50%;width:9px;height:9px;border-right:2.5px solid var(--tint-primary-2);border-bottom:2.5px solid var(--tint-primary-2);transform:translateX(-50%) rotate(45deg);transition:border-color .4s ease}
+.node.is-flow-on::after{border-color:var(--teal)}
+.node-pulse{position:absolute;inset:-3px;border:2px solid var(--teal);border-radius:var(--radius-lg);opacity:0;pointer-events:none}
+.node.is-active .node-pulse{animation:node-pulse 1.8s ease-out infinite}
+@keyframes node-pulse{0%{opacity:.55;transform:scale(1)}100%{opacity:0;transform:scale(1.035)}}
+.node-head{display:flex;align-items:center;gap:13px}
+.node-icon{width:46px;height:46px;flex:none;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,var(--tone),var(--tone-2));color:var(--on-dark);font-size:18px;background-origin:border-box}
+.node-text{min-width:0;flex:1}
+.node-text b{display:block;color:var(--primary);font-size:var(--text-xl);font-weight:var(--weight-black)}
+.node-text span{margin-block-start:2px;display:block;color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-medium);line-height:var(--leading-relaxed)}
+.node-tags{margin-block-start:13px;display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.node-tag{padding:9px var(--space-3);display:flex;align-items:center;gap:7px;border:1px solid var(--border);border-radius:var(--radius-xs);background:var(--surface);color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-black);opacity:.5;transition:opacity .35s ease,border-color .35s ease,background .35s ease,color .35s ease}
+.node-tag.is-on{border-color:var(--tone);background:var(--tone-tint);color:var(--tone-ink);opacity:1}
+
+/* Each step's narration lands in the node it is about, so the words and
+   the lit component are never in two different places. It is the tour's
+   caption — a number, then the words, and nothing drawn around them — and
+   only opens and closes, which the tour's has no need to do. */
+.say{margin-block-start:0;max-height:0;overflow:hidden;display:flex;align-items:flex-start;gap:var(--space-3);color:var(--ink);font-size:var(--text-base);font-weight:var(--weight-medium);line-height:var(--leading-loose);opacity:0;transition:opacity .3s ease,max-height .45s ease,margin .3s ease}
+.say.is-on{margin-block-start:var(--space-4);max-height:260px;opacity:1}
+.say p{margin:0}
+.say-key{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:var(--radius-xs);background:linear-gradient(135deg,var(--primary),var(--teal));color:var(--on-dark);font-size:var(--text-md);font-weight:var(--weight-black);background-origin:border-box}
+/* Step 1's narration: the engine is still hidden, so it has nowhere else
+   to go and sits under the full-width window instead. */
+.journey-say{margin-block-start:0}
+.journey-say.is-on{margin-block-start:var(--space-4)}
+.journey:not(.is-full) .journey-say{display:none}
+.journey .sim-steps{margin-block-start:var(--space-5)}
+
+/* ---- Narrow screens ---------------------------------------------------
+   The two panes stack, and the track drops its fixed height so the whole
+   flow is readable in one scroll instead of a window inside a window. */
+@media (max-width:960px){
+  .journey-grid{grid-template-columns:1fr}
+  .journey-engine{min-height:0}
+  .journey-view{height:auto;overflow:visible;-webkit-mask-image:none;mask-image:none}
+}
+    </style>
+  </head>
+  <body>
+    <!-- Built by build.mjs from src/u1l2.mjs, authored in d0855f92e34194ea7db69710003b69a229adabd6. -->
+    <main></main>
+
+    <script>window.SAMAI_ASSETS={"assets/icon.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB5MT0iMSIgeDI9IjAiPgogICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdmYzI0MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuNCIgc3RvcC1jb2xvcj0iIzAwYWQ4YiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzJmMzA2OCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTYuMDY5IDQuMTE0aDEydjE2LjExNWgtMTJ6Ii8+CiAgPHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTkuOTA5IDEuODg2IDMuNzM3IDUuNDE3djE2LjczMmgxNi41MjZWMS44ODZ6bS0zLjQ2MyA4LjYwNnEwLTEuMzM4LjM0My0yLjQ2OWE1LjQyIDUuNDIgMCAwIDEgMi45MTQtMy4zOTRxMS4wNjMtLjQ4IDIuNTAzLS40OCAxLjA5NyAwIDIuMDU3LjMwOC45MjUuMzc4IDEuNzQ5Ljk5NGE0Ljg0IDQuODQgMCAwIDEgMS42NDUgMy42NjljMCAxLjQ3NC0uNjUxIDIuODgtMS43NDggMy45MDlsLTEuMDYzLjg1Ny0yLjI5NyAxLjU0M3EtLjg1Ny42NTEtMS41NzcgMS4zNzFoNi43NTR2My4yMjNINi4xMDN2LS4zMDlxMC0xLjM3LjM3Ny0yLjM2NWE4LjQgOC40IDAgMCAxIDEuMTMxLTEuODE3IDguNiA4LjYgMCAwIDEgMS41NDMtMS40NGwyLjg4LTIuMDIzLjk5NS0uNzU1cS40MTEtLjQxMS43Mi0uODkxLjI3NC0uNDQ1LjI3NC0xLjA2My0uMDM0LS45Ni0uNTQ5LTEuNDc0YTEuODggMS44OCAwIDAgMC0xLjQwNS0uNTQ5cS0uNjE4IDAtLjk2LjI3NGEyIDIgMCAwIDAtLjY1Mi43MiAyLjYgMi42IDAgMCAwLS4zNzcuOTk1bC0uMTAzIDEuMTY2di4zMDhINi40NDZ6Ii8+Cjwvc3ZnPgo=","assets/logo.svg":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNzcwIDY2NCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB5MT0iMSIgeDI9IjAiPgogICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdmYzI0MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuNCIgc3RvcC1jb2xvcj0iIzAwYWQ4YiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzJmMzA2OCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTY4IDY1aDM0MHY0NjVINjh6Ii8+CiAgPHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTE3OSAwIDAgMTAzdjQ4OGg0ODFWMFpNNzkgMjUxcS0xLTM5IDktNzIgMTEtMzUgMzItNTkgMjEtMjYgNTMtNDB0NzMtMTRxMzIgMCA2MCA5IDI4IDExIDUxIDI5YTEzNyAxMzcgMCAwMTQ4IDEwNyAxNTQgMTU0IDAgMDEtMjUgODRxLTExIDE2LTI2IDMwLTE0IDE0LTMxIDI1bC02NyA0NWE0MDkgNDA5IDAgMDAtNDYgNDBoMTk3djk0SDY5di05cTAtNDAgMTEtNjkgMTItMzAgMzItNTMgMTktMjMgNDUtNDJsODQtNTlxMTYtMTAgMjktMjIgMTItMTIgMjEtMjYgOC0xMyA4LTMxLTEtMjgtMTYtNDNhNTUgNTUgMCAwMC00MS0xNnEtMTggMC0yOCA4LTEyIDctMTkgMjEtNyAxMy0xMSAyOWwtMyAzNHY5SDc5eiIvPgogIDxwYXRoIGZpbGw9IiNmZmYiIGQ9Im02OTQgNjI2LTEwIDM4IDY3LTM4ek01NTEgODJjMCA1NiA0NiA2OCA5NiA3NCAyNSAzIDQ2IDYgNDYgMjNxLTIgMjQtMzUgMjVjLTI2IDAtNDUtMTUtNDUtMzV2LTFoLTYzcTAgMTggNyAzM2MxNCAzMyA1MiA1NSA5OSA1NSA2MyAwIDEwNy0zNSAxMDctODYgMC01Ni00Ny02OS05NS03NC0yNy0zLTQ3LTUtNDctMjJxMi0yMSAzNS0yMmMyNCAwIDQxIDEzIDQxIDMxbDU0LTMxYy0xNS0zMi01MS01Mi05Ny01Mi02MCAwLTEwMyAzMi0xMDMgODJtNzk2LTc0aC03NmwtNTEgMTc4LTUyLTE3OGgtMTM0djIzOWg3M1Y1NWw2MCAxOTJoMTA1bDYwLTE5MnYxOTJoNzNWOHptMTUxIDAtNzUgMjM5aDc2bDE0LTQ3IDY2LTM4aC01NmwyOC05MyAyOCA5MyAyNCA4NWg3NkwxNjA0IDh6TTgzOCA4bC03NSAyMzloNzZsMTQtNDcgNjYtMzhoLTU2bDI4LTkzIDI4IDkzIDI0IDg1aDc2TDk0NCA4em04NTkgNDJ2MTk3aDczVjhaTTkyNiAzNTJ2MTU1cTAgMjQgNyA0MCA2IDE2IDE3IDI2IDEyIDkgMjggMTQgMTUgNCAzNCA0aDUzcTE4IDAgMzItNCAxNS0zIDMwLTE5IDI0IDE2IDQ3IDIzIDIzIDYgNDUgNiAyOSAwIDUwLTEwIDIwLTEwIDMyLTMwYTc0IDc0IDAgMDA2NCAzNGgycTM2IDAgNTktNSAyNC00IDM5LTI0IDkgMTAgMjcgMjAgMjAgOSA0OCA5bDM4LTRxMTAtMyAxOS05IDExLTYgMTgtMTYgMTEgMTUgMjYgMjJ0NDQgN2g4NVYzNzBsLTcyIDQydjExNWgtMzVxLTMyIDAtMzItMzh2LTk0bC03MiA0MXY2NHEwIDE3LTEyIDIyLTExIDUtMjcgNS0yMSAwLTMwLTEwLTEwLTEwLTEwLTI4di05NGwtNzEgNDF2NjRsLTIgMTVxLTMgNS03IDgtNiAzLTEzIDNsLTIwIDFxLTEzIDAtMjgtNS0xNS02LTIyLTE5di0xNHEwLTI0LTctNDYtOS0yMS0yMi0zNmE5NSA5NSAwIDAwLTczLTMxcS0xNS0xLTMwIDUtMTUgNS0zMSAxNy0xNSAxMy0zMCAzMy0xNCAyMS0yNiA1My04IDIxLTE3IDMyLTEwIDExLTE3IDExaC0zOXEtMTMgMC0yMC01LTYtNi03LTI1VjMxMHptMjU3IDE3NHEtMTItNS0yNi0xNCA5LTM5IDI0LTU1IDE1LTE1IDMwLTE1YTMyIDMyIDAgMDEyOCAxNGw2IDE1IDIgMTdxMCAxOS0xMCAzMS05IDEyLTI3IDEyLTE1IDAtMjctNU04MDkgMzI3cS0yMiA0LTM3IDEzLTEyIDktMjAgMTlhNjEgNjEgMCAwMC05IDUzcTMgMTUgMTUgMzJsMzggNTYgNCA5IDEgNnEwIDctOCAxMGwtMjAgMkg2NTRsLTIwLTJxLTctMy03LTEwYTI3IDI3IDAgMDE1LTE1bDEwLTE2IDE3LTI1IDExLTE3aC04OHEtMTUgMjQtMjIgNDEtMTAgMjAtMTAgMzggMCAxNSA1IDI3YTYxIDYxIDAgMDAzOCAzN3ExNSA2IDM2IDZoMTcwcTIxIDAgMzUtNiAxNS02IDI1LTE1IDktOSAxNC0yMiA1LTEyIDUtMjcgMC0xOC0xMC0zOGMtNy0xNC0xMC0yMi0yMy00M2wtNi0xMC00LTdxLTQtNi01LTExLTItNyAzLTExbDYtMyAxMC0yaDU2bC01MC03NHpNNjM3IDYyNmwtMTAgMzggNjctMzh6Ii8+Cjwvc3ZnPgo="}</script>
+    <script>
+/* ==========================================================================
+   SAMAI 2 — shared runtime
+   Every lesson loads this file, then adds only its own lesson-specific script.
+
+   Five parts:
+     1. Markup helpers — the only sanctioned way to build DOM in a lesson.
+        No innerHTML, no string concatenation of tags.
+     2. Design primitives — the closed set of shapes a lesson builds from.
+        A card, a tile, a badge and a grid, and no second way to draw one.
+     3. Page builders — the whole page, built from a lesson's content object
+        so the twenty-two lessons cannot drift apart by hand.
+     4. The mock application and its tour — the one application the course
+        simulates, and the walk around it every unit that shows one uses.
+     5. Shared chrome behaviour — fullscreen, section indicator, reading
+        progress and section reveal.
+
+   Loaded as a classic script, not an ES module, so a lesson still works when
+   opened straight from disk over file:// where module requests are blocked.
+   Everything below is reachable as window.SAMAI.
+   ========================================================================== */
+(() => {
+  "use strict";
+
+  // Claims the page for the runtime. The stylesheet hides sections for their
+  // reveal only under this class, so a lesson whose script never loads still
+  // renders its content instead of a blank page. Set before first paint.
+  document.documentElement.classList.add("js");
+
+  // Every string the runtime renders. Lessons pass content, never chrome copy.
+  const STRINGS = {
+    title: "سماي 2",
+    fullscreen: "ملء الشاشة",
+    exitFullscreen: "الخروج من ملء الشاشة",
+    progress: "تقدم قراءة الدرس",
+    conclusion: "خلاصة الدرس",
+    conclusionShort: "الخلاصة",
+    references: "المراجع",
+    logoAlt: "سماي 2",
+    overview: "نظرة عامة",
+    goals: "أهداف الوحدة",
+    goalsShort: "الأهداف",
+    goalsLead: "بعد إكمال هذه الوحدة، ستكون قادرًا على",
+    outline: "محتوى الوحدة",
+    outlineShort: "المحتوى",
+    terms: "أبرز مصطلحات الوحدة",
+    termsShort: "المصطلحات",
+    termArabic: "المصطلح",
+    termLatin: "المصطلح بالإنجليزية",
+    termDefinition: "التعريف",
+    quizQuestion: "السؤال",
+    quizOf: "من",
+    quizQuestionOne: "سؤال",
+    quizQuestionTwo: "سؤالين",
+    quizQuestionsFew: "أسئلة",
+    quizQuestionsMany: "سؤالًا",
+    quizHits: "إجابات صحيحة",
+    quizSelectAll: "اختر كل ما ينطبق",
+    quizCheck: "تحقّق من إجابتك",
+    quizPrevious: "السابق",
+    quizNext: "التالي",
+    quizFinish: "إظهار النتيجة",
+    quizRetry: "إعادة المحاولة",
+    quizResult: "أجبت بشكل صحيح عن"
+  };
+
+  // Where the page keeps the files it shows. A built page carries them beside
+  // it and asks for them by path; a page built with --embed carries them
+  // inside it instead, and the build leaves their data URIs here under the
+  // very paths the lessons ask for. Either way a lesson names one file one
+  // way, and asset() answers with whatever this page was built to carry.
+  const ASSETS = window.SAMAI_ASSETS || {};
+
+  function asset(path) {
+    const name = asText(path);
+    return Object.prototype.hasOwnProperty.call(ASSETS, name) ? ASSETS[name] : name;
+  }
+
+  // The brand mark. Exported because a lesson may need it in its own content —
+  // U6_L2's printable plan sheet carries it — and no lesson should hardcode
+  // the path.
+  const LOGO = asset("assets/logo.svg");
+
+  // Whether the learner has asked for less movement. Read by anything that
+  // would otherwise animate.
+  const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ========================================================================
+     1 · MARKUP HELPERS
+     ======================================================================== */
+
+  /** Coerces any value to a string, with a fallback for null and undefined. */
+  function asText(value, fallback) {
+    if (value === undefined || value === null) return fallback || "";
+    return String(value);
+  }
+
+  function asArray(value) {
+    return Array.isArray(value) ? value : [];
+  }
+
+  /** Appends children to a parent, flattening arrays and skipping empties. */
+  function append(parent, items) {
+    const list = Array.isArray(items) ? items.flat(Infinity) : [items];
+    for (const item of list) {
+      if (item === undefined || item === null || item === false) continue;
+      parent.append(item instanceof Node ? item : document.createTextNode(String(item)));
+    }
+    return parent;
+  }
+
+  /** Builds an element. `options` covers the attributes used across lessons. */
+  function el(tagName, options, items) {
+    const node = document.createElement(tagName);
+    const settings = options || {};
+    if (settings.id) node.id = settings.id;
+    if (settings.className) node.className = settings.className;
+    if (settings.text !== undefined) node.textContent = settings.text;
+    if (settings.type) node.type = settings.type;
+    if (settings.hidden) node.hidden = true;
+    for (const [name, value] of Object.entries(settings.attrs || {})) {
+      if (value === undefined || value === null || value === false) continue;
+      node.setAttribute(name, value === true ? "" : String(value));
+    }
+    return append(node, items || []);
+  }
+
+  /** Expands a bare icon name into a Font Awesome class list. */
+  function iconName(value, fallback) {
+    const name = asText(value || fallback).trim();
+    if (!name) return "";
+    if (/\s/.test(name)) return name;
+    return `fa-solid ${name.startsWith("fa-") ? name : `fa-${name}`}`;
+  }
+
+  /** Builds a decorative icon. Always hidden from assistive technology. */
+  function icon(value, fallback) {
+    return el("i", { className: iconName(value, fallback), attrs: { "aria-hidden": "true" } });
+  }
+
+  function fragment(items) {
+    return append(document.createDocumentFragment(), items || []);
+  }
+
+  // SVG elements need their namespace, and their class is read-only, so el()
+  // cannot build them. Lesson artwork goes through here instead.
+  const SVG_NS = "http://www.w3.org/2000/svg";
+
+  function svg(tagName, options, items) {
+    const node = document.createElementNS(SVG_NS, tagName);
+    const settings = options || {};
+    if (settings.className) node.setAttribute("class", settings.className);
+    for (const [name, value] of Object.entries(settings.attrs || {})) {
+      if (value === undefined || value === null || value === false) continue;
+      node.setAttribute(name, value === true ? "" : String(value));
+    }
+    return append(node, items || []);
+  }
+
+  /**
+   * A flat drawing, given as plain shape data so the artwork stays in the
+   * lesson's content rather than its code:
+   *
+   *   drawing("0 0 74 58", [{ tag: "circle", cls: "tv-node", cx: 13, cy: 42, r: 5 }])
+   *
+   * `text` is the shape's content, for the one tag that has any:
+   *
+   *   { tag: "text", x: 31, y: 30, "text-anchor": "middle", text: "يُقبل" }
+   *
+   * A drawing is hidden from assistive technology, so whatever it says has to
+   * be said again by whatever frames it. `label` puts that on the drawing
+   * itself for the cases with no frame to carry it.
+   */
+  function drawing(viewBox, shapes, label) {
+    return svg("svg", {
+      attrs: label
+        ? { viewBox, role: "img", "aria-label": asText(label) }
+        : { viewBox, "aria-hidden": "true" }
+    }, asArray(shapes).map(({ tag, cls, text, ...attrs }) => svg(tag, { className: cls, attrs }, text)));
+  }
+
+  /** Icon followed by its label, the order used by buttons and nav items. */
+  function iconText(iconValue, text, fallback) {
+    return fragment([icon(iconValue, fallback), el("span", { text: asText(text) })]);
+  }
+
+  /** Label followed by its icon, the order used by disclosure summaries. */
+  function textIcon(text, iconValue, fallback) {
+    return fragment([el("span", { text: asText(text) }), icon(iconValue, fallback)]);
+  }
+
+  // Lesson copy is written in a small markdown of two marks and nothing else:
+  //
+  //   **قدرةً وطنيةً تُبنى**              the phrase the sentence turns on
+  //   [سدايا](https://sdaia.gov.sa)   a link away from the lesson
+  //
+  // A sentence stays one string in the content that way, rather than being cut
+  // into the pieces around its own emphasis. Raw inline HTML still passes for
+  // what the two marks cannot say — a <br>, or a <span dir="ltr"> around a
+  // Latin term inside Arabic — but anything outside INLINE_TAGS is unwrapped,
+  // keeping its text and losing its tag, and every attribute but dir and lang
+  // is dropped. Links are built after that pass rather than read out of the
+  // copy, so the only <a> on a page is one the mark above made, with an
+  // address the mark itself has already vouched for.
+  const INLINE_TAGS = new Set(["B", "STRONG", "I", "EM", "SPAN", "SMALL", "CODE", "BR"]);
+  const BOLD = /\*\*([^\s*](?:[^*\n]*[^\s*])?)\*\*/g;
+  const LINK = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g;
+
+  /**
+   * A link that opens away from the lesson. Given words it says so with the
+   * mark for it; given nodes it carries them as they are, for the cases —
+   * a picture with its caption — where the mark belongs somewhere inside.
+   */
+  function away(href, content, title) {
+    return el("a", {
+      className: "away",
+      attrs: { href, target: "_blank", rel: "noopener noreferrer", title }
+    }, typeof content === "string"
+      ? [el("span", { text: content }), icon("arrow-up-right-from-square")]
+      : content);
+  }
+
+  /** Turns every [label](address) still sitting in the text into a link. */
+  function linkify(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    const carrying = [];
+    while (walker.nextNode()) {
+      LINK.lastIndex = 0;
+      if (LINK.test(walker.currentNode.data)) carrying.push(walker.currentNode);
+    }
+
+    for (const node of carrying) {
+      const pieces = [];
+      let at = 0;
+      let found;
+      LINK.lastIndex = 0;
+      while ((found = LINK.exec(node.data)) !== null) {
+        if (found.index > at) pieces.push(document.createTextNode(node.data.slice(at, found.index)));
+        pieces.push(away(found[2], found[1]));
+        at = found.index + found[0].length;
+      }
+      if (at < node.data.length) pieces.push(document.createTextNode(node.data.slice(at)));
+      node.replaceWith(...pieces);
+    }
+
+    return root;
+  }
+
+  function markup(html) {
+    const text = asText(html);
+    const template = document.createElement("template");
+    template.innerHTML = text.replace(BOLD, "<b>$1</b>");
+    for (const node of [...template.content.querySelectorAll("*")]) {
+      if (!INLINE_TAGS.has(node.tagName)) {
+        node.replaceWith(...node.childNodes);
+        continue;
+      }
+      for (const attribute of [...node.attributes]) {
+        if (attribute.name !== "dir" && attribute.name !== "lang") node.removeAttribute(attribute.name);
+      }
+    }
+    return text.includes("](") ? linkify(template.content) : template.content;
+  }
+
+  /* ========================================================================
+     2 · DESIGN PRIMITIVES
+     The shapes every lesson is built out of. A card in unit 1 and a card in
+     unit 6 are the same card because there is only one of them, and a lesson
+     that wants a bordered box asks for one rather than drawing another.
+     ======================================================================== */
+
+  // What a lesson may ask for. Anything else falls back rather than putting a
+  // class on the page with no rule behind it.
+  const TONES = ["primary", "teal", "green", "warning", "danger"];
+  const PADS = ["bare", "tight", "snug", "wide"];
+  const FILLS = ["soft", "sunken", "dark"];
+  const SIZES = ["xs", "sm", "md", "lg", "xl"];
+  const GAPS = ["tight", "loose"];
+
+  /** `base-value`, for the values this component knows; nothing otherwise. */
+  function variant(base, value, allowed) {
+    return allowed.includes(value) ? `${base}-${value}` : "";
+  }
+
+  function classNames() {
+    return [].slice.call(arguments).filter(Boolean).join(" ");
+  }
+
+  /**
+   * Which brand colour a block is in. The class sets --tone and its ramp, and
+   * everything inside reads those rather than naming a colour, so one word in
+   * a lesson's content recolours a whole card.
+   */
+  function tone(value) {
+    return variant("tone", value, TONES);
+  }
+
+  /**
+   * The one bordered surface in the course. Card, panel, well, tile: they are
+   * all this, so nothing downstream restates a border, a radius and a shadow.
+   *
+   *   card({ rule: true, lift: true, center: true }, [ … ])
+   *
+   *   rule    a brand gradient laid across the top edge
+   *   lift    rises under the pointer, for a card that is a choice
+   *   center  centres what it holds
+   *   tone    which brand colour it and its rule take
+   *   pad     "bare", "tight", "snug" or "wide" for the room inside
+   *   fill    "soft" gradient, "sunken" tint, or "dark" for the brand panel
+   */
+  function card(options, children) {
+    const settings = options || {};
+    return el(settings.tag || "article", {
+      id: settings.id,
+      className: classNames(
+        "card",
+        settings.rule ? "has-rule" : "",
+        settings.lift ? "is-lift" : "",
+        settings.center ? "is-center" : "",
+        variant("card", settings.pad, PADS),
+        variant("card", settings.fill, FILLS),
+        tone(settings.tone),
+        settings.className
+      ),
+      attrs: settings.attrs
+    }, children || []);
+  }
+
+  /**
+   * The gradient square a card leads with, holding one icon.
+   *
+   *   tile("trophy", { size: "lg" })
+   */
+  function tile(iconValue, options) {
+    const settings = options || {};
+    return el("span", {
+      className: classNames("tile", variant("tile", settings.size, SIZES) || "tile-md", tone(settings.tone), settings.className),
+      attrs: { "aria-hidden": "true" }
+    }, icon(iconValue, settings.fallback));
+  }
+
+  /**
+   * A short label on a pill: a count, a year, a state.
+   *
+   *   badge("1950م", { tone: "teal" })
+   */
+  function badge(text, options) {
+    const settings = options || {};
+    return el(settings.tag || "span", {
+      className: classNames("badge", settings.plain ? "is-plain" : "", tone(settings.tone), settings.className),
+      attrs: settings.attrs
+    }, [settings.icon ? icon(settings.icon) : null, el("span", {}, markup(text))]);
+  }
+
+  /**
+   * The head of a card: its tile, then its title with whatever small line
+   * belongs over it, then anything trailing.
+   *
+   *   cardHead({ icon: "robot", eyebrow: "Agentic AI", title: "…", trail: badge("2024م") })
+   */
+  function cardHead(options) {
+    const settings = options || {};
+    return el("header", {
+      className: classNames("card-head", settings.center ? "is-center" : "", settings.className)
+    }, [
+      settings.icon ? tile(settings.icon, { size: settings.iconSize || "md" }) : null,
+      (settings.title || settings.eyebrow) ? el("div", { className: "card-head-body" }, [
+        settings.eyebrow ? el("span", { className: "card-eyebrow", text: asText(settings.eyebrow) }) : null,
+        settings.title ? el(settings.level || "h3", { className: "card-title" }, markup(settings.title)) : null
+      ]) : null,
+      settings.trail ? el("span", { className: "card-trail" }, settings.trail) : null
+    ]);
+  }
+
+  /**
+   * Equal columns that fit themselves to the screen. `min` is how narrow a
+   * column may get before the row gives one up, named on the same five-step
+   * scale as everything else; `columns` pins the count instead, for a grid
+   * whose shape is part of what it is saying.
+   *
+   *   grid(facts, (fact) => card({ rule: true }, …), { min: "md" })
+   */
+  function grid(items, render, options) {
+    const settings = options || {};
+    const columns = Number(settings.columns);
+    return el(settings.tag || "div", {
+      className: classNames(
+        "grid",
+        columns ? `cols-${Math.max(2, Math.min(4, columns))}` : variant("grid", settings.min, SIZES) || "grid-lg",
+        variant("gap", settings.gap, GAPS),
+        settings.className
+      ),
+      attrs: settings.attrs
+    }, asArray(items).map((item, index) => render(item, index)));
+  }
+
+  /* ========================================================================
+     3 · PAGE BUILDERS
+     ======================================================================== */
+
+  /**
+   * The brand bar. A unit overview passes no lesson number and gets
+   * "الوحدة 6 | العنوان"; a lesson gets "الوحدة 6 - الدرس 1 | العنوان".
+   */
+  function brandBar(meta) {
+    const settings = meta || {};
+    const subtitle = settings.lesson
+      ? `الوحدة ${settings.module} - الدرس ${settings.lesson} | ${settings.lessonTitle}`
+      : `الوحدة ${settings.module} | ${settings.lessonTitle}`;
+
+    return el("header", { className: "brand-bar" }, [
+      el("div", { className: "brand-action" },
+        el("button", {
+          className: "fullscreen",
+          type: "button",
+          attrs: { "aria-label": STRINGS.fullscreen, title: STRINGS.fullscreen, "aria-keyshortcuts": "F" }
+        }, icon("expand"))),
+      el("div", { className: "brand-heading" }, [
+        el("div", { className: "brand-title", text: asText(settings.moduleTitle) }),
+        el("div", { className: "brand-subtitle", text: subtitle })
+      ]),
+      el("div", { className: "brand-logo-wrap" },
+        el("img", { className: "brand-logo", attrs: { src: LOGO, alt: STRINGS.logoAlt } }))
+    ]);
+  }
+
+  /**
+   * The section indicator. Items are inert spans: they report where the
+   * learner is, they do not navigate, and the strip is hidden from assistive
+   * technology because the section headings already carry that.
+   *
+   * Its items come from the sections themselves: a section that declares a
+   * `nav` label gets one, a section that does not stays out of the strip. The
+   * conclusion closes every lesson that has one, so its item is appended here
+   * rather than declared — a unit overview, which has none, gets no item.
+   */
+  function lessonNav(sections, hasConclusion) {
+    const entries = Object.entries(sections || {})
+      .filter(([, config]) => config && config.nav)
+      .map(([id, config]) => ({ target: id, label: config.nav }));
+    if (hasConclusion) entries.push({ target: "summary", label: STRINGS.conclusionShort });
+
+    return el("div", { className: "nav-shell", attrs: { "aria-hidden": "true" } },
+      el("div", { className: "nav" }, entries.map((item, index) => el("span", {
+        className: index === 0 ? "nav-link is-active" : "nav-link",
+        text: asText(item.label),
+        attrs: { "data-target": item.target }
+      }))));
+  }
+
+  /**
+   * The opening section: one heading and one paragraph of introduction. A
+   * lesson leads with its own title; a unit overview leads with the unit's,
+   * since "نظرة عامة" names the page rather than what it is about.
+   */
+  function hero(meta) {
+    const settings = meta || {};
+    const id = "intro";
+    const title = settings.lesson ? settings.lessonTitle : settings.moduleTitle;
+    return el("section", {
+      id,
+      className: "section hero-section",
+      attrs: { "data-reveal": true, "aria-labelledby": `${id}-title` }
+    }, el("div", { className: "hero" },
+      el("div", { className: "hero-copy" }, [
+        el("h1", { id: `${id}-title` }, markup(title)),
+        settings.introduction ? el("p", {}, markup(settings.introduction)) : null
+      ])));
+  }
+
+  /**
+   * A lesson section. The key it is registered under becomes its id, so the
+   * indicator and the scroll-spy line up without a second list:
+   *
+   *   section("trends", { nav: "الاتجاهات", title: "…", subtitle: "…", nodes })
+   *
+   * Omit `nav` and the section still renders but stays out of the indicator.
+   *
+   * A section that is one of a numbered series says so before it says its
+   * name: `number` puts a badge at the head of the title, `icon` an icon.
+   * Both are built here rather than written into `title`, because markup()
+   * keeps no class and Font Awesome is nothing without one.
+   */
+  function section(id, config) {
+    const settings = config || {};
+    return el("section", {
+      id,
+      className: "section",
+      attrs: { "data-reveal": true, "aria-labelledby": settings.title ? `${id}-title` : null }
+    }, [
+      settings.title ? el("h2", { id: `${id}-title`, className: "section-title" }, [
+        settings.number ? el("span", { className: "section-num", text: asText(settings.number) }) : null,
+        settings.icon ? icon(settings.icon) : null,
+        markup(settings.title)
+      ]) : null,
+      settings.subtitle ? el("p", { className: "section-subtitle" }, markup(settings.subtitle)) : null,
+      settings.nodes || null
+    ]);
+  }
+
+  /* ---- Content components shared across lessons -------------------------- */
+
+  /** Tells the learner a block is interactive. */
+  function hint(text, iconValue) {
+    return el("p", { className: "hint" }, [icon(iconValue, "hand-pointer"), ` ${asText(text)}`]);
+  }
+
+  /** Bridges one section into the next. */
+  function keyline(text, iconValue) {
+    return el("div", { className: "callout callout-keyline" }, [icon(iconValue, "arrow-down"), el("p", {}, markup(text))]);
+  }
+
+  /** Carries the single idea a section turns on. */
+  function focusNote(text, iconValue) {
+    return el("div", { className: "callout callout-focus" }, [icon(iconValue, "bullseye"), el("p", {}, markup(text))]);
+  }
+
+  /** Sets down a rule the learner carries out of the block above it. */
+  function note(text, iconValue) {
+    return el("div", { className: "callout callout-note" }, [icon(iconValue, "lightbulb"), el("p", {}, markup(text))]);
+  }
+
+  /** The same, for a caution the learner has to read before acting. */
+  function warn(text, iconValue) {
+    return el("div", { className: "callout callout-warn" }, [icon(iconValue, "triangle-exclamation"), el("p", {}, markup(text))]);
+  }
+
+  /**
+   * A control. `primary` fills it, for the one action a block is asking for;
+   * everything else stays a ghost.
+   *
+   *   button({ text: "إعادة المحاولة", icon: "rotate-right", primary: true })
+   */
+  function button(config) {
+    const settings = config || {};
+    return el("button", {
+      className: settings.primary ? "btn is-primary" : "btn",
+      type: "button",
+      attrs: { disabled: settings.disabled }
+    }, [settings.icon ? icon(settings.icon) : null, ` ${asText(settings.text)}`]);
+  }
+
+  function progressBar() {
+    return el("div", {
+      className: "progress",
+      attrs: {
+        role: "progressbar",
+        "aria-label": STRINGS.progress,
+        "aria-valuemin": "0",
+        "aria-valuemax": "100",
+        "aria-valuenow": "0"
+      }
+    }, el("i"));
+  }
+
+  /**
+   * The conclusion. Its shape is the same in every lesson: three or four
+   * recap cards, one bridge paragraph into the next lesson, then the
+   * references. The heading and the disclosure label are fixed.
+   *
+   *   conclusion({
+   *     cards: [{ icon, title, text }],
+   *     text: "…",
+   *     references: [{ text, link }]
+   *   })
+   */
+  function conclusion(data) {
+    const settings = data || {};
+    const id = settings.id || "summary";
+    const cards = asArray(settings.cards);
+    const references = asArray(settings.references);
+
+    return el("section", {
+      id,
+      className: "section",
+      attrs: { "data-reveal": true, "aria-labelledby": `${id}-title` }
+    }, [
+      el("h2", { id: `${id}-title`, className: "section-title", text: STRINGS.conclusion }),
+
+      cards.length ? grid(cards, (recap) => card({ lift: true, className: "rc" }, [
+        tile(recap.icon),
+        el("h3", { className: "card-title" }, markup(recap.title)),
+        recap.text ? el("p", {}, markup(recap.text)) : null
+      ])) : null,
+
+      settings.text ? el("div", { className: "bridge" }, [
+        icon("arrow-left"),
+        el("p", {}, markup(settings.text))
+      ]) : null,
+
+      references.length ? el("details", { className: "refs" }, [
+        el("summary", {}, [icon("book"), ` ${STRINGS.references} `, icon("chevron-down")]),
+        el("div", { className: "refs-body" }, references.map((reference) => el("a", {
+          attrs: { href: reference.link, rel: "noopener", target: "_blank" }
+        }, [icon("arrow-up-right-from-square"), " ", markup(reference.text)])))
+      ]) : null
+    ]);
+  }
+
+  /**
+   * A list where one item is open at a time. Each item names itself and
+   * carries whatever the lesson puts behind it, and the list keeps count of
+   * how many have been opened — a lesson that asks the learner to read all of
+   * them wants to be able to say when they have.
+   *
+   *   disclosure({
+   *     hint: "…",
+   *     tally: "قرأت",                        the count is written after it
+   *     done: node,                           shown once every item is opened
+   *     items: [{ icon, title, note, nodes }]
+   *   })
+   *
+   * An item that has been opened keeps a tick, so a learner coming back to
+   * the list can see what is left rather than counting.
+   */
+  function disclosure(data) {
+    const settings = data || {};
+    const items = asArray(settings.items);
+    const tally = el("b", { text: "0" });
+    const seen = new Set();
+    const opened = [];
+
+    const rows = items.map((item) => {
+      const head = el("button", {
+        className: "acc-head",
+        type: "button",
+        attrs: { "aria-expanded": "false" }
+      }, [
+        tile(item.icon, { size: "md" }),
+        el("span", { className: "acc-name" }, [
+          el("b", {}, markup(item.title)),
+          item.note ? el("small", {}, markup(item.note)) : null
+        ]),
+        el("i", { className: `${iconName("chevron-down")} acc-chev`, attrs: { "aria-hidden": "true" } })
+      ]);
+
+      const row = el("div", { className: "acc-item" }, [
+        head,
+        el("div", { className: "acc-body" }, el("div", { className: "acc-inner" }, item.nodes))
+      ]);
+
+      head.addEventListener("click", () => {
+        const open = !row.classList.contains("is-open");
+        for (const other of opened) {
+          const on = other.head === head && open;
+          other.row.classList.toggle("is-open", on);
+          other.head.setAttribute("aria-expanded", String(on));
+        }
+        if (!open) return;
+        row.classList.add("is-seen");
+        if (seen.has(item)) return;
+        seen.add(item);
+        tally.textContent = String(seen.size);
+        if (settings.done) settings.done.classList.toggle("is-shown", seen.size >= items.length);
+      });
+
+      opened.push({ head, row });
+      return row;
+    });
+
+    return fragment([
+      (settings.hint || settings.tally !== undefined) ? el("div", { className: "acc-top" }, [
+        settings.hint ? hint(settings.hint) : null,
+        settings.tally !== undefined ? el("span", { className: "tally" }, [
+          icon("list-check"),
+          ` ${asText(settings.tally)} `, tally, ` ${STRINGS.quizOf} ${items.length}`
+        ]) : null
+      ]) : null,
+      el("div", { className: "acc" }, rows),
+      settings.done || null
+    ]);
+  }
+
+  /* ---- Unit overview ----------------------------------------------------- */
+
+  /** What the learner will be able to do once the unit is done. */
+  function goalCards(goals) {
+    return grid(goals, (goal) => card({ rule: true, lift: true, className: "goal" }, [
+      tile(goal.icon, { size: "lg", fallback: "circle-check" }),
+      el("p", {}, markup(goal.text))
+    ]));
+  }
+
+  /** The unit lesson by lesson, each with the topics it covers. */
+  function lessonPlan(lessons) {
+    return grid(lessons, (lesson, index) => card({ fill: "soft", lift: true, className: "plan-card" }, [
+      el("span", { className: "plan-num", text: String(index + 1) }),
+      el("h3", { className: "card-title" }, markup(lesson.title)),
+      el("ul", { className: "plan-items" }, asArray(lesson.items).map((item) => el("li", {}, [
+        icon("circle-dot"),
+        el("span", {}, markup(item))
+      ])))
+    ]), { min: "xl" });
+  }
+
+  /** The unit's vocabulary: the Arabic term, its Latin original, its meaning. */
+  function termsTable(terms) {
+    return el("div", { className: "terms" }, el("table", {}, [
+      el("thead", {}, el("tr", {}, [
+        el("th", { text: STRINGS.termArabic }),
+        el("th", { text: STRINGS.termLatin }),
+        el("th", { text: STRINGS.termDefinition })
+      ])),
+      el("tbody", {}, terms.map((term) => el("tr", {}, [
+        el("td", { className: "term", text: asText(term.ar) }),
+        el("td", { className: "term-en", text: asText(term.en), attrs: { dir: "ltr" } }),
+        el("td", {}, markup(term.def))
+      ])))
+    ]));
+  }
+
+  /**
+   * The sections a unit overview is made of. Every unit opens the same way, so
+   * the overview passes content and gets the whole `sections` object back:
+   *
+   *   sections: unitOverview({
+   *     goals: [{ icon, text }],
+   *     lessons: [{ title, items: ["…"] }],
+   *     terms: [{ ar, en, def }]
+   *   })
+   *
+   * A part with no content leaves out its section, and with it its nav item.
+   */
+  function unitOverview(data) {
+    const settings = data || {};
+    const goals = asArray(settings.goals);
+    const lessons = asArray(settings.lessons);
+    const terms = asArray(settings.terms);
+    const sections = {};
+
+    if (goals.length) {
+      sections.goals = {
+        nav: STRINGS.goalsShort,
+        title: STRINGS.goals,
+        subtitle: STRINGS.goalsLead,
+        nodes: goalCards(goals)
+      };
+    }
+
+    if (lessons.length) {
+      sections.outline = { nav: STRINGS.outlineShort, title: STRINGS.outline, nodes: lessonPlan(lessons) };
+    }
+
+    if (terms.length) {
+      sections.terms = { nav: STRINGS.termsShort, title: STRINGS.terms, nodes: termsTable(terms) };
+    }
+
+    return sections;
+  }
+
+  /* ---- Understanding check ----------------------------------------------- */
+
+  // Options are lettered in abjad order, the sequence Arabic uses for
+  // enumerating. Past the sequence a lesson gets numbers rather than nothing.
+  const OPTION_LETTERS = "أبجدهوزحطيكلمنسعفصقرشتثخذضظغ";
+
+  function optionLetter(index) {
+    return index < OPTION_LETTERS.length ? OPTION_LETTERS[index] : String(index + 1);
+  }
+
+  /**
+   * The question tally, counted the way Arabic counts: one and two carry the
+   * number in the noun itself and drop the numeral, three to ten take the
+   * plural, and eleven upwards take the singular.
+   */
+  function questionTally(count) {
+    if (count === 1) return STRINGS.quizQuestionOne;
+    if (count === 2) return STRINGS.quizQuestionTwo;
+    return `${count} ${count <= 10 ? STRINGS.quizQuestionsFew : STRINGS.quizQuestionsMany}`;
+  }
+
+  /**
+   * Reads one question's content into the shape the component runs on. An
+   * option is either a bare string or an object, and the answer key is the
+   * options that carry `correct` — no index to keep in step with the list:
+   *
+   *   {
+   *     text: "…",
+   *     tag: "…",                                 // what the question is about
+   *     lead: "…",                                // the detail it is answered from
+   *     why: "…",                                 // why the answer is the answer
+   *     options: [
+   *       { text: "…", correct: true },
+   *       { text: "…", why: "…" },                // why this one misses
+   *       "…"
+   *     ]
+   *   }
+   *
+   * Mark more than one option `correct` and the question becomes select-all:
+   * the learner picks freely and presses تحقّق, and it scores only when the
+   * selection matches the key exactly.
+   */
+  function readQuestion(question) {
+    const settings = question || {};
+    const options = asArray(settings.options)
+      .map((option) => (option && typeof option === "object" ? option : { text: option }));
+    const key = options.reduce((picked, option, index) => (option.correct ? picked.concat(index) : picked), []);
+
+    return { text: settings.text, tag: settings.tag, lead: settings.lead, why: settings.why, options, key, multiple: key.length > 1 };
+  }
+
+  /**
+   * The end-of-lesson check: one question at a time, with prev and next.
+   * Answers are kept, so stepping back never loses one, and an answered
+   * question stays locked.
+   *
+   *   understandingCheck({
+   *     hint: "…",
+   *     results: { perfect: "…", good: "…", poor: "…" },
+   *     questions: [ … ]                          // see readQuestion above
+   *   })
+   */
+  function understandingCheck(data) {
+    const settings = data || {};
+    const questions = asArray(settings.questions).map(readQuestion);
+    const results = settings.results || {};
+    const total = questions.length;
+
+    // One set of chosen options per question; null until it is answered.
+    const picks = questions.map(() => null);
+    let current = 0;
+
+    const step = el("b", { text: "1" });
+    const fill = el("i");
+    const hits = el("b", { text: "0" });
+    const finalScore = el("b", { text: "0" });
+    const message = el("span", { className: "q-msg" });
+    const previous = el("button", { className: "btn", type: "button", attrs: { disabled: true } }, [icon("chevron-right"), ` ${STRINGS.quizPrevious}`]);
+    const next = el("button", { className: "btn is-primary", type: "button", attrs: { disabled: true } });
+    const again = el("button", { className: "btn", type: "button" }, [icon("rotate-right"), ` ${STRINGS.quizRetry}`]);
+
+    const isRight = (index) => {
+      const picked = picks[index];
+      const key = questions[index].key;
+      return picked !== null && picked.size === key.length && key.every((choice) => picked.has(choice));
+    };
+
+    const score = () => questions.filter((question, index) => isRight(index)).length;
+
+    const resets = [];
+
+    const cards = questions.map((question, index) => {
+      // Held while the learner is still choosing; only a locked question
+      // writes to picks, so stepping away from an unchecked select-all
+      // question leaves it unanswered rather than half answered.
+      const chosen = new Set();
+
+      const notes = el("div", { className: "q-note" });
+      const why = el("div", { className: "q-why" }, [icon("lightbulb"), notes]);
+
+      const check = question.multiple
+        ? el("button", { className: "btn is-primary", type: "button", attrs: { disabled: true } }, [icon("circle-check"), ` ${STRINGS.quizCheck}`])
+        : null;
+
+      const options = question.options.map((option, choice) => el("button", {
+        className: "qopt",
+        type: "button",
+        attrs: question.multiple ? { "aria-pressed": "false" } : {}
+      }, [
+        el("span", { className: "q-l", text: optionLetter(choice) }),
+        el("span", {}, markup(option.text))
+      ]));
+
+      const card = el("article", { className: index === 0 ? "qcard is-current" : "qcard" }, [
+        question.tag ? el("p", { className: "q-tag" }, [icon("tag"), ` ${asText(question.tag)}`]) : null,
+        el("div", { className: "q-txt" }, [
+          el("span", { className: "q-n", text: String(index + 1) }),
+          el("h3", {}, markup(question.text))
+        ]),
+        question.lead ? el("p", { className: "q-lead" }, markup(question.lead)) : null,
+        question.multiple ? el("p", { className: "q-multi" }, [icon("list-check"), ` ${STRINGS.quizSelectAll}`]) : null,
+        el("div", { className: "q-opts" }, options),
+        check ? el("div", { className: "q-act" }, check) : null,
+        why
+      ]);
+
+      // What the learner reads once the question is locked: the note on each
+      // option they got wrong, then why the answer is the answer.
+      const explain = () => question.options
+        .filter((option, choice) => option.why && chosen.has(choice) && !option.correct)
+        .map((option) => option.why)
+        .concat(question.why ? [question.why] : [])
+        .map((line) => el("p", {}, markup(line)));
+
+      const lock = () => {
+        picks[index] = new Set(chosen);
+        card.classList.add("is-done");
+
+        options.forEach((button, choice) => {
+          const correct = question.key.includes(choice);
+          const picked = chosen.has(choice);
+          button.disabled = true;
+          button.classList.remove("is-chosen");
+          button.classList.toggle("is-right", correct);
+          button.classList.toggle("is-picked", picked);
+          button.classList.toggle("is-wrong", picked && !correct);
+          button.classList.toggle("is-missed", correct && !picked);
+        });
+
+        if (check) check.disabled = true;
+        notes.replaceChildren(...explain());
+        why.hidden = notes.childElementCount === 0;
+        hits.textContent = String(score());
+        next.disabled = false;
+      };
+
+      options.forEach((button, choice) => {
+        button.addEventListener("click", () => {
+          if (picks[index] !== null) return;
+
+          if (!question.multiple) {
+            chosen.clear();
+            chosen.add(choice);
+            lock();
+            return;
+          }
+
+          const on = !chosen.has(choice);
+          if (on) chosen.add(choice);
+          else chosen.delete(choice);
+          button.classList.toggle("is-chosen", on);
+          button.setAttribute("aria-pressed", String(on));
+          check.disabled = chosen.size === 0;
+        });
+      });
+
+      if (check) check.addEventListener("click", () => {
+        if (picks[index] === null && chosen.size) lock();
+      });
+
+      // Puts the question back the way it was authored.
+      resets.push(() => {
+        chosen.clear();
+        card.classList.remove("is-done");
+        notes.replaceChildren();
+        why.hidden = false;
+        if (check) check.disabled = true;
+        for (const button of options) {
+          button.disabled = false;
+          button.classList.remove("is-chosen", "is-picked", "is-wrong", "is-right", "is-missed");
+          if (question.multiple) button.setAttribute("aria-pressed", "false");
+        }
+      });
+
+      return card;
+    });
+
+    const list = el("div", {}, cards);
+    const nav = el("div", { className: "q-nav" }, [previous, next]);
+    const panel = el("div", { className: "q-done", hidden: true }, [
+      icon("award"),
+      el("p", {}, [`${STRINGS.quizResult} `, finalScore, ` ${STRINGS.quizOf} ${questionTally(total)}`]),
+      message,
+      again
+    ]);
+
+    const show = (index) => {
+      current = index;
+      cards.forEach((card, i) => card.classList.toggle("is-current", i === index));
+      step.textContent = String(index + 1);
+      fill.style.width = `${((index + 1) / total) * 100}%`;
+      previous.disabled = index === 0;
+      next.disabled = picks[index] === null;
+      next.replaceChildren(...(index === total - 1
+        ? [document.createTextNode(`${STRINGS.quizFinish} `), icon("flag-checkered")]
+        : [document.createTextNode(`${STRINGS.quizNext} `), icon("chevron-left")]));
+    };
+
+    previous.addEventListener("click", () => {
+      if (current > 0) show(current - 1);
+    });
+
+    next.addEventListener("click", () => {
+      if (picks[current] === null) return;
+      if (current < total - 1) {
+        show(current + 1);
+        return;
+      }
+
+      const correct = score();
+      list.hidden = true;
+      nav.hidden = true;
+      panel.hidden = false;
+      finalScore.textContent = String(correct);
+      message.textContent = asText(correct === total ? results.perfect
+        : correct >= Math.ceil(total / 2) ? results.good
+        : results.poor);
+      if (panel.getBoundingClientRect().top < 0) {
+        panel.scrollIntoView({ behavior: REDUCED_MOTION ? "auto" : "smooth", block: "center" });
+      }
+    });
+
+    again.addEventListener("click", () => {
+      picks.fill(null);
+      for (const reset of resets) reset();
+      hits.textContent = "0";
+      panel.hidden = true;
+      list.hidden = false;
+      nav.hidden = false;
+      show(0);
+    });
+
+    show(0);
+
+    return fragment([
+      settings.hint ? hint(settings.hint, "list-check") : null,
+      el("div", { className: "quiz" }, [
+        el("div", { className: "q-bar" }, [
+          el("span", { className: "q-step" }, [`${STRINGS.quizQuestion} `, step, ` ${STRINGS.quizOf} `, el("b", { text: String(total) })]),
+          el("span", { className: "q-track", attrs: { "aria-hidden": "true" } }, fill),
+          el("span", { className: "q-score" }, [icon("circle-check"), " ", hits, ` ${STRINGS.quizHits}`])
+        ]),
+        list,
+        nav,
+        panel
+      ])
+    ]);
+  }
+
+  /** The document title the browser tab shows. */
+  function pageTitle(meta) {
+    const settings = meta || {};
+    return settings.lesson
+      ? `${STRINGS.title} - الوحدة ${settings.module} - الدرس ${settings.lesson}`
+      : `${STRINGS.title} - الوحدة ${settings.module}`;
+  }
+
+  /**
+   * Builds the whole page from one object, so a lesson's content sits in a
+   * single place and its markup carries nothing but an empty <main>.
+   *
+   *   SAMAI.mount({
+   *     module: 6, moduleTitle: "…", lesson: 1, lessonTitle: "…",
+   *     introduction: "…",
+   *     sections: {
+   *       trends: { nav: "الاتجاهات", title: "…", subtitle: "…", nodes: … },
+   *       aside:  { title: "…", nodes: … }        // no nav: off the indicator
+   *     },
+   *     conclusion: { cards, text, references }
+   *   })
+   *
+   * The hero opens <main> and the conclusion closes it; the sections fall in
+   * between, in the order the object declares them. Anything already inside
+   * <main> is replaced.
+   *
+   * A unit overview is the same call without a lesson number or a conclusion,
+   * and with unitOverview() standing in for the sections it shares with the
+   * other five.
+   */
+  // Which lesson this page is. Set by mount() and read by the reading report,
+  // the one piece of chrome behaviour that needs to name the page it is on.
+  let PAGE = null;
+
+  function mount(config) {
+    // Every unit overview carries the same lesson title, so it need not say so.
+    const settings = Object.assign({}, config);
+    if (!settings.lessonTitle) settings.lessonTitle = STRINGS.overview;
+    PAGE = settings;
+
+    const sections = settings.sections || {};
+    const main = document.querySelector("main");
+
+    document.title = pageTitle(settings);
+
+    const chrome = fragment([brandBar(settings), lessonNav(sections, Boolean(settings.conclusion)), progressBar()]);
+    if (main) main.before(chrome);
+    else document.body.prepend(chrome);
+
+    if (main) {
+      main.replaceChildren(fragment([
+        hero(settings),
+        Object.entries(sections).map(([id, sectionConfig]) => section(id, sectionConfig)),
+        settings.conclusion ? conclusion(settings.conclusion) : null
+      ]));
+    }
+
+    init();
+    return main;
+  }
+
+  /* ========================================================================
+     4 · THE MOCK APPLICATION AND ITS TOUR
+     One application, shown by every unit that shows one, so a learner taught
+     its parts in unit 1 recognises the same parts in unit 6. The window is
+     inert: it is a picture of an application, not one, and a lesson moves it
+     by describing the state it should be in rather than by pressing it.
+
+     The tour around it is separate, and knows nothing about applications: it
+     lights a part, says what that part is, and lets the learner walk. A
+     lesson supplies the stage and answers for what each step shows.
+     ======================================================================== */
+
+  /** One file the learner has attached, as the application shows it. */
+  function appFile(file) {
+    return el("span", { className: "win-file" }, [
+      icon(file.icon, "paperclip"),
+      el("span", { text: asText(file.label) })
+    ]);
+  }
+
+  /**
+   * One turn in the conversation. A reply with nothing to say yet is the
+   * skeleton: the window shows that an answer is coming without inventing
+   * its words.
+   */
+  function appMessage(message) {
+    const from = message.from === "assistant" ? "is-assistant" : "is-user";
+    if (message.pending) {
+      return el("div", { className: `win-msg ${from} is-pending` }, [1, 2, 3, 4].map(() => el("i")));
+    }
+    return el("div", { className: `win-msg ${from}` }, [
+      asArray(message.files).length
+        ? el("span", { className: "win-msg-files" }, message.files.map(appFile))
+        : null,
+      el("p", { text: asText(message.text) })
+    ]);
+  }
+
+  /**
+   * A destination in the sidebar, for the lessons that name them rather than
+   * leaving them as the bars unit 1 shows. Every one is addressable, because
+   * a tour step points at one by name rather than by its place in the list.
+   *
+   *   { key: "projects", icon: "folder", label: "المشاريع", on: true }
+   *   { group: "المشاريع" }                        a heading over the next few
+   */
+  function appItem(item) {
+    if (item.group !== undefined) return el("div", { className: "win-group", text: asText(item.group) });
+    return el("div", {
+      className: item.on ? "win-item is-on" : "win-item",
+      attrs: { "data-part": item.key }
+    }, [icon(item.icon), el("span", { text: asText(item.label) })]);
+  }
+
+  /**
+   * The window. Its title bar carries the application's name and, where a
+   * lesson is teaching the difference, the switch between answering and
+   * working. The sidebar and the screen are the lesson's to fill.
+   *
+   *   appWindow({
+   *     name: "…",
+   *     agents: [{ label: "…" }, { label: "…" }],   the switch, first one on
+   *     agentsLabel: "…",
+   *     threadsLabel: "…",
+   *     newChat: "…",
+   *     items: [ … ],                               named destinations, or
+   *     side: node,                                 a sidebar of your own
+   *     account: { name: "…", detail: "…" },
+   *     top: "…",                                   a line above the screen
+   *     bleed: true                                 screen paints to the edge
+   *   }, screen)
+   *
+   * Given neither `items` nor `side` the sidebar is four bars: unit 1 is
+   * teaching what the parts of an application are, not what they are called.
+   * `side: false` drops it altogether, for the lessons showing one exchange
+   * rather than the application it happened in.
+   *
+   * The screen keeps the window's own inset, so what a lesson puts on it
+   * needs no padding of its own. `bleed` takes that inset away, for a screen
+   * whose surface is the point — a tinted panel has to reach the frame or it
+   * reads as a card floating inside the window rather than as the screen.
+   */
+  function appWindow(data, screen) {
+    const settings = data || {};
+    const agents = asArray(settings.agents);
+    const account = settings.account;
+
+    return el("div", {
+      className: classNames("win", settings.className),
+      attrs: { "data-part": "app", inert: true, "aria-hidden": "true" }
+    }, [
+      el("header", { className: "win-top" }, [
+        el("div", { className: "win-brand" }, [
+          el("span", { className: "win-dots" }, [el("i"), el("i"), el("i")]),
+          el("span", { className: "win-name", text: asText(settings.name) })
+        ]),
+        agents.length ? el("div", {
+          className: "win-agents",
+          attrs: { "data-part": "agent", "aria-label": settings.agentsLabel }
+        }, agents.map((agent, index) => el("span", {
+          className: (agent.on === undefined ? index === 0 : agent.on) ? "win-agent is-on" : "win-agent",
+          text: asText(agent.label)
+        }))) : null,
+        el("span", { className: "win-top-end" })
+      ]),
+      el("div", { className: settings.side === false ? "win-body is-bare" : "win-body" }, [
+        settings.side === false ? null : el("aside", { className: "win-side", attrs: { "aria-label": settings.threadsLabel } }, [
+          settings.newChat ? el("span", { className: "win-new" }, [icon("plus"), el("span", { text: settings.newChat })]) : null,
+          settings.items ? asArray(settings.items).map(appItem)
+            : settings.side || [0, 1, 2, 3].map((index) => el("span", {
+              className: index === 0 ? "win-thread is-current" : "win-thread"
+            })),
+          el("span", { className: "win-fill" }),
+          account ? el("span", {
+            className: account.on ? "win-account is-on" : "win-account",
+            attrs: { "data-part": "account" }
+          }, [
+            el("span", { className: "win-avatar" }, icon("user")),
+            el("span", { className: "win-account-text" }, [
+              el("b", { text: asText(account.name) }),
+              el("small", { text: asText(account.detail) })
+            ]),
+            icon("gear")
+          ]) : null
+        ]),
+        el("div", { className: "win-main" }, [
+          settings.top ? el("div", { className: "win-screen-top" }, [
+            typeof settings.top === "string" ? el("span", { text: settings.top }) : settings.top,
+            icon("ellipsis")
+          ]) : null,
+          el("div", { className: settings.bleed ? "win-screen is-bleed" : "win-screen" }, screen)
+        ])
+      ])
+    ]);
+  }
+
+  /** One closed picker in the composer, showing the choice it is on. */
+  function appPicker(item) {
+    const current = item.options.find((option) => option.label === item.value) || item.options[0];
+    return el("div", {
+      className: "win-picker",
+      attrs: { "data-part": item.key, "data-menu": item.key }
+    }, [
+      el("span", { className: "win-picker-button", attrs: { "aria-label": item.label } }, [
+        el("span", { className: "win-picker-value", text: asText(current.chip) }),
+        icon("chevron-down")
+      ]),
+      el("div", { className: "win-menu" }, item.options.map((option) => el("span", {
+        className: option.label === item.value ? "win-option is-current" : "win-option",
+        attrs: { "data-value": option.label }
+      }, [icon("check"), el("span", { text: asText(option.label) })])))
+    ]);
+  }
+
+  /**
+   * The row the learner writes in: the tools and their menu, the field being
+   * typed into, the pickers that choose how the answer is made, and send.
+   *
+   * It answers to the state it should be showing rather than to presses, so
+   * a tour can put it anywhere by describing where:
+   *
+   *   const composer = appComposer({ placeholder, tools, pickers, sendLabel });
+   *   composer.show({ prompt: "…", files: [ … ], picks: { model: "…" },
+   *                   open: "tools", choose: "إرفاق ملف" });
+   *
+   * `node` is what goes on the page.
+   */
+  function appComposer(data) {
+    const settings = data || {};
+    const pickers = asArray(settings.pickers);
+
+    const files = el("div", { className: "win-files", hidden: true });
+    const placeholder = el("span", { className: "win-placeholder", text: asText(settings.placeholder) });
+    const typed = el("span", { className: "win-typed" });
+    const field = el("span", { className: "win-field" }, [placeholder, typed, el("i", { className: "win-caret" })]);
+
+    const tools = el("div", {
+      className: "win-tools",
+      attrs: { "data-part": "tools", "data-menu": "tools" }
+    }, [
+      el("span", { className: "win-plus" }, icon("plus")),
+      el("div", { className: "win-menu" }, asArray(settings.tools).map((tool) => el("span", {
+        className: "win-option",
+        attrs: { "data-tool": tool.label }
+      }, [icon(tool.icon, "wrench"), el("span", { text: asText(tool.label) })])))
+    ]);
+
+    const node = el("div", { className: "win-composer", attrs: { "data-part": "composer" } }, [
+      files,
+      el("div", { className: "win-row" }, [
+        tools,
+        field,
+        pickers.length ? el("div", { className: "win-pickers" }, pickers.map(appPicker)) : null,
+        el("span", {
+          className: "win-send",
+          attrs: { "data-part": "send", "aria-label": settings.sendLabel }
+        }, icon("paper-plane"))
+      ])
+    ]);
+
+    const holders = [tools, ...node.querySelectorAll(".win-picker")];
+    let typing = null;
+    let written = null;
+
+    /** Typed a character at a time, so the learner watches it appear. */
+    function write(text) {
+      window.clearInterval(typing);
+      typing = null;
+      placeholder.hidden = Boolean(text);
+      field.classList.toggle("is-typing", Boolean(text));
+      if (!text || REDUCED_MOTION) {
+        typed.textContent = text;
+        return;
+      }
+      typed.textContent = "";
+      let count = 0;
+      const pace = Math.max(16, Math.min(45, Math.round(900 / text.length)));
+      typing = window.setInterval(() => {
+        count += 1;
+        typed.textContent = text.slice(0, count);
+        if (count < text.length) return;
+        window.clearInterval(typing);
+        typing = null;
+      }, pace);
+    }
+
+    function show(at) {
+      const state = at || {};
+      const prompt = asText(state.prompt);
+      const picks = state.picks || {};
+
+      for (const item of pickers) {
+        const holder = node.querySelector(`[data-menu="${item.key}"]`);
+        const chosen = item.options.find((option) => option.label === picks[item.key]) || item.options[0];
+        holder.querySelector(".win-picker-value").textContent = asText(chosen.chip);
+        for (const option of holder.querySelectorAll(".win-option")) {
+          option.classList.toggle("is-current", option.dataset.value === chosen.label);
+        }
+      }
+
+      for (const holder of holders) holder.classList.toggle("is-open", holder.dataset.menu === state.open);
+      for (const option of node.querySelectorAll("[data-tool]")) {
+        option.classList.toggle("is-current", option.dataset.tool === state.choose);
+      }
+
+      if (written !== prompt) write(prompt);
+      written = prompt;
+
+      const attached = asArray(state.files);
+      files.replaceChildren(...attached.map(appFile));
+      files.hidden = attached.length === 0;
+    }
+
+    return { node, show, write };
+  }
+
+  /**
+   * A turn in a conversation, as the application's screen shows it: who is
+   * speaking, then what they said. `you` turns the row round and tints the
+   * bubble, so the two sides of an exchange read apart without either being
+   * labelled.
+   *
+   *   turn("you", el("p", { text: "…" }))
+   *   turn("app", [ … ])
+   */
+  function turn(who, children) {
+    return el("div", { className: who === "you" ? "msg is-you" : "msg" }, [
+      el("span", { className: "avatar" }, who === "you" ? null : icon("robot")),
+      el("div", { className: "bubble" }, children)
+    ]);
+  }
+
+  /**
+   * A guided tour of whatever the lesson has built. The tour moves the
+   * spotlight, its label, the caption and the dots; the lesson answers for
+   * what the stage shows at each step.
+   *
+   *   tour({
+   *     lead: "…",                                  a line above the stage
+   *     note: "…",                                  a line below it
+   *     stage: node,
+   *     steps: [{ target: "[data-part='send']", label: "…", text: "…" }],
+   *     show(index, again) { … },                   puts the stage in state
+   *     labels: { previous, next, restart, step, steps, spot }
+   *   })
+   *
+   * A step with no target dims nothing, for the one that introduces the whole
+   * picture rather than naming a piece of it. Those steps are also unnumbered.
+   */
+  function tour(data) {
+    const settings = data || {};
+    const steps = asArray(settings.steps);
+    const labels = settings.labels || {};
+    const stage = settings.stage;
+
+    let counted = 0;
+    const numbers = steps.map((step) => (step.target ? (counted += 1) : 0));
+
+    const spot = el("div", {
+      className: "sim-spot",
+      attrs: { "aria-hidden": "true", title: labels.spot }
+    });
+    const tag = el("div", { className: "sim-tag", attrs: { "aria-hidden": "true" } });
+    const frame = el("div", { className: "sim-stage" }, [stage, spot, tag]);
+
+    const number = el("span", { className: "sim-number" });
+    const caption = el("p", {
+      className: "sim-text",
+      attrs: { "aria-live": "polite", "aria-atomic": "true" }
+    });
+    // Built before the first step runs, because that step decides whether the
+    // badge is there and the row has to exist to be told.
+    const captionRow = el("div", { className: "sim-caption" }, [number, caption]);
+    const previous = el("button", { type: "button" }, iconText("chevron-right", labels.previous));
+    const next = el("button", { type: "button" });
+    const dots = steps.map((step, index) => (numbers[index] ? el("button", {
+      type: "button",
+      attrs: { "aria-label": `${asText(labels.step)} ${numbers[index]}` }
+    }) : null));
+
+    let current = 0;
+    let placing = null;
+    let settling = null;
+
+    /** Lays the spotlight over the part this step names, and labels it. */
+    function place(step) {
+      const target = frame.querySelector(step.target);
+      if (!target || !target.getClientRects().length) {
+        spot.classList.remove("is-on");
+        tag.classList.remove("is-on");
+        return;
+      }
+
+      const base = frame.getBoundingClientRect();
+      const box = target.getBoundingClientRect();
+      let { top, left, right, bottom } = box;
+
+      // An open menu belongs to the part it hangs off, so the light covers
+      // both rather than stopping at the control.
+      const menu = target.classList.contains("is-open") ? target.querySelector(".win-menu") : null;
+      if (menu) {
+        const area = menu.getBoundingClientRect();
+        top = Math.min(top, area.top);
+        left = Math.min(left, area.left);
+        right = Math.max(right, area.right);
+        bottom = Math.max(bottom, area.bottom);
+      }
+
+      const y = top - base.top - 7;
+      const x = left - base.left - 7;
+      const width = right - left + 14;
+      const height = bottom - top + 14;
+
+      // Measured pixels, so the overlay is placed physically; the
+      // translateX(-100%) in the stylesheet keeps the label anchored to the
+      // reading edge of the spotlight in RTL.
+      spot.style.top = `${y}px`;
+      spot.style.left = `${x}px`;
+      spot.style.width = `${width}px`;
+      spot.style.height = `${height}px`;
+      spot.classList.add("is-on");
+
+      tag.textContent = asText(step.label);
+      tag.classList.toggle("is-on", Boolean(step.label));
+      // Above the spotlight when the stage has room, otherwise just inside
+      // it — the stage clips its overflow, so neither can escape.
+      const above = y - tag.offsetHeight - 5;
+      tag.style.top = `${above >= 0 ? above : y + 6}px`;
+      tag.style.left = `${x + width}px`;
+    }
+
+    function go(index) {
+      current = index < 0 || index > steps.length - 1 ? 0 : index;
+      const step = steps[current];
+      const last = current === steps.length - 1;
+
+      // The lesson puts the stage into this step, reading the step out of
+      // its own list. It is handed a way to ask for the light to be laid
+      // again, for a stage that settles a moment after it is built.
+      //
+      // A step whose stage has to go and fetch something says so by handing
+      // back a promise: the walk holds its next button until that settles,
+      // because there is nothing yet to walk on to.
+      const building = settings.show ? settings.show(current, () => place(step)) : null;
+      const waiting = building && typeof building.then === "function";
+
+      // Only the steps that light a part are numbered. A step that opens or
+      // closes the walk is talking about the whole picture, so it drops the
+      // badge rather than wearing a number that names nothing.
+      const numbered = Boolean(numbers[current]);
+      number.hidden = !numbered;
+      number.textContent = numbered ? String(numbers[current]) : "";
+      captionRow.classList.toggle("is-plain", !numbered);
+      caption.textContent = asText(step.text);
+      dots.forEach((dot, at) => {
+        if (!dot) return;
+        dot.classList.toggle("is-on", at === current);
+        dot.classList.toggle("is-done", at < current);
+      });
+      previous.disabled = current === 0;
+      next.replaceChildren(textIcon(
+        last ? labels.restart : labels.next,
+        last ? "rotate-right" : "chevron-left"
+      ));
+
+      spot.classList.remove("is-on");
+      tag.classList.remove("is-on");
+      next.disabled = waiting;
+      if (!step.target) return;
+
+      // A menu opens and the stage re-lays out on this same tick; measure
+      // once that has settled. A timer rather than rAF, so placement still
+      // happens in a background tab.
+      const lay = () => {
+        window.clearTimeout(placing);
+        placing = window.setTimeout(() => place(step), 60);
+      };
+      if (!waiting) { lay(); return; }
+      const asked = current;
+      building.then(() => {
+        if (asked !== current) return;
+        next.disabled = false;
+        lay();
+      });
+    }
+
+    previous.addEventListener("click", () => go(current - 1));
+    next.addEventListener("click", () => go(current + 1));
+    // The light is a shortcut, not a second control: it repeats what next
+    // does, which is why it stays hidden from assistive technology rather
+    // than being announced as another way through the same walk.
+    spot.addEventListener("click", () => {
+      if (!next.disabled) go(current + 1);
+    });
+    dots.forEach((dot, index) => dot && dot.addEventListener("click", () => go(index)));
+    window.addEventListener("resize", () => {
+      window.clearTimeout(settling);
+      settling = window.setTimeout(() => {
+        if (steps[current].target) place(steps[current]);
+      }, 120);
+    }, { passive: true });
+
+    go(0);
+
+    return el("div", { className: classNames("sim", settings.className) }, [
+      settings.lead ? el("p", { className: "sim-lead", text: settings.lead }) : null,
+      frame,
+      captionRow,
+      el("div", { className: "sim-steps" }, [
+        previous,
+        el("div", { className: "sim-dots", attrs: { role: "group", "aria-label": labels.steps } }, dots),
+        next
+      ]),
+      settings.note ? el("p", { className: "sim-note", text: settings.note }) : null
+    ]);
+  }
+
+  /* ========================================================================
+     5 · SHARED CHROME BEHAVIOUR
+     ======================================================================== */
+
+  /**
+   * Fullscreen toggle, plus the F shortcut. Ctrl+F and Cmd+F stay with the
+   * browser, and the key is ignored while the learner is typing.
+   */
+  function initFullscreen() {
+    const button = document.querySelector(".fullscreen");
+    if (!button) return;
+
+    const isActive = () => document.fullscreenElement !== null;
+
+    const sync = () => {
+      const active = isActive();
+      const label = active ? STRINGS.exitFullscreen : STRINGS.fullscreen;
+      button.setAttribute("aria-label", label);
+      button.title = label;
+      button.replaceChildren(icon(active ? "compress" : "expand"));
+    };
+
+    const toggle = () => {
+      const pending = isActive()
+        ? document.exitFullscreen()
+        : document.documentElement.requestFullscreen();
+      pending.catch(sync);
+    };
+
+    button.addEventListener("click", toggle);
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "f" && event.key !== "F" && event.key !== "ب") return;
+      if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+      const target = event.target;
+      if (target instanceof Element && target.closest("input, textarea, select, [contenteditable]:not([contenteditable='false'])")) return;
+      event.preventDefault();
+      toggle();
+    });
+
+    document.addEventListener("fullscreenchange", sync);
+    sync();
+  }
+
+  /**
+   * Highlights the indicator item for the section being read and fills the
+   * reading progress bar. A section with no item of its own — the hero —
+   * leaves the previous one active, so no lesson needs a lookup table.
+   */
+  function initNav() {
+    const links = [...document.querySelectorAll(".nav-link")];
+    const progress = document.querySelector(".progress");
+    const sections = [...document.querySelectorAll(".section")];
+    if (!sections.length) return;
+
+    const fill = progress ? progress.querySelector("i") : null;
+    const targets = new Set(links.map((link) => link.dataset.target));
+    const first = links.length ? links[0].dataset.target : "";
+
+    const update = () => {
+      const line = window.innerHeight * 0.45;
+      let current = first;
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= line && targets.has(section.id)) {
+          current = section.id;
+        }
+      }
+      for (const link of links) {
+        link.classList.toggle("is-active", link.dataset.target === current);
+      }
+
+      if (!fill) return;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const percent = scrollable > 0 ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100)) : 100;
+      fill.style.width = `${percent}%`;
+      progress.setAttribute("aria-valuenow", String(Math.round(percent)));
+    };
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+  }
+
+  /** Reveals each section as it scrolls into view. */
+  function initReveal() {
+    const sections = [...document.querySelectorAll(".section[data-reveal]")];
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    }, { threshold: 0.1 });
+
+    for (const section of sections) observer.observe(section);
+  }
+
+  /**
+   * What a page opened inside the course shell tells its host. Two things:
+   *
+   *   touched   the learner has just reached into this page, by press or by
+   *             scroll — the shell's cue to fold its outline away
+   *   reading   where they have read to: past the hero it is being read, and
+   *             once the conclusion shows it has been read to the end
+   *
+   * The page reports rather than letting the shell watch it because a course
+   * opened from disk gives every page an origin of its own, and the shell
+   * cannot reach into a frame it does not share an origin with. A message
+   * crosses that line; a scroll listener does not. It also leaves the page
+   * free to answer the very gesture it reports — the scroll that folds the
+   * outline away is the same scroll that moves the lesson.
+   */
+  function initReport() {
+    if (window.parent === window) return;
+
+    const post = (message) => window.parent.postMessage(message, "*");
+
+    // Every page reports being touched, unit overviews included. Once every
+    // quarter second is often enough for a shell that only needs to know a
+    // gesture happened, not how many.
+    let last = 0;
+
+    const touch = () => {
+      const now = Date.now();
+      if (now - last < 250) return;
+      last = now;
+      post({ samai: "touched" });
+    };
+
+    window.addEventListener("pointerdown", touch, { passive: true });
+    window.addEventListener("scroll", touch, { passive: true });
+
+    // Only a lesson has a reading to report, and only one built by mount().
+    const hero = document.querySelector("main .hero-section");
+    const summary = document.getElementById("summary");
+    if (!PAGE || !PAGE.lesson || !hero || !summary) return;
+
+    let said = "";
+
+    const report = () => {
+      const height = window.innerHeight;
+      const state = summary.getBoundingClientRect().top < height ? "done"
+        : hero.getBoundingClientRect().bottom <= height * 0.5 ? "doing"
+        : "none";
+
+      if (state === said) return;
+      said = state;
+      post({ samai: "reading", module: PAGE.module, lesson: PAGE.lesson, state });
+    };
+
+    window.addEventListener("scroll", report, { passive: true });
+    window.addEventListener("resize", report, { passive: true });
+    report();
+  }
+
+  /**
+   * Where the learner had read to, kept for as long as the tab is open so a
+   * refresh puts the page back rather than at the top. A page read on its own
+   * would get that from the browser; one read inside the course shell would
+   * not, because the shell navigates the frame by script and a scripted
+   * navigation restores nothing.
+   *
+   * The position is written back on the way out and, in case that never
+   * comes, every quarter second while the learner scrolls. It is read back
+   * once the page has its full height, and only if nothing has moved it in
+   * the meantime — a learner who scrolled during the load meant that.
+   */
+  function initScroll() {
+    if (!PAGE) return;
+    const key = `samai.scroll.u${PAGE.module}l${PAGE.lesson || 0}`;
+
+    let saved = 0;
+    try {
+      saved = Number(sessionStorage.getItem(key)) || 0;
+    } catch (error) {
+      return;
+    }
+
+    let last = 0;
+
+    const keep = () => {
+      try {
+        sessionStorage.setItem(key, String(Math.round(window.scrollY)));
+      } catch (error) {
+        /* A learner browsing with storage blocked keeps the session. */
+      }
+    };
+
+    window.addEventListener("scroll", () => {
+      const now = Date.now();
+      if (now - last < 250) return;
+      last = now;
+      keep();
+    }, { passive: true });
+
+    window.addEventListener("pagehide", keep);
+
+    if (saved < 1) return;
+
+    window.addEventListener("load", () => {
+      if (window.scrollY >= 1) return;
+      const furthest = document.documentElement.scrollHeight - window.innerHeight;
+      // The page scrolls smoothly by default, and a page picking up where it
+      // was left is not a journey the learner should have to watch.
+      window.scrollTo({ top: Math.max(0, Math.min(saved, furthest)), behavior: "instant" });
+    }, { once: true });
+  }
+
+  // Wired by mount(), once it has built the chrome these read. Nothing else
+  // calls it: a page with no chrome has nothing here to wire.
+  function init() {
+    initFullscreen();
+    initNav();
+    initReveal();
+    initReport();
+    initScroll();
+  }
+
+  // What a lesson and the shell may reach for. The page builders above are not
+  // here: a lesson hands mount() its content and mount() builds the page, so
+  // nothing outside this file has any business calling them.
+  window.SAMAI = {
+    asArray, el, svg, drawing, iconName, icon, fragment, iconText, textIcon, markup, asset,
+    card, cardHead, tile, badge, grid, away,
+    hint, keyline, focusNote, note, warn, button,
+    appWindow, appMessage, appFile, appComposer, turn, tour,
+    disclosure, unitOverview, understandingCheck, pageTitle, mount,
+    STRINGS, LOGO, REDUCED_MOTION
+  };
+})();
+    </script>
+    <script>
+(() => {
+"use strict";
+
+const meta = {
+  base: "u1l2",
+  source: "d0855f92e34194ea7db69710003b69a229adabd6",
+  title: "كيف تعمل تطبيقات الذكاء الاصطناعي؟",
+  goal: { icon: "diagram-project", text: "شرح كيفية عمل تطبيقات الذكاء الاصطناعي" },
+  topics: [
+    "ما الذي تراه في واجهة تطبيقات الذكاء الاصطناعي",
+    "مكوّنات تطبيقات الذكاء الاصطناعي",
+    "رحلة الأمر في تطبيقات الذكاء الاصطناعي"
+  ],
+  terms: [
+    {
+      ar: "نموذج",
+      en: "Model",
+      def: "تمثيل لما تعلمته خوارزمية تعلُّم الآلة من بيانات التدريب، ويُطلق عليه أيضًا \"نموذج تعلُّم الآلة\""
+    },
+    {
+      ar: "نموذج لغوي كبير",
+      en: "Large Language Model (LLM)",
+      def: "نموذج لغوي يحدد احتمالية وجود تسلسل معين من كلمات في جملة مُكوَّن من عدد كبير من المُعامِلات"
+    },
+    {
+      ar: "الأمر",
+      en: "Prompt",
+      def: "نص الإدخال الذي يوجّه تطبيق الذكاء الاصطناعي نحو مهمة محددة، ويبيّن له ما المطلوب والمعلومات التي يعتمد عليها وطبيعة النتيجة المتوقعة"
+    }
+  ]
+};
+
+/* ==========================================================================
+   Everything this lesson says, and nothing about how it is drawn. Each block
+   names the component that renders it and hands it its words, so changing a
+   sentence never means reading a function.
+   ========================================================================== */
+
+// The two the tour and the journey both say, named so the second cannot
+// drift from the first.
+const THINKING_MEDIUM = "متوسّط (يفكر قبل الإجابة)";
+const SUMMARY_ASK = "لخّص لي هذا التقرير في خمس نقاط";
+
+// The window the tour walks around. The journey in section 3 opens on
+// the same window, so the names, the agents and the account below are
+// the ones it carries on with.
+const APP = {
+  name: "تطبيق ذكاء اصطناعي",
+  agentsLabel: "الوكيل",
+  agents: [
+    { key: "chat", label: "محادثة" },
+    { key: "work", label: "عمل" }
+  ],
+  newChat: "محادثة جديدة",
+  threadsLabel: "المحادثات السابقة",
+  account: { name: "حسابي", detail: "اشتراك مجاني" },
+  emptyText: "ابدأ بكتابة الأمر",
+  placeholder: "اكتب الأمر هنا...",
+  sendLabel: "إرسال",
+  tools: [
+    { icon: "paperclip", label: "إرفاق ملف" },
+    { icon: "globe", label: "البحث في الويب" },
+    { icon: "image", label: "توليد الصور" },
+    { icon: "code", label: "تنفيذ برمجي" }
+  ],
+  pickers: [
+    {
+      key: "model",
+      label: "النموذج",
+      value: "صغير (سريع)",
+      options: [
+        { label: "صغير (سريع)", chip: "نموذج صغير" },
+        { label: "متوسّط (متوازن)", chip: "نموذج متوسّط" },
+        { label: "كبير (ذكي)", chip: "نموذج كبير" }
+      ]
+    },
+    {
+      key: "thinking",
+      label: "التفكير",
+      value: "لحظي (بدون تفكير)",
+      options: [
+        { label: "لحظي (بدون تفكير)", chip: "تفكير لحظي" },
+        { label: THINKING_MEDIUM, chip: "تفكير متوسّط" },
+        { label: "مرتفع (للمهام الصعبة)", chip: "تفكير مرتفع" }
+      ]
+    }
+  ],
+  lead: "هذه واجهة مشابهة لما تستخدمه يوميًّا، اضغط \"التالي\" لتتعرف على مكوّنات التطبيق",
+  note: "الواجهة أعلاه محاكاة تعليمية مبسّطة، وتختلف تفاصيلها بين تطبيق وآخر، وتختلف الخيارات المتاحة بحسب باقة الاشتراك في التطبيق",
+  tour: {
+    previousLabel: "السابق",
+    nextLabel: "التالي",
+    restartLabel: "إعادة الجولة",
+    stepsLabel: "خطوات الجولة",
+    stepLabel: "الخطوة",
+    steps: [
+      {
+        target: "app",
+        label: "التطبيق",
+        text: "كل ما تراه على الشاشة هو التطبيق، ستجد فيه سجلّ المحادثات السابقة وحقل كتابة الأوامر"
+      },
+      {
+        target: "agent",
+        label: "الوكلاء",
+        text: "من هنا تختار الوكيل، إما وكيل محادثة أو وكيل عمل بحسب نوع المهمّة فلكل وكيلٍ طريقة عمل مختلفة"
+      },
+      {
+        target: "composer",
+        label: "حقل الأمر",
+        prompt: SUMMARY_ASK,
+        text: "هنا تكتب الأمر، وكلّما كان الأمر أوضح وأدقّ كانت النتيجة أقرب لما تريد"
+      },
+      {
+        target: "tools",
+        open: "tools",
+        choose: "إرفاق ملف",
+        attach: { icon: "file-word", label: "تقرير الأداء.docx" },
+        label: "الأدوات",
+        text: "هذه الأدوات التي تمكّن الوكيل من تأدية مهامّه المختلفة، ومن هنا نرفق التقرير المطلوب تلخيصه عن طريق اختيار \"إرفاق ملف\""
+      },
+      {
+        target: "model",
+        open: "model",
+        pick: { model: "متوسّط (متوازن)" },
+        label: "النموذج",
+        text: "وهنا يأتي دور النموذج، فهو المكوّن الذي يعالج الطلب ويولّد المحتوى بأنواعه المختلفة، ويؤثر اختياره في جودة المخرجات ودقتها"
+      },
+      {
+        target: "thinking",
+        open: "thinking",
+        pick: { thinking: THINKING_MEDIUM },
+        label: "مستوى التفكير",
+        text: "كما يمكنك تحديد مستوى تفكير النموذج بما يتناسب مع صعوبة المهمّة وطبيعتها"
+      },
+      {
+        target: "send",
+        label: "الإرسال",
+        text: "وبالضغط على زرّ الإرسال ينتقل الأمر والملف المرفق معه إلى الوكيل ليبدأ التنفيذ"
+      },
+      {
+        target: "messages",
+        send: true,
+        respond: true,
+        label: "النتيجة",
+        text: "ثم تظهر النتيجة في سجلّ المحادثة، وتبقى مراجعتها ومطابقتها بالتقرير مسؤوليتك أنت، ولتتعرف على هذه المكوّنات بالتفصيل انتقل للقسم التالي"
+      }
+    ]
+  }
+};
+
+const content = (S) => {
+  const { appTour, note, partCards, requestJourney } = scripts(S);
+
+  return {
+    introduction: "ستتعرف في هذا الدرس على كيفية عمل تطبيقات الذكاء الاصطناعي ومكوّناتها كالوكيل والأدوات والنماذج وستتعرف على رحلة الأمر من الإرسال إلى الرد",
+
+    sections: {
+      // Names the parts of the interface the learner meets in every
+      // application.
+      // A guided tour of a mock window, one step per control.
+      interface: {
+        nav: "واجهة التطبيق",
+        title: "ما الذي تراه في واجهة التطبيق؟",
+        subtitle: "عند استخدام تطبيقات الذكاء الاصطناعي تتعامل مع واجهة تضم مساحةً للمحادثة، وحقلًا لكتابة الأمر، وخياراتٍ لإرفاق الملفّات واختيار النموذج والأدوات",
+        nodes: appTour(APP)
+      },
+
+      // The four components behind the interface, so a difference in results
+      // has somewhere to be traced to.
+      // One card per component, then a note.
+      parts: {
+        nav: "مكوّناته",
+        title: "مما يتكون تطبيق الذكاء الاصطناعي؟",
+        nodes: [
+          partCards("أمثلة", [
+            {
+              title: "التطبيق",
+              term: "Application",
+              tone: "is-app",
+              icon: "window-maximize",
+              text: "الواجهة التي تفتحها التي تقدم لك خدمات الذكاء الاصطناعي، ويوجد كثير من الشركات التي توفر تطبيقات بمزايا وباقات اشتراك مختلفة",
+              examples: ["ChatGPT", "Claude", "Gemini", "Humain"],
+              diagramAlt: "نافذة تطبيق",
+              diagram: [
+                { tag: "rect", cls: "dg-frame", x: 16, y: 8, width: 188, height: 84, rx: 12 },
+                { tag: "path", cls: "dg-rule", d: "M16 32 L204 32" },
+                { tag: "circle", cls: "dg-node", cx: 188, cy: 20, r: 4 },
+                { tag: "circle", cls: "dg-bar", cx: 175, cy: 20, r: 4 },
+                { tag: "circle", cls: "dg-bar", cx: 162, cy: 20, r: 4 },
+                { tag: "rect", cls: "dg-soft", x: 152, y: 42, width: 44, height: 42, rx: 7 },
+                { tag: "rect", cls: "dg-bar", x: 98, y: 44, width: 44, height: 17, rx: 8 },
+                { tag: "rect", cls: "dg-bar", x: 26, y: 66, width: 104, height: 17, rx: 8 }
+              ]
+            },
+            {
+              title: "الوكيل",
+              term: "Agent",
+              tone: "is-agent",
+              icon: "robot",
+              text: "مَن يتولّى تنفيذ الأمر، يحلّل الأمر ويقسّمه إلى خطوات ويحدّد ما يحتاجه من أدوات، ويتابع حتى يعطيك النتيجة النهائية",
+              examples: ["وكيل محادثة", "وكيل عمل", "وكيل برمجة", "وكيل بحث"],
+              diagramAlt: "قائمة مهام ينفّذها الوكيل",
+              diagram: [
+                { tag: "rect", cls: "dg-frame", x: 36, y: 12, width: 148, height: 78, rx: 11 },
+                { tag: "rect", cls: "dg-node", x: 88, y: 4, width: 44, height: 15, rx: 6 },
+                { tag: "path", cls: "dg-tick", d: "M54 36 L60 42 L72 28" },
+                { tag: "path", cls: "dg-tick", d: "M54 58 L60 64 L72 50" },
+                { tag: "circle", cls: "dg-open", cx: 62, cy: 78, r: 6.5 },
+                { tag: "rect", cls: "dg-bar", x: 84, y: 33, width: 82, height: 5, rx: 2.5 },
+                { tag: "rect", cls: "dg-bar", x: 84, y: 55, width: 66, height: 5, rx: 2.5 },
+                { tag: "rect", cls: "dg-bar", x: 84, y: 76, width: 74, height: 5, rx: 2.5 }
+              ]
+            },
+            {
+              title: "النموذج",
+              term: "Model",
+              tone: "is-model",
+              icon: "microchip",
+              text: "العقل الذي يستخدمه الوكيل للتفكير ليعالج ما يُرسَل إليه، ويولّد المخرجات نصًّا أو صورةً أو غيرها بحسب نوع النموذج كالنماذج اللغوية الكبيرة (LLMs)",
+              examples: ["نموذج لغوي", "نموذج للصور", "نموذج للصوتيات", "نموذج للفيديو"],
+              diagramAlt: "شبكة تمثل النموذج",
+              diagram: [
+                { tag: "rect", cls: "dg-panel", x: 46, y: 8, width: 128, height: 84, rx: 16 },
+                { tag: "path", cls: "dg-web", d: "M76 30 H110 M76 30 L110 50 M76 30 L110 70" },
+                { tag: "path", cls: "dg-web", d: "M76 50 L110 30 M76 50 H110 M76 50 L110 70" },
+                { tag: "path", cls: "dg-web", d: "M76 70 L110 30 M76 70 L110 50 M76 70 H110" },
+                { tag: "path", cls: "dg-web", d: "M110 30 L144 42 M110 50 L144 42 M110 70 L144 42" },
+                { tag: "path", cls: "dg-web", d: "M110 30 L144 62 M110 50 L144 62 M110 70 L144 62" },
+                { tag: "circle", cls: "dg-node", cx: 76, cy: 30, r: 6 },
+                { tag: "circle", cls: "dg-node", cx: 76, cy: 50, r: 6 },
+                { tag: "circle", cls: "dg-node", cx: 76, cy: 70, r: 6 },
+                { tag: "circle", cls: "dg-node", cx: 110, cy: 30, r: 6 },
+                { tag: "circle", cls: "dg-node", cx: 110, cy: 50, r: 6 },
+                { tag: "circle", cls: "dg-node", cx: 110, cy: 70, r: 6 },
+                { tag: "circle", cls: "dg-node", cx: 144, cy: 42, r: 6 },
+                { tag: "circle", cls: "dg-node", cx: 144, cy: 62, r: 6 }
+              ]
+            },
+            {
+              title: "الأدوات",
+              term: "Tools",
+              tone: "is-tools",
+              icon: "screwdriver-wrench",
+              text: "قدرات يستدعيها الوكيل عند الحاجة، مثل البحث في الويب وقراءة الملفّات وتنفيذ الحسابات البرمجية، فإذا كان النموذج هو عقل الوكيل فالأدوات هي جسده الذي يمكّنه من أداء مهامه",
+              examples: ["بحث في الويب", "قراءة ملفات", "تنفيذ برمجي", "الذاكرة"],
+              diagramAlt: "أربع أدوات في صندوق",
+              diagram: [
+                { tag: "rect", cls: "dg-panel", x: 24, y: 10, width: 172, height: 80, rx: 13 },
+                { tag: "circle", cls: "dg-mark", cx: 74, cy: 33, r: 11 },
+                { tag: "path", cls: "dg-mark", d: "M63 33 h22 M74 22 a16 16 0 0 1 0 22 a16 16 0 0 1 0 -22" },
+                { tag: "path", cls: "dg-mark", d: "M130 19 h24 l8 8 v20 h-32 Z" },
+                { tag: "path", cls: "dg-mark", d: "M154 19 v8 h8" },
+                { tag: "path", cls: "dg-mark", d: "M64 60 l-7 7 l7 7 M84 60 l7 7 l-7 7" },
+                { tag: "rect", cls: "dg-mark", x: 129, y: 54, width: 34, height: 26, rx: 4 },
+                { tag: "circle", cls: "dg-mark", cx: 138, cy: 63, r: 3 },
+                { tag: "path", cls: "dg-mark", d: "M129 76 l11 -10 l9 8 l6 -5 l8 7" }
+              ]
+            }
+          ]),
+          note("النماذج التوليدية تعمل بالإحتمالات ونتائجها متغيرة، يمكنك تجربة ذلك بنفسك بإعطاء أحد تطبيقات الذكاء الاصطناعي نفس الأمر مرتين وملاحظة الفرق في الإجابة", "circle-info")
+        ]
+      },
+
+      // What happens between pressing send and the answer appearing.
+      // The same mock window carries on, narrated step by step.
+      journey: {
+        nav: "رحلة الأمر",
+        title: "ماذا يحدث بعد أن ترسل الأمر في تطبيق الذكاء الاصطناعي؟",
+        nodes: requestJourney({
+          ariaLabel: "ما يحدث خلف واجهة التطبيق بعد إرسال الأمر",
+          engineLabel: "خلف الواجهة",
+          previousLabel: "السابق",
+          nextLabel: "التالي",
+          restartLabel: "إعادة الجولة",
+          stepsLabel: "خطوات الرحلة",
+          note: "الواجهة أعلاه محاكاة تعليمية مبسّطة، وتختلف تفاصيلها بين تطبيق وآخر",
+
+          // The window carries on from the tour, so it repeats its own
+          // chrome and adds the conversation that request produced.
+          screen: Object.assign({}, APP, {
+            attachment: { icon: "file-word", label: "تقرير الأداء.docx" },
+            prompt: SUMMARY_ASK,
+            answerTitle: "ملخّص التقرير في خمس نقاط",
+            answerPoints: ["الفكرة الرئيسة", "أبرز النتائج", "الأرقام المهمّة", "التحدّيات", "التوصيات"]
+          }),
+
+          nodes: [
+            {
+              key: "app",
+              tone: "is-app",
+              icon: "window-maximize",
+              title: "التطبيق",
+              description: "الواجهة التي تكتب فيها الأمر وترفق فيها الملف"
+            },
+            {
+              key: "agent",
+              tone: "is-agent",
+              icon: "robot",
+              title: "الوكيل",
+              description: "يستلم الأمر ويسعى حتى تنفيذه باستخدام النموذج والأدوات المتاحة له"
+            },
+            {
+              key: "plan",
+              tone: "is-model",
+              icon: "microchip",
+              title: "النموذج",
+              description: "يفهم الأمر ويوجه الوكيل إلى الخطوة التالية لتنفيذه"
+            },
+            {
+              key: "tools",
+              tone: "is-tools",
+              icon: "screwdriver-wrench",
+              title: "الأدوات",
+              description: "يستدعيها الوكيل عند الحاجة بتوجيه من النموذج",
+              tags: [
+                { key: "read", icon: "file-lines", label: "قراءة ملفات" },
+                { key: "web", icon: "globe", label: "بحث في الويب" }
+              ]
+            },
+            {
+              key: "generate",
+              tone: "is-model",
+              icon: "microchip",
+              title: "النموذج",
+              description: "يولّد الإجابة على الأمر ممّا جمعته الأدوات ويوجه الوكيل لتسليمها"
+            },
+            {
+              key: "result",
+              tone: "is-app",
+              icon: "window-maximize",
+              title: "التطبيق",
+              description: "الواجهة التي تظهر فيها الإجابة"
+            }
+          ],
+
+          steps: [
+            {
+              full: true,
+              title: "ضغطت \"إرسال\" والتطبيق ينتظر",
+              text: "هذه هي الواجهة التي أنهيت فيها الجولة السابقة، الأمر أُرسِل ولم تظهر النتيجة بعد، لنرى ما يجري خلف الواجهة في هذه الأثناء",
+              chat: ["prompt", "typing"]
+            },
+            {
+              title: "أنت ترسل الأمر",
+              text: "ترفق الملف وتكتب \"لخّص لي هذا التقرير في خمس نقاط\"",
+              at: "app",
+              chat: ["prompt", "typing"]
+            },
+            {
+              title: "الوكيل يقرأ الأمر ويخطّط",
+              text: "يستقبل الوكيل الأمر ويمرّره إلى النموذج ليحدّد المطلوب والخطوات اللازمة لإنجازه",
+              at: "agent",
+              chat: ["prompt", "typing"],
+              status: { tone: "is-agent", icon: "list-check", text: "الوكيل يستشير النموذج" }
+            },
+            {
+              title: "النموذج يرسم الخطة",
+              text: "يقسّم النموذج المهمّة إلى قراءة الملف ثم التلخيص، فيوجه الوكيل إلى قراءة الملف أولا",
+              at: "plan",
+              chat: ["prompt", "typing"],
+              status: { tone: "is-model", icon: "microchip", text: "النموذج يعيد الخطوات إلى الوكيل" }
+            },
+            {
+              title: "الوكيل يستدعي الأداة المناسبة",
+              text: "يستخدم الوكيل أداة قراءة الملفّات ليستخرج نصّ التقرير",
+              at: "tools",
+              activeTags: ["read"],
+              chat: ["prompt", "typing"],
+              status: { tone: "is-tools", icon: "file-lines", text: "أداة قراءة الملفّات تستخرج نصّ التقرير" }
+            },
+            {
+              title: "النموذج يولّد الاستجابة",
+              text: "يصل إلى النموذج نصّ الأمر مع نص التقرير المستخرج بالأداة، فيولّد الملخّص في خمس نقاط",
+              at: "generate",
+              activeTags: ["read"],
+              chat: ["prompt", "typing"],
+              status: { tone: "is-model", icon: "microchip", text: "النموذج يكتب الملخّص" }
+            },
+            {
+              title: "التطبيق يعرض النتيجة",
+              text: "يعيد الوكيل الملخّص إلى التطبيق فيظهر أمامك، وتبقى مراجعته والتحقق منه مسؤوليتك أنت",
+              at: "result",
+              activeTags: ["read"],
+              chat: ["prompt", "answer"]
+            },
+            {
+              full: true,
+              title: "تعود الواجهة كما بدأت",
+              text: "انتهت الرحلة وعادت الواجهة كما رأيتها في البداية، والفارق أنك الآن تعرف ما جرى خلفها قبل أن تظهر النتيجة",
+              chat: ["prompt", "answer"]
+            }
+          ]
+        })
+      }
+    },
+
+    conclusion: {
+      cards: [
+        {
+          icon: "layer-group",
+          title: "أربعة مكوّنات تعمل معًا",
+          text: "التطبيق هو الواجهة، والوكيل يدير تنفيذ الأمر، والأدوات توفّر القدرات اللازمة، والنموذج يعالج المدخلات ويولّد المخرجات"
+        },
+        {
+          icon: "robot",
+          title: "الوكيل يسعى لتنفيذ الأمر",
+          text: "يحلّل الأمر ويقسّمه إلى خطوات، ويحدّد الأدوات التي يحتاجها، ويعمل حتى يحصل على النتيجة إن أمكن"
+        },
+        {
+          icon: "shuffle",
+          title: "تغيير المكوّنات يغيّر النتيجة",
+          text: "قد تختلف النتيجة باختلاف الوكيل أو الأدوات أو النموذج المستخدم، حتى عند إعادة تنفيذ نفس الأمر في التطبيق"
+        }
+      ],
+      text: "في الدرس التالي، سننتقل إلى التعرّف على أبرز حالات استخدام الذكاء الاصطناعي في قطاع التعليم والمهارات التي تساعدك على استخدامه بفاعلية ومسؤولية",
+      references: [
+        {
+          text: "الدليل الإرشادي لاستخدام الذكاء الاصطناعي التوليدي في التعليم العام · وزارة التعليم وسـدايـا",
+          link: "https://moe.gov.sa/ar/mediacenter/MOEnews/Pages/news1_24012025.aspx"
+        },
+        {
+          text: "مبادئ أخلاقيات الذكاء الاصطناعي · ومنها اشتراط الإشراف البشري الذي تقوم عليه خاتمة هذا الدرس",
+          link: "https://sdaia.gov.sa/ar/SDAIA/about/Documents/ai-principles.pdf"
+        },
+        {
+          text: "الاستراتيجية الوطنية للبيانات والذكاء الاصطناعي · الإطار الوطني الذي تنتمي إليه هذه الدورة",
+          link: "https://sdaia.gov.sa/ar/SDAIA/SdaiaStrategies/Pages/NationalStrategyForDataAndAI.aspx"
+        }
+      ]
+    }
+  };
+};
+
+/* ==========================================================================
+   How this lesson is drawn. Nothing below says anything to the learner: every
+   word on the page comes from the content above.
+   ========================================================================== */
+
+const scripts = (S) => {
+  const { el, svg, fragment, icon, iconText, textIcon, note, REDUCED_MOTION,
+    appWindow, appComposer, appMessage, appFile, tour } = S;
+
+  /* ====================================================================
+     1 · The guided tour of the window.
+     ==================================================================== */
+
+  /**
+   * The tour. Every step declares the state it wants rather than the change
+   * it makes, and the window is rebuilt by replaying every step up to the
+   * current one — so jumping backwards, or straight to a dot, lands on
+   * exactly the same picture as walking there.
+   *
+   * The window, the composer and the walk itself are the shared ones; what
+   * belongs to this lesson is only the reading of its own steps.
+   */
+  function appTour(data) {
+    const steps = data.tour.steps;
+
+    const empty = el("p", { className: "win-empty", text: data.emptyText });
+    const messages = el("div", { className: "win-messages", attrs: { "data-part": "messages" } }, empty);
+    const composer = appComposer(data);
+    const stage = appWindow(data, el("div", { className: "win-chat" }, [messages, composer.node]));
+
+    /** The window as steps 0..index leave it. Derived, never accumulated. */
+    function stateAt(index) {
+      const at = { picks: {}, prompt: "", files: [], messages: [] };
+      data.pickers.forEach((item) => { at.picks[item.key] = item.value; });
+      for (let i = 0; i <= index; i += 1) {
+        const step = steps[i];
+        if (step.prompt !== undefined) at.prompt = step.prompt;
+        if (step.attach) at.files = at.files.concat([step.attach]);
+        if (step.pick) Object.assign(at.picks, step.pick);
+        if (step.send) {
+          at.messages = at.messages.concat([{ text: at.prompt, files: at.files }]);
+          at.prompt = "";
+          at.files = [];
+        }
+        if (step.respond) at.messages = at.messages.concat([{ from: "assistant", pending: true }]);
+      }
+      return at;
+    }
+
+    return tour({
+      lead: data.lead,
+      note: data.note,
+      stage,
+      labels: {
+        previous: data.tour.previousLabel,
+        next: data.tour.nextLabel,
+        restart: data.tour.restartLabel,
+        step: data.tour.stepLabel,
+        steps: data.tour.stepsLabel
+      },
+      steps: steps.map((step) => ({
+        target: step.target ? `[data-part="${step.target}"]` : null,
+        label: step.label,
+        text: step.text
+      })),
+      show(index) {
+        const step = steps[index];
+        const at = stateAt(index);
+        composer.show({
+          prompt: at.prompt,
+          files: at.files,
+          picks: at.picks,
+          open: step.open,
+          choose: step.choose
+        });
+        empty.hidden = at.messages.length > 0;
+        messages.replaceChildren(empty, ...at.messages.map(appMessage));
+      }
+    });
+  }
+
+  /* ====================================================================
+     2 · The four components.
+     ==================================================================== */
+
+  /**
+   * A flat drawing, given as shape data so the artwork stays content and
+   * takes its colours from the card's tone. Unlike the shared drawing()
+   * helper these carry a label: the drawing says something the card's
+   * words do not.
+   */
+  function diagram(label, shapes) {
+    return svg("svg", {
+      className: "dg",
+      attrs: { viewBox: "0 0 220 100", role: "img", "aria-label": label }
+    }, shapes.map(({ tag, cls, ...attrs }) => svg(tag, { className: cls, attrs })));
+  }
+
+  function partCards(examplesLabel, parts) {
+    return el("div", { className: "parts" }, parts.map((part) => el("article", {
+      className: `part ${part.tone}`
+    }, [
+      el("div", { className: "part-figure" }, diagram(part.diagramAlt, part.diagram)),
+      el("div", { className: "part-head" }, [
+        el("span", {}, icon(part.icon)),
+        el("h3", { text: `${part.title} (${part.term})` })
+      ]),
+      el("p", { className: "part-text", text: part.text }),
+      el("p", { className: "part-examples-title", text: examplesLabel }),
+      el("ul", { className: "part-examples" }, part.examples.map((example) => el("li", { text: example })))
+    ])));
+  }
+
+  /* ====================================================================
+     3 · The journey behind the window.
+     ==================================================================== */
+
+  /** The narration panel: the step's number beside the step's words. */
+  function sayPanel(className) {
+    const key = el("span", { className: "say-key", attrs: { "aria-hidden": "true" } });
+    const body = el("p");
+    const panel = el("div", { className: className, attrs: { "aria-live": "polite" } }, [key, body]);
+    return { panel, key, body };
+  }
+
+  /**
+   * What happens between pressing send and the answer appearing. The
+   * window from the section above carries on where the tour left it — the
+   * request sent, nothing back yet — and the engine panel beside it lights
+   * each component as the request reaches it.
+   */
+  function requestJourney(data) {
+    const screen = data.screen;
+    const steps = data.steps;
+    const keys = data.nodes.map((item) => item.key);
+
+    const answer = el("div", {
+      className: "win-msg is-assistant",
+      attrs: { "data-chat": "answer" }
+    }, [
+      el("p", {}, el("b", { text: screen.answerTitle })),
+      el("ul", { className: "answer" }, screen.answerPoints.map((point) => el("li", { text: point })))
+    ]);
+    const statusIcon = el("span", { className: "status-icon" });
+    const statusText = el("span", { className: "status-text" });
+    // One line for both halves of the same fact: what the engine is doing,
+    // and that it has not finished doing it.
+    const status = el("div", { className: "status", attrs: { "data-chat": "typing" } }, [
+      statusIcon,
+      statusText,
+      el("span", { className: "status-dots", attrs: { "aria-hidden": "true" } }, [el("i"), el("i"), el("i")])
+    ]);
+    const messages = el("div", { className: "win-messages" }, [
+      el("div", { className: "win-msg is-user", attrs: { "data-chat": "prompt" } }, [
+        el("span", { className: "win-msg-files" }, appFile(screen.attachment)),
+        el("p", { text: screen.prompt })
+      ]),
+      status,
+      answer
+    ]);
+    const composer = el("div", { className: "win-composer" },
+      el("div", { className: "win-row" }, [
+        el("span", { className: "win-tools" }, el("span", { className: "win-plus" }, icon("plus"))),
+        el("span", { className: "win-field" },
+          el("span", { className: "win-placeholder", text: screen.placeholder })),
+        el("span", { className: "win-send", attrs: { "aria-label": screen.sendLabel } }, icon("paper-plane"))
+      ]));
+
+    const says = [];
+    const nodes = data.nodes.map((item) => {
+      const say = sayPanel("say");
+      says.push(say);
+      return el("li", { className: `node ${item.tone}` }, [
+        el("span", { className: "node-pulse", attrs: { "aria-hidden": "true" } }),
+        el("div", { className: "node-head" }, [
+          el("span", { className: "node-icon" }, icon(item.icon)),
+          el("div", { className: "node-text" }, [
+            el("b", { text: item.title }),
+            item.description ? el("span", { text: item.description }) : null
+          ])
+        ]),
+        item.tags ? el("div", { className: "node-tags" }, item.tags.map((tag) => el("span", {
+          className: "node-tag",
+          attrs: { "data-tag": tag.key }
+        }, [icon(tag.icon), el("span", { text: tag.label })]))) : null,
+        say.panel
+      ]);
+    });
+
+    const full = sayPanel("say journey-say");
+    const view = el("div", { className: "journey-view" }, el("ol", { className: "journey-track" }, nodes));
+    const tags = [];
+    nodes.forEach((node) => tags.push(...node.querySelectorAll(".node-tag")));
+    const chats = [messages.querySelector("[data-chat=prompt]"), status, answer];
+
+    const previous = el("button", { type: "button" }, iconText("chevron-right", data.previousLabel));
+    const next = el("button", { type: "button" });
+    const keyButtons = steps.map((step, index) => el("button", {
+      type: "button",
+      attrs: { "aria-label": `${index + 1}: ${step.title}` }
+    }));
+
+    // Opens on the state the tour above ended in — full window, still
+    // thinking — and splits into the two panes when the learner steps on.
+    const element = el("section", {
+      className: "journey is-full",
+      attrs: { "aria-label": data.ariaLabel }
+    }, [
+      el("div", { className: "journey-grid" }, [
+        el("div", { className: "journey-screen" }, [
+          el("div", { className: "journey-stage" }, appWindow(screen, el("div", { className: "win-chat" }, [messages, composer]))),
+          full.panel
+        ]),
+        el("div", { className: "journey-engine" }, [
+          el("p", { className: "journey-engine-title" }, [icon("gears"), el("span", { text: data.engineLabel })]),
+          view
+        ])
+      ]),
+      el("div", { className: "sim-steps" }, [
+        previous,
+        el("div", { className: "sim-dots", attrs: { role: "group", "aria-label": data.stepsLabel } }, keyButtons),
+        next
+      ]),
+      el("p", { className: "sim-note", text: data.note })
+    ]);
+
+    let current = 0;
+
+    function apply(index, animate) {
+      current = Math.max(0, Math.min(steps.length - 1, index));
+      const step = steps[current];
+      // The path draws itself: every node up to the active one stays lit,
+      // and every connector behind it with them. On a full-window step
+      // nothing is reached yet.
+      const reached = step.full ? -1 : keys.indexOf(step.at);
+      const active = step.activeTags || [];
+      const chat = step.chat;
+
+      element.classList.toggle("is-full", Boolean(step.full));
+      full.panel.classList.toggle("is-on", Boolean(step.full));
+      full.key.textContent = step.full ? String(current + 1) : "";
+      full.body.textContent = step.full ? step.text : "";
+
+      nodes.forEach((node, position) => {
+        const isActive = keys[position] === step.at;
+        node.classList.toggle("is-on", position <= reached);
+        node.classList.toggle("is-active", isActive);
+        node.classList.toggle("is-flow-on", position < reached);
+        says[position].panel.classList.toggle("is-on", isActive);
+        says[position].key.textContent = isActive ? String(current + 1) : "";
+        says[position].body.textContent = isActive ? step.text : "";
+      });
+      tags.forEach((tag) => tag.classList.toggle("is-on", active.includes(tag.dataset.tag)));
+      // The tone is set before the chat pass, which owns the is-on class
+      // this shares with the messages — reversing the two would wipe it.
+      status.className = step.status ? `status ${step.status.tone}` : "status";
+      statusIcon.replaceChildren(step.status ? icon(step.status.icon) : "");
+      statusText.textContent = step.status ? step.status.text : "";
+      chats.forEach((one) => one.classList.toggle("is-on", chat.includes(one.dataset.chat)));
+
+      keyButtons.forEach((button, index_) => {
+        button.classList.toggle("is-on", index_ === current);
+        button.classList.toggle("is-done", index_ < current);
+        if (index_ === current) button.setAttribute("aria-current", "true");
+        else button.removeAttribute("aria-current");
+      });
+      previous.disabled = current === 0;
+      const last = current === steps.length - 1;
+      next.replaceChildren(textIcon(
+        last ? data.restartLabel : data.nextLabel,
+        last ? "rotate-right" : "chevron-left"
+      ));
+
+      const node = nodes[keys.indexOf(step.at)];
+      if (node) {
+        view.scrollTo({
+          top: node.offsetTop - (view.clientHeight - node.offsetHeight) / 2,
+          behavior: animate && !REDUCED_MOTION ? "smooth" : "auto"
+        });
+      }
+    }
+
+    previous.addEventListener("click", () => apply(current - 1, true));
+    next.addEventListener("click", () => apply(current === steps.length - 1 ? 0 : current + 1, true));
+    keyButtons.forEach((button, index) => button.addEventListener("click", () => apply(index, true)));
+
+    apply(0, false);
+    return element;
+  }
+
+
+  return { appTour, note, partCards, requestJourney };
+};
+
+SAMAI.mount(Object.assign({ module: 1, moduleTitle: "الذكاء الاصطناعي في قطاع التعليم", lesson: 2, lessonTitle: meta.title }, content(SAMAI)));
+})();
+    </script>
+  </body>
+</html>
