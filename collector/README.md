@@ -1,103 +1,85 @@
 # Survey collector
 
-The course site is static, so it cannot hold a credential — anything it carries
-is handed to every learner who opens it. This Worker holds the credential
-instead. The page posts a survey response to it; it checks the shape and writes
-the response to a **private** repository as one JSON file.
+Responses from the course go to `responses/module-<n>/<timestamp>-<id>.json` on
+the **`responses` branch** of this repository.
 
-## Why a separate private repository
+## There is no access token
 
-Responses carry learner names, and the course repo is public — so they must not
-go there. There is a second reason: every response is a commit, and a commit to
-the course repo would rebuild GitHub Pages each time.
+The obvious design — a Worker that writes to GitHub — needs a personal access
+token, and that token has to be scoped by hand, renewed before it expires, and
+kept out of every file. Getting that wrong is silent: GitHub answers a token
+that was never granted a repository with `404 Not Found`, which reads exactly
+like a missing repository.
 
-`wrangler.toml` therefore points at `OMZ007/samai2-responses`, not the course
-repo. Create it private before deploying.
+So the direction is reversed. Nothing pushes into the repository; **the
+repository comes and takes**:
 
-## Deploy
+1. A learner submits. `worker.js` checks the shape and parks the JSON in a
+   Cloudflare KV namespace. No GitHub involvement at all.
+2. `.github/workflows/collect-responses.yml` wakes on a schedule, drains the
+   Worker, and commits what it finds — signing with the `GITHUB_TOKEN` that
+   GitHub hands every workflow run.
 
-**1 · Create the responses repository**
+That built-in token is scoped to its own repository by definition. There is
+nothing to select, tick, renew, or leak.
 
-```sh
-gh repo create samai2-responses --private
-```
+The only shared secret is `DRAIN_SECRET`, a random string that exists in two
+places — a Worker secret and a repository secret — and guards the one endpoint
+that can read the store. It is not a GitHub credential and grants nothing on
+GitHub.
 
-**2 · Mint a token**
+## Why the responses branch, not main
 
-At <https://github.com/settings/personal-access-tokens/new>:
+Pages builds from `main`. A response committed there would be fetchable straight
+off the website (`omz007.github.io/samai2/responses/…`), and every submission
+would rebuild the site — GitHub throttles at roughly ten builds an hour, so a
+class submitting together would stall deploys. Nothing serves the `responses`
+branch.
 
-- Resource owner: your account
-- Repository access: **Only select repositories** → `samai2-responses`
-- Permissions → Repository permissions → **Contents: Read and write**
-- Nothing else. No other repo, no other permission.
+## Timing
 
-Set an expiry you will remember to renew — the Worker starts returning 502 the
-day it lapses.
-
-**3 · Deploy the Worker**
-
-```sh
-cd collector
-npx wrangler login
-npx wrangler secret put GITHUB_TOKEN   # paste the token; it is never in a file
-npx wrangler deploy
-```
-
-Wrangler prints the URL, e.g. `https://samai-survey.<subdomain>.workers.dev`.
-
-**4 · Point the course at it**
-
-In `index.html`, find:
-
-```js
-const SURVEY_ENDPOINT = "";
-```
-
-and put the Worker URL in it. Commit and push; Pages redeploys in a minute or
-two.
-
-Until that line is filled in, the survey still runs and still gates the course —
-responses are simply kept in the learner's browser instead of being sent.
-
-## Check it works
+The schedule is every ten minutes, but GitHub runs cron late under load and
+stops scheduling entirely after 60 days with no push to the repository. Treat it
+as *soon*, not *on time*. Nothing is lost while it waits — responses sit in KV
+until a run collects them. To collect immediately:
 
 ```sh
-curl -X POST https://samai-survey.<subdomain>.workers.dev \
-  -H 'content-type: application/json' \
-  -H 'Origin: https://omz007.github.io' \
-  -d '{"module":1,"name":"اختبار","answers":[{"section":"س","question":"س","answer":"ج"}]}'
+gh workflow run "Collect survey responses" --repo OMZ007/samai2
 ```
 
-A `201` with `{"stored":"responses/module-1/…json"}` means the whole path is
-live. Delete the test file from the responses repo afterwards.
+## Losing nothing
 
-## What gets stored
+The Worker forgets a batch only after the workflow reports that it pushed
+(`/drain?ack=…`). A run that dies mid-commit leaves the batch in place and the
+next round collects it again. Because the Worker chose each file's path when the
+response arrived, collecting twice rewrites the same file rather than making a
+second one.
 
-`responses/module-<n>/<timestamp>-<id>.json`:
-
-```json
-{
-  "module": 3,
-  "moduleTitle": "رفع الإنتاجية بالذكاء الاصطناعي",
-  "name": "…",
-  "submittedAt": "2026-09-01T10:02:11.402Z",
-  "receivedAt": "2026-09-01T10:02:11.680Z",
-  "country": "SA",
-  "answers": [{ "section": "…", "question": "…", "answer": "…" }]
-}
-```
-
-Each answer carries its own question text, so the data stays readable even after
-the wording of a question changes.
+If the collector is unreachable when a learner submits, the course keeps the
+response in their browser and retries on later visits — see the survey section
+of `index.html`.
 
 ## Reading the responses
 
 ```sh
-gh repo clone OMZ007/samai2-responses
-python collector/export_csv.py samai2-responses/responses > responses.csv
+git clone -b responses https://github.com/OMZ007/samai2.git responses-only
+python collector/export_csv.py responses-only/responses > responses.csv
 ```
 
-One row per response, one column per question.
+One row per response, one column per question, written with a BOM so Excel reads
+the Arabic correctly.
+
+## Redeploying the Worker
+
+```sh
+cd collector
+npx wrangler deploy
+```
+
+Cloudflare account: the workers.dev subdomain is `omz007`, so the endpoint is
+`https://samai-survey.omz007.workers.dev`. It is named in two places — the
+`SURVEY_ENDPOINT` constant in `index.html` and the `ENDPOINT` env in the
+workflow.
 
 ## Limits
 
@@ -106,6 +88,8 @@ One row per response, one column per question.
 - **Does not** stop a determined person from posting junk from a script — the
   origin check is a header, and headers can be set. For a public course that is
   usually fine. If it becomes a problem, put Cloudflare Turnstile in front and
-  verify the token in `fetch()` before the `commit()` call.
+  verify the token before the `RESPONSES.put` call.
 - **No deduplication.** A learner who clears their browser storage and redoes a
   module submits again; both responses are kept.
+- **Responses are public.** They carry learner names and this repository is
+  public — the owner's explicit decision.
