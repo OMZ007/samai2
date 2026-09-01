@@ -1,0 +1,97 @@
+# Collects the survey responses waiting in the Worker and commits them.
+#
+# The direction matters. The Worker does not push into this repository — it
+# holds nothing that could — the repository comes and takes, signing its
+# commits with the token GitHub hands every workflow. So no personal access
+# token exists anywhere: nothing to scope, renew, or leak.
+#
+# Responses land on the `responses` branch, never on `main`. Pages builds from
+# `main`, so a response committed there would be fetchable straight off the
+# website and would rebuild the site on every submission.
+
+name: Collect survey responses
+
+on:
+  schedule:
+    # Every ten minutes. GitHub runs cron late under load, and drops it
+    # entirely after 60 days without a push, so treat this as "soon" rather
+    # than "on time" — nothing is lost meanwhile, it simply waits in the
+    # Worker.
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+# Only the commit needs a permission, and only on this repository.
+permissions:
+  contents: write
+
+# One collection at a time: two rounds racing would push over each other.
+concurrency:
+  group: collect-responses
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the responses branch
+        uses: actions/checkout@v4
+        with:
+          ref: responses
+
+      - name: Take what is waiting
+        id: take
+        env:
+          ENDPOINT: https://samai-survey.omz007.workers.dev
+          DRAIN_SECRET: ${{ secrets.DRAIN_SECRET }}
+        run: |
+          set -euo pipefail
+
+          curl -fsS "$ENDPOINT/drain" \
+            -H "Authorization: Bearer $DRAIN_SECRET" \
+            -o batch.json
+
+          count=$(jq '.files | length' batch.json)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "$count response(s) waiting"
+
+          if [ "$count" -eq 0 ]; then
+            exit 0
+          fi
+
+          # The Worker already chose each path, so a response collected twice
+          # rewrites its own file rather than making a second one.
+          jq -r '.files[] | @base64' batch.json | while read -r row; do
+            path=$(echo "$row" | base64 -d | jq -r '.path')
+            mkdir -p "$(dirname "$path")"
+            echo "$row" | base64 -d | jq -r '.body' > "$path"
+          done
+
+          jq -r '.files[].path' batch.json > collected.txt
+
+      - name: Commit them
+        if: steps.take.outputs.count != '0'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add responses
+          if git diff --cached --quiet; then
+            echo "nothing new"
+            exit 0
+          fi
+          git commit -m "Collect ${{ steps.take.outputs.count }} survey response(s)"
+          git push origin responses
+
+      - name: Tell the Worker it may forget them
+        if: steps.take.outputs.count != '0'
+        env:
+          ENDPOINT: https://samai-survey.omz007.workers.dev
+          DRAIN_SECRET: ${{ secrets.DRAIN_SECRET }}
+        run: |
+          set -euo pipefail
+          # Only after the push. A run that dies before this leaves the batch
+          # in the Worker, and the next round collects it again — the paths
+          # are stable, so collecting twice costs nothing.
+          ack=$(jq -rRs @uri < collected.txt)
+          curl -fsS "$ENDPOINT/drain?ack=$ack" \
+            -H "Authorization: Bearer $DRAIN_SECRET"
