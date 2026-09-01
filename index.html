@@ -268,6 +268,7 @@ body{background:var(--page)}
 .survey-q{display:flex;flex-direction:column;gap:var(--space-2)}
 .survey-q>label,.survey-q>span.survey-label{color:var(--ink);font-size:var(--text-base);font-weight:var(--weight-bold);line-height:var(--leading-snug)}
 .survey-q .req{color:var(--danger);font-weight:var(--weight-black)}
+.survey-q .opt{color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-medium)}
 
 .survey-q textarea,.survey-q input[type=text]{width:100%;padding:var(--space-2);border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-soft);color:var(--ink);font:inherit;font-size:var(--text-sm);line-height:var(--leading-relaxed);resize:vertical}
 .survey-q textarea{min-height:88px}
@@ -307,6 +308,38 @@ body{background:var(--page)}
 
 @media (prefers-reduced-motion:reduce){
   .survey-choices label,.survey-send{transition:none}
+}
+
+/* ---- Who is reading ---------------------------------------------------- */
+
+/* The course asks for a name before it opens, so two learners sharing a
+   computer keep separate progress. It is a name, not an account: nothing is
+   checked, and nothing leaves the browser until a survey is sent. */
+.welcome{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:var(--space-4);background:var(--page)}
+.welcome-card{width:min(460px,100%);overflow:hidden;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--surface);box-shadow:var(--shadow-hover)}
+
+.welcome-head{position:relative;padding:var(--space-5) var(--space-4);display:grid;place-items:center;overflow:hidden;background:var(--black)}
+.welcome-head::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(320px 140px at 80% 50%,var(--glow-teal),transparent 70%),radial-gradient(320px 140px at 20% 50%,var(--glow-green),transparent 70%)}
+.welcome-logo{position:relative;z-index:1;width:auto;height:calc(var(--logo-height) * 1.5);display:block;filter:var(--shadow-logo)}
+
+.welcome-body{padding:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)}
+.welcome-body>p{margin:0;color:var(--muted);font-size:var(--text-sm);line-height:var(--leading-relaxed);text-align:center}
+.welcome-body label{color:var(--ink);font-size:var(--text-base);font-weight:var(--weight-bold)}
+.welcome-field{display:flex;flex-direction:column;gap:var(--space-2)}
+.welcome-field input{width:100%;padding:var(--space-2);border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-soft);color:var(--ink);font:inherit;font-size:var(--text-base)}
+.welcome-field input:focus{border-color:var(--teal);background:var(--surface);outline:2px solid var(--tint-teal-2);outline-offset:1px}
+.welcome-field.is-missing input{border-color:var(--border-danger);background:var(--tint-danger)}
+
+.welcome-start{appearance:none;padding:var(--space-2) var(--space-5);border:0;border-radius:var(--radius-pill);background:linear-gradient(90deg,var(--primary),var(--teal));color:var(--on-dark);font:inherit;font-size:var(--text-base);font-weight:var(--weight-bold);cursor:pointer;transition:filter .2s ease}
+.welcome-start:hover{filter:brightness(1.08)}
+
+/* The panel's head already keeps a cell on the reading side for a control;
+   until now it stood empty. */
+.outline-swap{grid-column:1;appearance:none;width:44px;height:44px;padding:0;display:grid;place-items:center;border:1px solid var(--veil-line);border-radius:var(--radius-xs);background:var(--veil);color:var(--on-dark);cursor:pointer;transition:background .2s ease}
+.outline-swap:hover{background:var(--veil-strong)}
+
+@media (prefers-reduced-motion:reduce){
+  .welcome-start,.outline-swap{transition:none}
 }
     </style>
   </head>
@@ -634,8 +667,92 @@ const shell = (S, COURSE) => {
     next: "الدرس التالي",
     none: "لم يبدأ",
     doing: "قيد التقدم",
-    done: "مكتمل"
+    done: "مكتمل",
+    welcome: "أهلًا بك في سماي 2",
+    welcomeLead: "اكتب اسمك لنحفظ تقدمك في الدورة. يبقى الاسم في هذا المتصفح، ولا يُرسل إلا مع تقييماتك.",
+    name: "الاسم",
+    namePlaceholder: "اكتب اسمك",
+    start: "ابدأ الدورة",
+    swap: "تغيير المستخدم",
+    swapConfirm: "سيُغلق تقدمك الحالي ويُطلب اسم جديد. تقدمك محفوظ ويعود عند كتابة اسمك مرة أخرى. هل تريد المتابعة؟"
   };
+
+  /* ==================================================================
+     1 · WHO IS READING
+     A name, asked once and kept in this browser. It is not an account:
+     nothing is checked and nothing is sent. It exists so that two
+     learners sharing a computer do not inherit each other's progress,
+     and so a learner who hands the machine on can take their own back
+     by writing their name again.
+     ================================================================== */
+
+  const WHO = "samai.who";
+
+  function readWho() {
+    try {
+      return (localStorage.getItem(WHO) || "").trim();
+    } catch (error) {
+      // Storage blocked: the course still runs, unnamed, for this session.
+      return "";
+    }
+  }
+
+  const who = readWho();
+
+  /** The card the course opens on, before it opens. */
+  function welcome() {
+    const field = el("input", {
+      type: "text",
+      attrs: { name: "who", placeholder: STRINGS.namePlaceholder, maxlength: "80", autocomplete: "off", spellcheck: "false" }
+    });
+
+    const wrap = el("div", { className: "welcome-field" }, [
+      el("label", { attrs: { for: "who" }, text: STRINGS.name }),
+      field
+    ]);
+
+    const form = el("form", { className: "welcome-body" }, [
+      el("p", { text: STRINGS.welcomeLead }),
+      wrap,
+      el("button", { className: "welcome-start", type: "submit", text: STRINGS.start })
+    ]);
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const name = field.value.trim();
+      if (!name) {
+        wrap.classList.add("is-missing");
+        field.focus();
+        return;
+      }
+      try {
+        localStorage.setItem(WHO, name);
+      } catch (error) {
+        /* Nothing to be done; the reload below simply asks again. */
+      }
+      // A reload is the honest way to start again as somebody else: every
+      // reading of the store below is keyed by the name, and they have all
+      // already happened by now.
+      window.location.reload();
+    });
+
+    document.querySelector(".shell").append(
+      el("div", { className: "welcome" }, [
+        el("div", { className: "welcome-card" }, [
+          el("div", { className: "welcome-head" },
+            el("img", { className: "welcome-logo", attrs: { src: S.LOGO, alt: STRINGS.logoAlt } })),
+          form
+        ])
+      ])
+    );
+
+    field.focus();
+  }
+
+  if (!who) {
+    welcome();
+    return;
+  }
 
   /* ==================================================================
      2 · PROGRESS
@@ -645,7 +762,9 @@ const shell = (S, COURSE) => {
      to complete.
      ================================================================== */
 
-  const STORE = "samai.outline.v1";
+  // One record per learner. The name is the key, so the same computer keeps
+  // as many separate courses as it has readers.
+  const STORE = `samai.outline.v1::${who}`;
   const STATES = ["none", "doing", "done"];
   const WEIGHT = { none: 0, doing: 0.5, done: 1 };
 
@@ -739,10 +858,17 @@ const shell = (S, COURSE) => {
     attrs: { "aria-label": STRINGS.reset, title: STRINGS.reset }
   }, icon("rotate-left"));
 
+  const swap = el("button", {
+    className: "outline-swap",
+    type: "button",
+    attrs: { "aria-label": `${STRINGS.swap} (${who})`, title: `${who} — ${STRINGS.swap}` }
+  }, icon("right-left"));
+
   const units = el("nav", { className: "outline-units", attrs: { "aria-label": STRINGS.outline } });
 
   const outline = el("aside", { className: "outline" }, [
     el("div", { className: "outline-head" }, [
+      swap,
       el("img", { className: "outline-logo", attrs: { src: S.LOGO, alt: STRINGS.logoAlt } }),
       reset
     ]),
@@ -973,6 +1099,21 @@ const shell = (S, COURSE) => {
 
   opener.addEventListener("click", () => show(!shell.classList.contains("is-open")));
 
+  // Handing the machine on. The name is forgotten, not the progress: writing
+  // the same name again brings that learner's course back exactly as it was.
+  swap.addEventListener("click", () => {
+    if (!window.confirm(STRINGS.swapConfirm)) return;
+    try {
+      localStorage.removeItem(WHO);
+    } catch (error) {
+      /* Nothing kept, nothing to remove. */
+    }
+    // Drop the address as well as the name. A reload would keep the hash,
+    // and the next learner would open on the last one's lesson and be
+    // marked as reading it.
+    window.location.replace(`${window.location.pathname}${window.location.search}`);
+  });
+
   reset.addEventListener("click", () => {
     if (!window.confirm(STRINGS.resetConfirm)) return;
     state.progress = {};
@@ -1053,11 +1194,12 @@ const shell = (S, COURSE) => {
   const SURVEY = {
     title: "تقييم الرحلة التعليمية",
     lead: "أكملت الوحدة",
-    intro: "شاركنا رأيك لتطوير الوحدات القادمة. جميع الحقول مطلوبة.",
+    intro: "شاركنا رأيك لتطوير الوحدات القادمة.",
     name: "الاسم",
     namePlaceholder: "اكتب اسمك",
     send: "إرسال التقييم",
     sending: "جارٍ الإرسال…",
+    optional: "(اختياري)",
     required: "يرجى الإجابة عن جميع الأسئلة المطلوبة.",
     failed: "تعذّر إرسال التقييم. تحقّق من اتصالك ثم أعد المحاولة.",
     defer: "حفظ ومتابعة",
@@ -1162,8 +1304,10 @@ const shell = (S, COURSE) => {
   let current = 0;
   let tries = 0;
 
-  const question = (label, control) => el("div", { className: "survey-q" }, [
-    el("label", {}, [label, " ", el("span", { className: "req", text: "*" })]),
+  const question = (label, control, optional) => el("div", { className: "survey-q" }, [
+    el("label", {}, [label, " ", optional
+      ? el("span", { className: "opt", text: SURVEY.optional })
+      : el("span", { className: "req", text: "*" })]),
     control
   ]);
 
@@ -1179,7 +1323,12 @@ const shell = (S, COURSE) => {
   function build(unit) {
     const entry = COURSE[unit - 1];
 
-    const nameField = el("input", { type: "text", attrs: { name: "learner", placeholder: SURVEY.namePlaceholder, autocomplete: "name", maxlength: "80" } });
+    // The learner named themselves on the way in, so the survey does not ask
+    // twice; it stays editable in case they want it written differently.
+    // autocomplete is off deliberately: on "name" the browser offers whatever
+    // it last saw in a name field, which is not always a name.
+    const nameField = el("input", { type: "text", attrs: { name: "learner", placeholder: SURVEY.namePlaceholder, autocomplete: "off", maxlength: "80" } });
+    nameField.value = who;
 
     const open = el("section", { className: "survey-section" }, [
       el("h3", { text: SURVEY_OPEN.title }),
@@ -1205,7 +1354,7 @@ const shell = (S, COURSE) => {
     const defer = el("button", { className: "survey-defer", type: "button", text: SURVEY.defer, hidden: true });
 
     const form = el("form", { id: "survey-form", className: "survey-body" }, [
-      question(SURVEY.name, nameField),
+      question(SURVEY.name, nameField, true),
       open,
       grids
     ]);
@@ -1234,8 +1383,8 @@ const shell = (S, COURSE) => {
         if (bad && !missing) missing = node;
       };
 
+      // The name is the one thing a learner may keep to themselves.
       const learner = nameField.value.trim();
-      flag(nameField.closest(".survey-q"), !learner);
 
       const picked = (name) => {
         const hit = form.querySelector(`input[name="${name}"]:checked`);

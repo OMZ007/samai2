@@ -151,8 +151,10 @@ function validate(body) {
   const module = Number(body.module);
   if (!Number.isInteger(module) || module < 1 || module > 50) return null;
 
-  const name = text(body.name, MAX_NAME);
-  if (!name) return null;
+  // The name is optional. A learner who leaves it out is still answering, so
+  // a missing one is stored as empty rather than refused.
+  if (body.name !== undefined && body.name !== null && typeof body.name !== "string") return null;
+  const name = typeof body.name === "string" && body.name.length <= MAX_NAME ? body.name.trim() : "";
 
   if (!Array.isArray(body.answers) || !body.answers.length || body.answers.length > MAX_ANSWERS) return null;
 
