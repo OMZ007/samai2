@@ -256,7 +256,7 @@ body{background:var(--page)}
 .survey-head{flex:0 0 auto;position:relative;padding:var(--space-4);overflow:hidden;background:var(--black);color:var(--on-dark)}
 .survey-head::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px 180px at 85% 50%,var(--glow-teal),transparent 70%),radial-gradient(420px 180px at 15% 50%,var(--glow-green),transparent 70%)}
 .survey-head>*{position:relative;z-index:1}
-.survey-head h2{margin:0;font-size:var(--text-xl);font-weight:var(--weight-black);line-height:var(--leading-tight)}
+.survey-head h2{margin:0;padding-inline-end:44px;font-size:var(--text-xl);font-weight:var(--weight-black);line-height:var(--leading-tight)}
 .survey-head p{margin:var(--space-1) 0 0;color:var(--on-dark-muted);font-size:var(--text-sm);font-weight:var(--weight-medium)}
 .survey-head b{color:var(--on-dark-accent);font-weight:var(--weight-bold)}
 
@@ -269,6 +269,16 @@ body{background:var(--page)}
 .survey-q>label,.survey-q>span.survey-label{color:var(--ink);font-size:var(--text-base);font-weight:var(--weight-bold);line-height:var(--leading-snug)}
 .survey-q .req{color:var(--danger);font-weight:var(--weight-black)}
 .survey-q .opt{color:var(--muted);font-size:var(--text-xs);font-weight:var(--weight-medium)}
+
+/* The way out. A learner who is not ready to answer closes it and comes
+   back through the panel; the unit's row waits there until they do. */
+.survey-close{position:absolute;inset-block-start:var(--space-3);inset-inline-end:var(--space-3);z-index:2;appearance:none;width:36px;height:36px;padding:0;display:grid;place-items:center;border:1px solid var(--veil-line);border-radius:var(--radius-xs);background:var(--veil);color:var(--on-dark);font-size:var(--text-md);cursor:pointer;transition:background .2s ease}
+.survey-close:hover{background:var(--veil-strong)}
+
+/* The survey's own row in the panel, under the lessons it follows. */
+.unit-lessons .survey-link{color:var(--primary);font-weight:var(--weight-bold)}
+.unit-lessons .survey-link.is-waiting{color:var(--teal-2)}
+.unit-lessons .lesson-state.is-waiting{color:var(--teal)}
 
 .survey-q textarea,.survey-q input[type=text]{width:100%;padding:var(--space-2);border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-soft);color:var(--ink);font:inherit;font-size:var(--text-sm);line-height:var(--leading-relaxed);resize:vertical}
 .survey-q textarea{min-height:88px}
@@ -674,6 +684,9 @@ const shell = (S, COURSE) => {
     namePlaceholder: "اكتب اسمك",
     start: "ابدأ الدورة",
     swap: "تغيير المستخدم",
+    surveyRow: "تقييم الوحدة",
+    surveyWaiting: "لم تُرسل بعد",
+    surveySent: "تم إرسال التقييم",
     swapConfirm: "سيُغلق تقدمك الحالي ويُطلب اسم جديد. تقدمك محفوظ ويعود عند كتابة اسمك مرة أخرى. هل تريد المتابعة؟"
   };
 
@@ -814,9 +827,6 @@ const shell = (S, COURSE) => {
     else state.progress[id] = next;
     writeStore();
     paint();
-    // Finishing the last lesson of a unit is what raises its survey.
-    const unit = Number(/^u(\d+)l/.exec(id)[1]);
-    if (unitDone(unit) && !surveyDone(unit)) openSurvey(unit);
   }
 
   /** How far through a list of lessons the learner is, from 0 to 1. */
@@ -971,6 +981,27 @@ const shell = (S, COURSE) => {
     return el("div", { className: "lesson" }, [mark, link]);
   }
 
+  /** The unit's survey, as a row among its lessons. */
+  function surveyRow(unit) {
+    const status = surveyState(unit);
+    const label = status === "done" ? STRINGS.surveySent : STRINGS.surveyWaiting;
+
+    const link = el("button", {
+      className: status === "waiting" ? "lesson-link survey-link is-waiting" : "lesson-link survey-link",
+      type: "button",
+      text: STRINGS.surveyRow,
+      attrs: { title: label }
+    });
+    link.addEventListener("click", () => openSurvey(unit));
+
+    const mark = el("span", {
+      className: status === "done" ? "lesson-state is-done" : "lesson-state is-waiting",
+      attrs: { "aria-label": `${STRINGS.surveyRow} - ${label}`, title: label }
+    }, icon(status === "done" ? "circle-check" : "clipboard-question"));
+
+    return el("div", { className: "lesson" }, [mark, link]);
+  }
+
   /** One unit: its head, and its lessons while it is the open one. */
   function block(unit, entry) {
     const expanded = here.unit === unit;
@@ -992,8 +1023,13 @@ const shell = (S, COURSE) => {
     return el("section", { className: expanded ? "unit is-open" : "unit" }, [
       head,
       expanded
-        ? el("div", { className: "unit-lessons" },
-          entry.lessons.map((title, index) => row(unit, index + 1, title)))
+        ? el("div", { className: "unit-lessons" }, [
+          entry.lessons.map((title, index) => row(unit, index + 1, title)),
+          // The survey belongs to the unit, and appears under it once the
+          // lessons are behind them — whether it was answered, put off, or
+          // never opened.
+          unitDone(unit) ? surveyRow(unit) : null
+        ])
         : null
     ]);
   }
@@ -1181,9 +1217,16 @@ const shell = (S, COURSE) => {
      8 · THE MODULE SURVEY
      Every unit is followed by one. It is a gate rather than a prompt:
      it carries no dismiss, and the unit after it stays shut until the
-     response is away. What the learner writes goes to the collector,
-     which is the only party holding a credential — the page holds
-     none, so it can be served from anywhere.
+     response is away.
+
+     It stands on the doorway, not on the last page. Finishing a unit
+     raises nothing — a learner who reaches the foot of the last lesson
+     is left to finish reading, look back over anything they want, and
+     meet the survey only when they move on to the next unit.
+
+     What the learner writes goes to the collector, which is the only
+     party holding a credential — the page holds none, so it can be
+     served from anywhere.
      ================================================================== */
 
   // The collector's address. Empty until the Worker is deployed, and a
@@ -1200,6 +1243,8 @@ const shell = (S, COURSE) => {
     send: "إرسال التقييم",
     sending: "جارٍ الإرسال…",
     optional: "(اختياري)",
+    close: "إغلاق التقييم",
+    closed: "يمكنك العودة إليه من قائمة المحتوى في أي وقت.",
     required: "يرجى الإجابة عن جميع الأسئلة المطلوبة.",
     failed: "تعذّر إرسال التقييم. تحقّق من اتصالك ثم أعد المحاولة.",
     defer: "حفظ ومتابعة",
@@ -1280,17 +1325,27 @@ const shell = (S, COURSE) => {
   /** True once every lesson in a unit is marked complete. */
   const unitDone = (unit) => unitIds(unit).every((id) => stateOf(id) === "done");
 
+  /**
+   * A unit's survey stands in one of three states: unanswered, put off for
+   * now, and sent. Only an unanswered one opens by itself — putting it off
+   * is the learner's answer to being asked, and is not asked again.
+   */
   const surveyDone = (unit) => state.surveys[`u${unit}`] === true;
+  const surveyPut = (unit) => state.surveys[`u${unit}`] === "later";
+  const surveyState = (unit) => (surveyDone(unit) ? "done" : surveyPut(unit) ? "waiting" : "none");
 
   /**
    * The earliest finished unit before `target` that still owes a survey,
-   * or 0 when the way is clear. A learner may always stay inside the
-   * unit they are being asked about.
+   * or 0 when the way is clear.
+   *
+   * Strictly before: moving on to the next unit is what asks, and nothing
+   * else. Finishing the last lesson of a unit raises nothing, and a learner
+   * may read around inside a unit they have finished — back over a lesson,
+   * or its overview — without being stopped.
    */
   function owing(target) {
-    for (let unit = 1; unit <= target; unit++) {
-      if (unit === target && !unitDone(unit)) continue;
-      if (unitDone(unit) && !surveyDone(unit)) return unit;
+    for (let unit = 1; unit < target; unit++) {
+      if (unitDone(unit) && surveyState(unit) === "none") return unit;
     }
     return 0;
   }
@@ -1349,7 +1404,7 @@ const shell = (S, COURSE) => {
       ]))
     ]);
 
-    const note = el("p", { className: "survey-note", text: SURVEY.intro });
+    const note = el("p", { className: "survey-note", text: `${SURVEY.intro} ${SURVEY.closed}` });
     const send = el("button", { className: "survey-send", type: "submit", text: SURVEY.send, attrs: { form: "survey-form" } });
     const defer = el("button", { className: "survey-defer", type: "button", text: SURVEY.defer, hidden: true });
 
@@ -1359,8 +1414,16 @@ const shell = (S, COURSE) => {
       grids
     ]);
 
+    const close = el("button", {
+      className: "survey-close",
+      type: "button",
+      attrs: { "aria-label": SURVEY.close, title: SURVEY.close }
+    }, icon("xmark"));
+    close.addEventListener("click", () => putOff(unit));
+
     const card = el("div", { className: "survey-card" }, [
       el("div", { className: "survey-head" }, [
+        close,
         el("h2", { id: "survey-title", text: SURVEY.title }),
         el("p", {}, [`${SURVEY.lead}: `, el("b", { text: `${unit} · ${entry.title}` })])
       ]),
@@ -1498,6 +1561,17 @@ const shell = (S, COURSE) => {
     paint();
   }
 
+  /**
+   * Closing without answering. The unit's row stays in the panel, so the
+   * survey is put off rather than lost, and the course opens up again.
+   */
+  function putOff(unit) {
+    if (!surveyDone(unit)) state.surveys[`u${unit}`] = "later";
+    writeStore();
+    closeSurvey();
+    paint();
+  }
+
   function openSurvey(unit) {
     if (current === unit) return;
     current = unit;
@@ -1514,9 +1588,12 @@ const shell = (S, COURSE) => {
     gate.replaceChildren();
   }
 
-  // Escape must not lift the gate, and neither must a click behind it.
+  // Escape is the same as pressing the close button, and must not reach the
+  // shell behind, which would only fold the panel away.
   gate.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") event.stopPropagation();
+    if (event.key !== "Escape") return;
+    event.stopPropagation();
+    if (current) putOff(current);
   });
 
   flush();
