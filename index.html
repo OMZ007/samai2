@@ -963,7 +963,11 @@ const shell = (S, COURSE) => {
     button.addEventListener("click", () => {
       const at = ORDER.indexOf(key(here.unit, here.lesson));
       const target = parse(`#${ORDER[at + Number(button.dataset.step)]}`);
-      if (target) go(target.unit, target.lesson);
+      if (!target) return;
+      // Moving on from a lesson is the learner saying they are done with
+      // it. Moving back says nothing.
+      if (button === next && here.lesson) record(key(here.unit, here.lesson), "done");
+      go(target.unit, target.lesson);
     });
   }
 
@@ -1367,6 +1371,65 @@ const shell = (S, COURSE) => {
   });
 
   flush();
+
+
+  /* ==================================================================
+     9 · READING
+     Only the unit 1 lessons were built to report themselves, so the
+     shell reads the rest directly: the lessons are served from this
+     very origin, so their document is open to it. Opening a lesson
+     starts it, reaching the foot of it finishes it, and so does
+     stepping forward off it.
+
+     A lesson only ever moves forward — record() sees to that — so a
+     learner who scrolls back up, or returns to something already
+     behind them, loses nothing.
+     ================================================================== */
+
+  // How much of a lesson counts as having read it. The last tenth is
+  // references and the conclusion's own furniture, and a learner who
+  // has reached it has read the lesson.
+  const READ = 0.9;
+
+  /** The lesson's own scroller, or null when it cannot be reached. */
+  function inside() {
+    try {
+      const doc = frame.contentDocument;
+      return doc && doc.body ? doc : null;
+    } catch (error) {
+      // A lesson served from another origin keeps its own counsel; those
+      // report themselves through postMessage instead.
+      return null;
+    }
+  }
+
+  /** Watches the lesson now in the frame. Overviews are not lessons. */
+  function follow() {
+    if (!here.lesson) return;
+
+    const id = key(here.unit, here.lesson);
+    record(id, "doing");
+
+    const doc = inside();
+    if (!doc) return;
+
+    const root = doc.scrollingElement || doc.documentElement;
+
+    function look() {
+      const reached = root.scrollTop + root.clientHeight;
+      const short = root.scrollHeight <= root.clientHeight + 24;
+      if (!short && reached < root.scrollHeight * READ) return;
+      doc.removeEventListener("scroll", look);
+      record(id, "done");
+    }
+
+    doc.addEventListener("scroll", look, { passive: true });
+    // A lesson that fits its frame has no foot to reach, and is read as
+    // soon as it is open.
+    look();
+  }
+
+  frame.addEventListener("load", follow);
 
   show(state.outline);
   route();
