@@ -13,7 +13,11 @@
  * Configuration
  *   GITHUB_TOKEN     secret. Fine-grained PAT, "Contents: read and write" on
  *                    the responses repository and nothing else.
- *   GITHUB_REPO      var. "owner/name" of the private responses repository.
+ *   GITHUB_REPO      var. "owner/name" of the repository responses go to.
+ *   GITHUB_BRANCH    var. The branch inside it, and deliberately not the one
+ *                    Pages builds from: a file on that branch would be served
+ *                    by the website for anyone to fetch, and every response
+ *                    would rebuild the site.
  *   ALLOWED_ORIGIN   var. The site allowed to post here. Comma-separated for
  *                    more than one.
  */
@@ -38,6 +42,7 @@ export default {
     };
 
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
+
     if (request.method !== "POST") return reply(405, "method not allowed", cors);
 
     // Only the course may post here.
@@ -69,7 +74,10 @@ export default {
 
     const written = await commit(env, path, record);
     if (!written.ok) {
-      return reply(502, `store failed: ${written.status}`, cors);
+      // GitHub's own words, not just the number: a bare 404 reads as a
+      // missing repository when it usually means a token that was never
+      // granted one.
+      return reply(502, `store failed: ${written.status}${written.said ? ` (${written.said})` : ""}`, cors);
     }
 
     return new Response(JSON.stringify({ stored: path }), {
@@ -137,13 +145,26 @@ async function commit(env, path, record) {
       "User-Agent": "samai-survey-collector",
       "content-type": "application/json"
     },
+    // Only name a branch when one is configured. Naming one that does not
+    // exist is a 404, so the unset case has to mean "the default branch"
+    // rather than a guess.
     body: JSON.stringify({
       message: `survey: module ${record.module}`,
-      content
+      content,
+      ...(env.GITHUB_BRANCH ? { branch: env.GITHUB_BRANCH } : {})
     })
   });
 
-  return { ok: response.ok, status: response.status };
+  let said = null;
+  if (!response.ok) {
+    try {
+      said = (await response.json())?.message || null;
+    } catch {
+      /* not json */
+    }
+  }
+
+  return { ok: response.ok, status: response.status, said };
 }
 
 /** Base64 of a UTF-8 string. btoa alone mangles anything above Latin-1. */
