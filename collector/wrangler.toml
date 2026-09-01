@@ -2,17 +2,13 @@ name = "samai-survey"
 main = "worker.js"
 compatibility_date = "2025-09-01"
 
-[vars]
-# Where responses are written. The course repo, by the owner's decision:
-# responses carry learner names and this repository is public.
-#
-# The branch is not main. Pages builds from main, so a response written there
-# would be fetchable straight off the website, and would rebuild the site on
-# every submission — GitHub throttles at about ten builds an hour, so a class
-# submitting together would stall deploys. Nothing serves the responses branch.
-GITHUB_REPO = "OMZ007/samai2"
-GITHUB_BRANCH = "responses"
+# Where responses wait until the workflow collects them. The Worker holds no
+# GitHub credential; see the header of worker.js.
+[[kv_namespaces]]
+binding = "RESPONSES"
+id = "635436eb93aa4f8cb857e251e5bc9d7d"
 
+[vars]
 # Only this origin may post. Add more, comma-separated, if the course is
 # also served from a custom domain.
 ALLOWED_ORIGIN = "https://omz007.github.io"
