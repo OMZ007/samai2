@@ -1,0 +1,12 @@
+name = "samai-survey"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+
+[vars]
+# The private repository the responses are written to. Create it first;
+# it must NOT be the public course repo.
+GITHUB_REPO = "OMZ007/samai2-responses"
+
+# Only this origin may post. Add more, comma-separated, if the course is
+# also served from a custom domain.
+ALLOWED_ORIGIN = "https://omz007.github.io"
