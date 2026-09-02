@@ -726,11 +726,8 @@ a{color:var(--primary)}
 .define::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:5px;background:linear-gradient(180deg,var(--teal),var(--green));background-origin:border-box}
 .define .tile{box-shadow:var(--shadow-raised)}
 .define p{margin:0;color:var(--ink);font-size:var(--text-xl);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
-.define p b{color:var(--primary);font-weight:var(--weight-black)}
+.define p b{color:var(--primary);font-size:1.06em;font-weight:var(--weight-black)}
 
-.national-title{margin:36px 0 var(--space-2);color:var(--primary);font-size:var(--text-display);font-weight:var(--weight-black);line-height:var(--leading-tight)}
-.national-lead{margin:0 0 var(--space-6);color:var(--muted);font-size:var(--text-base);font-weight:var(--weight-medium);line-height:var(--leading-normal)}
-.national-lead b{color:var(--primary)}
 
 .year{margin-block-end:var(--space-4);border-width:1.5px}
 .year .away{color:inherit;font-weight:inherit}
@@ -814,8 +811,6 @@ a{color:var(--primary)}
   .define{margin-block-start:10px;padding:var(--space-4) var(--space-5);grid-template-columns:1fr;gap:var(--space-3)}
   .define .tile{width:46px;height:46px;border-radius:var(--radius-sm);font-size:var(--text-xl)}
   .define p{font-size:var(--text-base);line-height:var(--leading-normal)}
-  .national-title{margin-block:var(--space-7) 6px;font-size:20px}
-  .national-lead{margin-block-end:var(--space-5);font-size:var(--text-md);line-height:var(--leading-normal)}
   .year{padding:var(--space-5) var(--space-4)}
   .year img{height:69.1875px}
   .year p{font-size:var(--text-sm);line-height:var(--leading-normal)}
@@ -2662,7 +2657,7 @@ const AI_YEAR = "عام الذكاء الاصطناعي 2026";
    ========================================================================== */
 
 const content = (S) => {
-  const { art, alreadyUsing, nationalContext, stageRail, makeGrid, applicationRail } = scripts(S);
+  const { art, alreadyUsing, aiDefinition, nationalPicture, stageRail, makeGrid, applicationRail } = scripts(S);
 
   return {
     introduction: "ستتعرف في هذا الدرس على الذكاء الاصطناعي ومراحل تطوره، وإسهامات المملكة العربية السعودية فيه، كما ستتعرف على أبرز تطبيقاته واستخداماتها",
@@ -2694,41 +2689,47 @@ const content = (S) => {
               }
             ]
           }),
-          nationalContext({
-            definition: "**الذكاء الاصطناعي (AI)** هو مصطلح عام لأي نظام يمكنه التصرف بذكاء، فالأنظمة التي لديها القدرة على التفكير والتصنيف والتوصية والتخطيط وتوليد المحتوى تعتبر كلها أنظمة ذكاء اصطناعي، ولا يعني ذلك أن هذه الأنظمة تفكّر أو تفهم مثل الإنسان بل تؤدي هذه المهامّ اعتمادًا على قواعد مكتوبة أو أنماط تدربت عليها من البيانات",
-            title: "اهتمام المملكة بالذكاء الاصطناعي",
-            lead: `أدركت المملكة مبكّرًا أن الذكاء الاصطناعي ليس مجرد تقنية تُستهلك بل **قدرةً وطنيةً تُبنى**، فأنشأت [الهيئة السعودية للبيانات والذكاء الاصطناعي \"سدايا\"](${SDAIA_LINK}) لتقود هذا التوجّه وتنظّمه، ثم مضت المملكة في تطوير البنية الرقمية، وتنمية الكفاءات، ودعم البحث والابتكار، وتوظيف الذكاء الاصطناعي في مختلف القطاعات تحقيقًا لمستهدفات رؤية السعودية 2030`,
-            year: {
-              art: "assets/logo/tyai.svg",
-              alt: "هوية عام الذكاء الاصطناعي في المملكة العربية السعودية",
-              href: AI_YEAR_LINK,
-              label: AI_YEAR,
-              text: "خُصّص عام 2026 عامًا للذكاء الاصطناعي في المملكة العربية السعودية"
-            },
-            facts: [
-              {
-                icon: "trophy",
-                title: "الأولى عالميًّا",
-                text: "في الأمن والخصوصية والتشفير وتمكين المرأة في الذكاء الاصطناعي، وفق مؤشر ستانفورد للذكاء الاصطناعي 2026م"
-              },
-              {
-                icon: "ranking-star",
-                title: "الأولى عربيًّا",
-                text: "والثالثة عالميَّا في تطوير نماذج الذكاء الاصطناعي الرائدة، وفق مؤشر ستانفورد للذكاء الاصطناعي 2025م"
-              },
-              {
-                icon: "globe",
-                title: "الرياض",
-                text: "تستضيف القمة العالمية للذكاء الاصطناعي التي تجمع خبراء العالم كل سنتين"
-              },
-              {
-                icon: "comment-dots",
-                title: "علّام",
-                text: "نموذج لغوي عربي بُني ودُرِّب من الصفر ليدعم الفصحى واللهجات المختلفة"
-              }
-            ]
-          })
+          aiDefinition("**الذكاء الاصطناعي (AI)** هو مصطلح عام لأي نظام يمكنه التصرف بذكاء، فالأنظمة التي لديها القدرة على التفكير والتصنيف والتوصية والتخطيط وتوليد المحتوى تعتبر كلها أنظمة ذكاء اصطناعي، ولا يعني ذلك أن هذه الأنظمة تفكّر أو تفهم مثل الإنسان بل تؤدي هذه المهامّ اعتمادًا على قواعد مكتوبة أو أنماط تدربت عليها من البيانات")
         ]
+      },
+
+      // What the Kingdom has done about it. Its own section: the heading and
+      // the lead below it are the section's, not a block's.
+      national: {
+        nav: "المملكة",
+        title: "اهتمام المملكة بالذكاء الاصطناعي",
+        subtitle: `أدركت المملكة مبكّرًا أن الذكاء الاصطناعي ليس مجرد تقنية تُستهلك بل **قدرةً وطنيةً تُبنى**، فأنشأت [الهيئة السعودية للبيانات والذكاء الاصطناعي \"سدايا\"](${SDAIA_LINK}) لتقود هذا التوجّه وتنظّمه، ثم مضت المملكة في تطوير البنية الرقمية، وتنمية الكفاءات، ودعم البحث والابتكار، وتوظيف الذكاء الاصطناعي في مختلف القطاعات تحقيقًا لمستهدفات رؤية السعودية 2030`,
+        nodes: nationalPicture({
+          year: {
+            art: "assets/logo/tyai.svg",
+            alt: "هوية عام الذكاء الاصطناعي في المملكة العربية السعودية",
+            href: AI_YEAR_LINK,
+            label: AI_YEAR,
+            text: "خُصّص عام 2026 عامًا للذكاء الاصطناعي في المملكة العربية السعودية"
+          },
+          facts: [
+            {
+              icon: "trophy",
+              title: "الأولى عالميًّا",
+              text: "في الأمن والخصوصية والتشفير وتمكين المرأة في الذكاء الاصطناعي، وفق مؤشر ستانفورد للذكاء الاصطناعي 2026م"
+            },
+            {
+              icon: "ranking-star",
+              title: "الأولى عربيًّا",
+              text: "والثالثة عالميَّا في تطوير نماذج الذكاء الاصطناعي الرائدة، وفق مؤشر ستانفورد للذكاء الاصطناعي 2025م"
+            },
+            {
+              icon: "globe",
+              title: "الرياض",
+              text: "تستضيف القمة العالمية للذكاء الاصطناعي التي تجمع خبراء العالم كل سنتين"
+            },
+            {
+              icon: "comment-dots",
+              title: "علّام",
+              text: "نموذج لغوي عربي بُني ودُرِّب من الصفر ليدعم الفصحى واللهجات المختلفة"
+            }
+          ]
+        })
       },
 
       // The stages AI grew through, so later ideas land on a timeline rather
@@ -3299,15 +3300,17 @@ const scripts = (S) => {
     ]);
   }
 
-  /** What AI is, then what the Kingdom has done about it. */
-  function nationalContext(data) {
+  /** What AI is, said once, in the one card the section is built around. */
+  function aiDefinition(text) {
+    return card({ tag: "div", pad: "wide", fill: "soft", className: "define" }, [
+      tile("microchip", { size: "xl" }),
+      el("p", {}, markup(text))
+    ]);
+  }
+
+  /** What the Kingdom has done about it: the year, then four facts. */
+  function nationalPicture(data) {
     return fragment([
-      card({ tag: "div", pad: "wide", fill: "soft", className: "define" }, [
-        tile("microchip", { size: "xl" }),
-        el("p", {}, markup(data.definition))
-      ]),
-      el("h2", { className: "national-title", text: data.title }),
-      el("p", { className: "national-lead" }, markup(data.lead)),
       card({ tag: "div", rule: true, center: true, pad: "wide", className: "year" },
         away(data.year.href, [
           el("img", { attrs: { src: asset(data.year.art), alt: data.year.alt } }),
@@ -3404,7 +3407,7 @@ const scripts = (S) => {
     ]);
   }
 
-  return { art, alreadyUsing, nationalContext, stageRail, makeGrid, applicationRail };
+  return { art, alreadyUsing, aiDefinition, nationalPicture, stageRail, makeGrid, applicationRail };
 };
 
 SAMAI.mount(Object.assign({ module: 1, moduleTitle: "الذكاء الاصطناعي في قطاع التعليم", lesson: 1, lessonTitle: meta.title }, content(SAMAI)));
