@@ -722,10 +722,11 @@ a{color:var(--primary)}
 .moment span{color:var(--on-dark-soft);font-size:var(--text-sm);font-weight:var(--weight-bold);line-height:var(--leading-relaxed)}
 
 /* ---- 2 · What AI is, and the national picture ------------------------ */
-.define{width:min(920px,100%);margin:15px auto 0;display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;gap:var(--space-5);border-width:1.5px;border-color:var(--border-strong)}
+.define{width:100%;margin:15px 0 0;display:grid;grid-template-columns:58px minmax(0,1fr);align-items:center;gap:var(--space-5);border-width:1.5px;border-color:var(--border-strong)}
 .define::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:5px;background:linear-gradient(180deg,var(--teal),var(--green));background-origin:border-box}
 .define .tile{box-shadow:var(--shadow-raised)}
 .define p{margin:0;color:var(--ink);font-size:var(--text-xl);font-weight:var(--weight-medium);line-height:var(--leading-loose)}
+.define p b{color:var(--primary);font-weight:var(--weight-black)}
 
 .national-title{margin:36px 0 var(--space-2);color:var(--primary);font-size:var(--text-display);font-weight:var(--weight-black);line-height:var(--leading-tight)}
 .national-lead{margin:0 0 var(--space-6);color:var(--muted);font-size:var(--text-base);font-weight:var(--weight-medium);line-height:var(--leading-normal)}
@@ -2694,7 +2695,7 @@ const content = (S) => {
             ]
           }),
           nationalContext({
-            definition: "الذكاء الاصطناعي (AI) هو مصطلح عام لأي نظام يمكنه التصرف بذكاء، فالأنظمة التي لديها القدرة على التفكير والتصنيف والتوصية والتخطيط وتوليد المحتوى تعتبر كلها أنظمة ذكاء اصطناعي، ولا يعني ذلك أن هذه الأنظمة تفكّر أو تفهم مثل الإنسان بل تؤدي هذه المهامّ اعتمادًا على قواعد مكتوبة أو أنماط تدربت عليها من البيانات",
+            definition: "**الذكاء الاصطناعي (AI)** هو مصطلح عام لأي نظام يمكنه التصرف بذكاء، فالأنظمة التي لديها القدرة على التفكير والتصنيف والتوصية والتخطيط وتوليد المحتوى تعتبر كلها أنظمة ذكاء اصطناعي، ولا يعني ذلك أن هذه الأنظمة تفكّر أو تفهم مثل الإنسان بل تؤدي هذه المهامّ اعتمادًا على قواعد مكتوبة أو أنماط تدربت عليها من البيانات",
             title: "اهتمام المملكة بالذكاء الاصطناعي",
             lead: `أدركت المملكة مبكّرًا أن الذكاء الاصطناعي ليس مجرد تقنية تُستهلك بل **قدرةً وطنيةً تُبنى**، فأنشأت [الهيئة السعودية للبيانات والذكاء الاصطناعي \"سدايا\"](${SDAIA_LINK}) لتقود هذا التوجّه وتنظّمه، ثم مضت المملكة في تطوير البنية الرقمية، وتنمية الكفاءات، ودعم البحث والابتكار، وتوظيف الذكاء الاصطناعي في مختلف القطاعات تحقيقًا لمستهدفات رؤية السعودية 2030`,
             year: {
