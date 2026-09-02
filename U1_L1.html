@@ -696,15 +696,27 @@ a{color:var(--primary)}
     </style>
     <style>
 /* ---- 1 · AI you already use ------------------------------------------
-   The panel is dark because the three illustrations inside it are drawn
-   in white on transparent and read only against one. */
-.around{padding-inline:34px}
-.around::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(520px 250px at 88% -10%,var(--glow-teal),transparent 65%),radial-gradient(420px 220px at 5% 110%,var(--glow-green),transparent 65%);background-origin:border-box}
+   The panel reads as light like the rest of the lesson. The three
+   illustrations inside it are drawn in the same surface, border and tint
+   tokens as the drawings further down, so they hold on that ground. */
+.around{
+  padding-inline:34px;
+  /* The copy inside still asks for the on-dark tokens, so they are
+     re-pointed to their light equivalents here. The three drawings no
+     longer use them at all — they are painted in the same surface,
+     border and tint tokens as the light drawings later in the lesson. */
+  --on-dark:var(--primary);
+  --on-dark-soft:var(--primary);
+  --on-dark-muted:#2F306899;
+  --on-dark-accent:var(--teal);
+  border-color:var(--border-strong);
+}
+.around::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(520px 250px at 88% -10%,var(--tint-teal-2),transparent 65%),radial-gradient(420px 220px at 5% 110%,var(--tint-green),transparent 65%);background-origin:border-box}
 .around>*{position:relative;z-index:2}
 .around-line{margin:17.5px 0;padding-inline-start:var(--space-4);border-inline-start:3px solid var(--on-dark-accent);color:var(--on-dark-soft);font-size:clamp(15px,1.5vw,17.5px);font-weight:var(--weight-bold);line-height:var(--leading-loose)}
 .moments{margin-block-end:var(--space-5)}
-.moment{padding:var(--space-5) var(--space-4);border:1px solid var(--veil-line);border-radius:var(--radius-sm);background:var(--veil);text-align:center;transition:background .25s ease,transform .25s ease}
-.moment:hover{background:var(--veil-strong);transform:translateY(-4px)}
+.moment{padding:var(--space-5) var(--space-4);border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);box-shadow:var(--shadow-card);text-align:center;transition:background .25s ease,transform .25s ease,box-shadow .25s ease}
+.moment:hover{background:var(--surface);box-shadow:var(--shadow-hover);transform:translateY(-4px)}
 .moment svg{width:100%;height:auto;margin-block-end:var(--space-3);display:block}
 .moment span{color:var(--on-dark-soft);font-size:var(--text-sm);font-weight:var(--weight-bold);line-height:var(--leading-relaxed)}
 
@@ -2965,38 +2977,38 @@ const scripts = (S) => {
     phoneWord: {
       viewBox: "0 0 190 128",
       shapes: [
-        { tag: "rect", x: 52, y: 4, width: 86, height: 120, rx: 14, fill: "var(--veil)", stroke: "var(--veil-sheen)", "stroke-width": 2 },
-        { tag: "rect", x: 80, y: 10, width: 30, height: 4, rx: 2, fill: "var(--veil-strong)" },
-        { tag: "rect", x: 62, y: 24, width: 66, height: 30, rx: 9, fill: "var(--veil)" },
-        { tag: "rect", x: 70, y: 33, width: 50, height: 4, rx: 2, fill: "var(--on-dark-muted)" },
-        { tag: "rect", x: 82, y: 43, width: 38, height: 4, rx: 2, fill: "var(--veil-sheen)" },
-        { tag: "rect", x: 62, y: 64, width: 24, height: 16, rx: 6, fill: "var(--veil)" },
-        { tag: "rect", x: 90, y: 62, width: 34, height: 20, rx: 7, fill: "var(--tint-green-2)", stroke: "var(--on-dark-accent)", "stroke-width": 1.5 },
-        { tag: "rect", x: 97, y: 70, width: 20, height: 4, rx: 2, fill: "var(--on-dark-accent)" },
-        { tag: "rect", x: 62, y: 90, width: 14, height: 9, rx: 3, fill: "var(--veil-line)" },
-        { tag: "rect", x: 80, y: 90, width: 14, height: 9, rx: 3, fill: "var(--veil-line)" },
-        { tag: "rect", x: 98, y: 90, width: 14, height: 9, rx: 3, fill: "var(--veil-line)" },
-        { tag: "rect", x: 116, y: 90, width: 12, height: 9, rx: 3, fill: "var(--veil-line)" },
-        { tag: "rect", x: 62, y: 104, width: 14, height: 9, rx: 3, fill: "var(--veil-line)" },
-        { tag: "rect", x: 80, y: 104, width: 32, height: 9, rx: 3, fill: "var(--veil-line)" },
-        { tag: "rect", x: 116, y: 104, width: 12, height: 9, rx: 3, fill: "var(--veil-line)" },
-        { tag: "path", d: "M107 56 L107 60", stroke: "var(--on-dark-accent)", "stroke-width": 2, "stroke-linecap": "round" }
+        { tag: "rect", x: 52, y: 4, width: 86, height: 120, rx: 14, fill: "var(--surface)", stroke: "var(--border-strong)", "stroke-width": 2 },
+        { tag: "rect", x: 80, y: 10, width: 30, height: 4, rx: 2, fill: "var(--tint-primary-2)" },
+        { tag: "rect", x: 62, y: 24, width: 66, height: 30, rx: 9, fill: "var(--surface-soft)", stroke: "var(--border)", "stroke-width": 1 },
+        { tag: "rect", x: 70, y: 33, width: 50, height: 4, rx: 2, fill: "var(--grey)" },
+        { tag: "rect", x: 82, y: 43, width: 38, height: 4, rx: 2, fill: "var(--tint-primary-2)" },
+        { tag: "rect", x: 62, y: 64, width: 24, height: 16, rx: 6, fill: "var(--tint-primary)" },
+        { tag: "rect", x: 90, y: 62, width: 34, height: 20, rx: 7, fill: "var(--tint-teal-2)", stroke: "var(--teal)", "stroke-width": 1.5 },
+        { tag: "rect", x: 97, y: 70, width: 20, height: 4, rx: 2, fill: "var(--teal)" },
+        { tag: "rect", x: 62, y: 90, width: 14, height: 9, rx: 3, fill: "var(--tint-primary)" },
+        { tag: "rect", x: 80, y: 90, width: 14, height: 9, rx: 3, fill: "var(--tint-primary)" },
+        { tag: "rect", x: 98, y: 90, width: 14, height: 9, rx: 3, fill: "var(--tint-primary)" },
+        { tag: "rect", x: 116, y: 90, width: 12, height: 9, rx: 3, fill: "var(--tint-primary)" },
+        { tag: "rect", x: 62, y: 104, width: 14, height: 9, rx: 3, fill: "var(--tint-primary)" },
+        { tag: "rect", x: 80, y: 104, width: 32, height: 9, rx: 3, fill: "var(--tint-primary)" },
+        { tag: "rect", x: 116, y: 104, width: 12, height: 9, rx: 3, fill: "var(--tint-primary)" },
+        { tag: "path", d: "M107 56 L107 60", stroke: "var(--teal)", "stroke-width": 2, "stroke-linecap": "round" }
       ]
     },
 
     mapRoute: {
       viewBox: "0 0 190 128",
       shapes: [
-        { tag: "rect", x: 14, y: 8, width: 162, height: 112, rx: 14, fill: "var(--veil)", stroke: "var(--veil-strong)", "stroke-width": 2 },
-        { tag: "path", d: "M30 46 L160 46", stroke: "var(--veil-line)", "stroke-width": 5, "stroke-linecap": "round" },
-        { tag: "path", d: "M30 88 L160 88", stroke: "var(--veil-line)", "stroke-width": 5, "stroke-linecap": "round" },
-        { tag: "path", d: "M74 18 L74 110", stroke: "var(--veil-line)", "stroke-width": 5, "stroke-linecap": "round" },
-        { tag: "path", d: "M124 18 L124 110", stroke: "var(--veil-line)", "stroke-width": 5, "stroke-linecap": "round" },
-        { tag: "path", d: "M150 100 L124 100 L124 46 L74 46 L74 26", fill: "none", stroke: "var(--veil-sheen)", "stroke-width": 4, "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-dasharray": "6 7" },
-        { tag: "path", d: "M150 100 L150 66 L74 66 L74 26", fill: "none", stroke: "var(--on-dark-accent)", "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round" },
-        { tag: "circle", cx: 150, cy: 100, r: 7, fill: "var(--on-dark-accent)" },
-        { tag: "path", d: "M74 12 C66 12 60 18 60 25 C60 34 74 44 74 44 C74 44 88 34 88 25 C88 18 82 12 74 12 Z", fill: "var(--on-dark-accent)" },
-        { tag: "circle", cx: 74, cy: 25, r: 4.5, fill: "var(--black)" }
+        { tag: "rect", x: 14, y: 8, width: 162, height: 112, rx: 14, fill: "var(--surface-soft)", stroke: "var(--border-strong)", "stroke-width": 2 },
+        { tag: "path", d: "M30 46 L160 46", stroke: "var(--tint-primary-2)", "stroke-width": 5, "stroke-linecap": "round" },
+        { tag: "path", d: "M30 88 L160 88", stroke: "var(--tint-primary-2)", "stroke-width": 5, "stroke-linecap": "round" },
+        { tag: "path", d: "M74 18 L74 110", stroke: "var(--tint-primary-2)", "stroke-width": 5, "stroke-linecap": "round" },
+        { tag: "path", d: "M124 18 L124 110", stroke: "var(--tint-primary-2)", "stroke-width": 5, "stroke-linecap": "round" },
+        { tag: "path", d: "M150 100 L124 100 L124 46 L74 46 L74 26", fill: "none", stroke: "var(--grey)", "stroke-width": 4, "stroke-linecap": "round", "stroke-linejoin": "round", "stroke-dasharray": "6 7" },
+        { tag: "path", d: "M150 100 L150 66 L74 66 L74 26", fill: "none", stroke: "var(--teal)", "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round" },
+        { tag: "circle", cx: 150, cy: 100, r: 7, fill: "var(--teal)" },
+        { tag: "path", d: "M74 12 C66 12 60 18 60 25 C60 34 74 44 74 44 C74 44 88 34 88 25 C88 18 82 12 74 12 Z", fill: "var(--teal)" },
+        { tag: "circle", cx: 74, cy: 25, r: 4.5, fill: "var(--surface)" }
       ]
     },
 
@@ -3004,15 +3016,15 @@ const scripts = (S) => {
     mailJunk: (folder) => ({
       viewBox: "0 0 190 128",
       shapes: [
-        { tag: "rect", x: 14, y: 8, width: 162, height: 52, rx: 12, fill: "var(--veil)", stroke: "var(--veil-strong)", "stroke-width": 2 },
-        { tag: "rect", x: 24, y: 17, width: 142, height: 15, rx: 5, fill: "var(--veil)" },
-        { tag: "rect", x: 34, y: 22, width: 60, height: 4, rx: 2, fill: "var(--veil-sheen)" },
-        { tag: "rect", x: 24, y: 37, width: 142, height: 15, rx: 5, fill: "var(--veil)" },
-        { tag: "rect", x: 34, y: 42, width: 46, height: 4, rx: 2, fill: "var(--veil-sheen)" },
-        { tag: "path", d: "M98 63 C98 73 78 76 78 88", fill: "none", stroke: "var(--on-dark-accent)", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-dasharray": "4 4" },
-        { tag: "path", d: "M72.5 83 L78 90 L83.5 83", fill: "none", stroke: "var(--on-dark-accent)", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-linejoin": "round" },
-        { tag: "rect", x: 112, y: 66, width: 52, height: 34, rx: 5, fill: "var(--veil)", stroke: "var(--veil-sheen)", "stroke-width": 1.8 },
-        { tag: "path", d: "M117 66.9 L138 85 L159 66.9", fill: "none", stroke: "var(--veil-sheen)", "stroke-width": 1.8, "stroke-linecap": "round", "stroke-linejoin": "round" },
+        { tag: "rect", x: 14, y: 8, width: 162, height: 52, rx: 12, fill: "var(--surface)", stroke: "var(--border-strong)", "stroke-width": 2 },
+        { tag: "rect", x: 24, y: 17, width: 142, height: 15, rx: 5, fill: "var(--surface-soft)", stroke: "var(--border)", "stroke-width": 1 },
+        { tag: "rect", x: 34, y: 22, width: 60, height: 4, rx: 2, fill: "var(--grey)" },
+        { tag: "rect", x: 24, y: 37, width: 142, height: 15, rx: 5, fill: "var(--surface-soft)", stroke: "var(--border)", "stroke-width": 1 },
+        { tag: "rect", x: 34, y: 42, width: 46, height: 4, rx: 2, fill: "var(--grey)" },
+        { tag: "path", d: "M98 63 C98 73 78 76 78 88", fill: "none", stroke: "var(--teal)", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-dasharray": "4 4" },
+        { tag: "path", d: "M72.5 83 L78 90 L83.5 83", fill: "none", stroke: "var(--teal)", "stroke-width": 2.5, "stroke-linecap": "round", "stroke-linejoin": "round" },
+        { tag: "rect", x: 112, y: 66, width: 52, height: 34, rx: 5, fill: "var(--surface-soft)", stroke: "var(--grey)", "stroke-width": 1.8 },
+        { tag: "path", d: "M117 66.9 L138 85 L159 66.9", fill: "none", stroke: "var(--grey)", "stroke-width": 1.8, "stroke-linecap": "round", "stroke-linejoin": "round" },
         { tag: "rect", x: 18, y: 94, width: 120, height: 28, rx: 9, fill: "var(--tint-cat-c)", stroke: "var(--cat-c)", "stroke-width": 1.8 },
         { tag: "text", x: 78, y: 112, fill: "var(--cat-c)", "font-size": 12, "font-weight": 900, "text-anchor": "middle", text: folder }
       ]
@@ -3275,7 +3287,7 @@ const scripts = (S) => {
 
   /** Three everyday moments the learner has already met AI in. */
   function alreadyUsing(data) {
-    return card({ tag: "div", pad: "wide", fill: "dark", className: "around" }, [
+    return card({ tag: "div", pad: "wide", fill: "soft", className: "around" }, [
       el("p", { className: "around-line" }, markup(data.lead)),
       grid(data.moments, (moment) => el("article", { className: "moment" }, [
         drawing(moment.art.viewBox, moment.art.shapes, moment.alt),
