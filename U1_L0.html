@@ -1285,10 +1285,9 @@ a{color:var(--primary)}
         recap.text ? el("p", {}, markup(recap.text)) : null
       ])) : null,
 
-      settings.text ? el("div", { className: "bridge" }, [
-        icon("flag-checkered"),
+      settings.text ? el("div", { className: "bridge" },
         el("p", {}, markup(settings.text))
-      ]) : null,
+      ) : null,
 
       references.length ? el("details", { className: "refs" }, [
         el("summary", {}, [icon("book"), ` ${STRINGS.references} `, icon("chevron-down")]),
