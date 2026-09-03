@@ -4,6 +4,25 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>سماي 2</title>
+
+    <!-- The welcoming page stands in front of the course, but only for a
+         reader who has no place in it yet. A hash means a lesson was asked
+         for by name; a stored `last` means there is somewhere to resume.
+         Either one, and the shell loads as it always did. Storage that
+         throws is answered by loading the course: the page may never be
+         allowed to stand between a reader and the lesson. -->
+    <script>
+      (function () {
+        try {
+          if (window.location.hash) return;
+          if (localStorage.getItem("samai.welcome.v1")) return;
+          var saved = localStorage.getItem("samai.outline.v1");
+          if (saved && JSON.parse(saved).last) return;
+          localStorage.setItem("samai.welcome.v1", "1");
+          window.location.replace("welcome.html");
+        } catch (e) {}
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB5MT0iMSIgeDI9IjAiPgogICAgPHN0b3Agc3RvcC1jb2xvcj0iIzdmYzI0MiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuNCIgc3RvcC1jb2xvcj0iIzAwYWQ4YiIvPgogICAgPHN0b3Agb2Zmc2V0PSIuOCIgc3RvcC1jb2xvcj0iIzJmMzA2OCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTYuMDY5IDQuMTE0aDEydjE2LjExNWgtMTJ6Ii8+CiAgPHBhdGggZmlsbD0idXJsKCNnKSIgZD0iTTkuOTA5IDEuODg2IDMuNzM3IDUuNDE3djE2LjczMmgxNi41MjZWMS44ODZ6bS0zLjQ2MyA4LjYwNnEwLTEuMzM4LjM0My0yLjQ2OWE1LjQyIDUuNDIgMCAwIDEgMi45MTQtMy4zOTRxMS4wNjMtLjQ4IDIuNTAzLS40OCAxLjA5NyAwIDIuMDU3LjMwOC45MjUuMzc4IDEuNzQ5Ljk5NGE0Ljg0IDQuODQgMCAwIDEgMS42NDUgMy42NjljMCAxLjQ3NC0uNjUxIDIuODgtMS43NDggMy45MDlsLTEuMDYzLjg1Ny0yLjI5NyAxLjU0M3EtLjg1Ny42NTEtMS41NzcgMS4zNzFoNi43NTR2My4yMjNINi4xMDN2LS4zMDlxMC0xLjM3LjM3Ny0yLjM2NWE4LjQgOC40IDAgMCAxIDEuMTMxLTEuODE3IDguNiA4LjYgMCAwIDEgMS41NDMtMS40NGwyLjg4LTIuMDIzLjk5NS0uNzU1cS40MTEtLjQxMS43Mi0uODkxLjI3NC0uNDQ1LjI3NC0xLjA2My0uMDM0LS45Ni0uNTQ5LTEuNDc0YTEuODggMS44OCAwIDAgMC0xLjQwNS0uNTQ5cS0uNjE4IDAtLjk2LjI3NGEyIDIgMCAwIDAtLjY1Mi43MiAyLjYgMi42IDAgMCAwLS4zNzcuOTk1bC0uMTAzIDEuMTY2di4zMDhINi40NDZ6Ii8+Cjwvc3ZnPgo=">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
