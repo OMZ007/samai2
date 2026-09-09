@@ -1721,7 +1721,7 @@ SIM.vid.output=function(s){
   function resetConversation(){
     clearRun();setMode(false);result.classList.remove('ready');body.innerHTML='';userMsg.classList.remove('sent');aiMsg.classList.remove('sent');runTrace.className='run-trace';runTrace.innerHTML='';
     chatArea.classList.remove('has-chat');compose.classList.remove('sent');
-    gen.innerHTML='<i class="fa-solid fa-paper-plane"></i>';gen.setAttribute('aria-label','إرسال الأمر');gen.setAttribute('title','إرسال الأمر');
+    gen.innerHTML='<i class="fa-solid fa-paper-plane"></i>';gen.setAttribute('aria-label','إرسال الأمر');gen.setAttribute('title','إرسال الأمر');gen.removeAttribute('data-mode');
     sendCue.classList.toggle('on',complete());gen.classList.toggle('cue',complete());
   }
   function complete(){return s.every(Boolean);}
@@ -1731,7 +1731,7 @@ SIM.vid.output=function(s){
     var q=steps[current],done=s[current];
     decision.innerHTML='<p class="step-kicker"><span>'+q.meta.letter+'</span>'+q.meta.name+' · '+q.meta.en+'</p><h3 class="step-title">'+q.title+'</h3>'
       +'<div class="reflection-box"><b><i class="fa-solid fa-lightbulb"></i> أسئلة تساعدك على بناء الأمر</b><ul>'+q.probes.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>'
-      +'<div class="suggested-answer"><span>صياغة مقترحة لهذه المهمة</span><p>'+q.answer+'</p></div>'
+      +'<div class="suggested-answer"><span>الصياغة المستخدمة لهذه المهمة</span><p>'+q.answer+'</p></div>'
       +'<button type="button" class="apply-stage '+(done?'applied':'')+'" data-apply '+(done?'disabled':'')+'><i class="fa-solid '+(done?'fa-check':'fa-arrow-left')+'"></i>'+(done?'تمت إضافته إلى الأمر':'أضف '+q.meta.name+' إلى الأمر في المحاكي')+'</button>';
     prompt.innerHTML=ricePrompt(steps,s);
     back.disabled=current===0;next.style.display=(s[current]&&current<steps.length-1)?'':'none';status.textContent=complete()?'اكتمل الأمر':'أُضيف '+s.filter(Boolean).length+' من '+steps.length;
@@ -1758,6 +1758,12 @@ SIM.vid.output=function(s){
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(value).then(done).catch(fallback);}else{fallback();}
   });
   gen.addEventListener('click',function(){
+    if(gen.getAttribute('data-mode')==='reset'){
+      for(var i=0;i<s.length;i++){s[i]=false;}
+      current=0;resetConversation();render();
+      decisionPane.scrollIntoView({behavior:'smooth',block:'nearest'});
+      return;
+    }
     if(!complete())return;clearRun();var sentRice=s.slice(),sentLegacy=riceLegacyState(sentRice,key),plan=agentPlan(key,hasFile),active=0;
     sentPrompt.innerHTML=ricePromptPlain(steps,sentRice);chatArea.classList.add('has-chat');userMsg.classList.add('sent');compose.classList.add('sent');
     aiMsg.classList.remove('sent');runTrace.className='run-trace on';runTrace.innerHTML='';body.innerHTML='';
@@ -1771,7 +1777,7 @@ SIM.vid.output=function(s){
         aiMsg.classList.add('sent');
         body.innerHTML=d.output(sentLegacy);
         var video=body.querySelector('video[data-rate]');if(video){video.playbackRate=parseFloat(video.dataset.rate||'1');}
-        setMode(false);gen.disabled=false;gen.innerHTML='<i class="fa-solid fa-rotate"></i>';gen.setAttribute('aria-label','إعادة إرسال الأمر');gen.setAttribute('title','إعادة إرسال الأمر');
+        setMode(false);gen.disabled=false;gen.innerHTML='<i class="fa-solid fa-rotate-right"></i>';gen.setAttribute('aria-label','إعادة تعيين المحاكي');gen.setAttribute('title','إعادة تعيين المحاكي');gen.setAttribute('data-mode','reset');
       },720));
     }
     advance();
