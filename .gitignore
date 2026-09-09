@@ -1,2 +1,3 @@
 collector/.wrangler/
 node_modules/
+shell_js.js
