@@ -743,7 +743,16 @@ html,body,*:not(.fa):not(.fa-solid):not(.fa-regular){font-family:"IBM Plex Sans 
 .buildslot.filled i{background:#8fe9d2;color:#14324d}
 @keyframes slotin{from{opacity:.2;transform:translateX(12px)}to{opacity:1;transform:none}}
 .builddone{text-align:center;padding:18px 8px}
-.builddone i{font-size:34px;color:var(--g2);display:block;margin-bottom:9px}
+.builddone > i{font-size:34px;color:var(--g2);display:block;margin-bottom:9px}
+.buildopt:disabled{cursor:default}.buildopt:disabled:not(.good):not(.bad){opacity:.45}
+.buildnav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
+.buildnav-btn{appearance:none;font-family:inherit;display:inline-flex;align-items:center;gap:7px;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--primary);border-radius:11px;padding:9px 15px;font-size:12.5px;font-weight:900;transition:.18s}
+.buildnav-btn:hover:not(:disabled){border-color:var(--g2);color:var(--g2)}
+.buildnav-btn:disabled{opacity:.42;cursor:default}
+.buildnav-btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.buildnav-btn.primary:hover:not(:disabled){background:#2c4a8a;border-color:#2c4a8a;color:#fff}
+.buildnav-btn i{font-size:11px}
+.builddone .buildnav{justify-content:center;margin-top:14px}
 .builddone b{display:block;font-size:18px;color:var(--primary)}
 .builddone p{font-size:13.2px;font-weight:800;line-height:1.9;color:var(--muted);margin:7px 0 14px}
 @media(max-width:850px){.builder{grid-template-columns:1fr}.blueprint{position:static}.buildopts{grid-template-columns:1fr}}
@@ -1695,37 +1704,56 @@ if('IntersectionObserver' in window){
      opts:['المشاريع','جدولة المهام','الإضافات'],
      why:'جدولة المهام تنفّذ الطلب في الموعد المحدّد، ثم تسلّم النتيجة بالطريقة المختارة'}
   ];
-  var stage=$('buildStage'),stack=$('buildStack'),index=0,locked=false;
+  var stage=$('buildStage'),stack=$('buildStack'),index=0,answers=[];
   function paintStack(){
     stack.innerHTML=BUILD.map(function(x,i){
-      return '<div class="buildslot'+(i<index?' filled':'')+'"><i class="fa-solid '+(i<index?x.i:'fa-ellipsis')+'"></i><div><b>'+(i<index?x.n:x.slot)+'</b><span>'+(i<index?x.desc:'بانتظار اختيارك')+'</span></div></div>';
+      var done=!!answers[i];
+      return '<div class="buildslot'+(done?' filled':'')+'"><i class="fa-solid '+(done?x.i:'fa-ellipsis')+'"></i><div><b>'+(done?x.n:x.slot)+'</b><span>'+(done?x.desc:'بانتظار اختيارك')+'</span></div></div>';
     }).join('');
+  }
+  function navHTML(){
+    var last=index>=BUILD.length-1;
+    return '<div class="buildnav">'+
+      '<button class="buildnav-btn" type="button" data-nav="prev"'+(index<=0?' disabled':'')+'><i class="fa-solid fa-arrow-right"></i> السابق</button>'+
+      '<button class="buildnav-btn primary" type="button" data-nav="next"'+(answers[index]?'':' disabled')+'>'+(last?'اعرض النتيجة':'التالي')+' <i class="fa-solid fa-arrow-left"></i></button>'+
+    '</div>';
   }
   function paint(){
     paintStack();
     if(index>=BUILD.length){
-      stage.innerHTML='<div class="builddone"><i class="fa-solid fa-circle-check"></i><b>اكتملت خصائص التطبيق</b>'+ 
-        '<button class="btn ghost" id="buildAgain" type="button"><i class="fa-solid fa-rotate-right"></i> أعد تركيب الخصائص</button></div>';
-      $('buildAgain').addEventListener('click',function(){index=0;locked=false;paint()});
+      stage.innerHTML='<div class="builddone"><i class="fa-solid fa-circle-check"></i><b>اكتملت خصائص التطبيق</b>'+
+        '<div class="buildnav">'+
+        '<button class="buildnav-btn" type="button" data-nav="prev"><i class="fa-solid fa-arrow-right"></i> السابق</button>'+
+        '<button class="btn ghost" id="buildAgain" type="button"><i class="fa-solid fa-rotate-right"></i> أعد تركيب الخصائص</button>'+
+        '</div></div>';
+      $('buildAgain').addEventListener('click',function(){index=0;answers=[];paint()});
       return;
     }
-    var x=BUILD[index];
-    stage.innerHTML='<div class="buildcard"><span class="buildnum">القرار '+ar(index+1)+' من '+ar(BUILD.length)+'</span>'+ 
-      '<p class="buildq">'+x.q+'</p><div class="buildopts">'+ 
-      x.opts.map(function(o){return '<button class="buildopt" type="button" data-v="'+o+'">'+o+'</button>'}).join('')+
-      '</div><div class="buildfb" id="buildFb"></div></div>';
+    var x=BUILD[index],done=!!answers[index];
+    stage.innerHTML='<div class="buildcard"><span class="buildnum">القرار '+ar(index+1)+' من '+ar(BUILD.length)+'</span>'+
+      '<p class="buildq">'+x.q+'</p><div class="buildopts">'+
+      x.opts.map(function(o){return '<button class="buildopt'+(done&&o===x.n?' good':'')+'" type="button" data-v="'+o+'"'+(done?' disabled':'')+'>'+o+'</button>'}).join('')+
+      '</div><div class="buildfb'+(done?' show ok':'')+'" id="buildFb">'+(done?'<b>اختيار صحيح · </b>'+x.why:'')+'</div>'+
+      navHTML()+'</div>';
   }
   stage.addEventListener('click',function(e){
-    var b=e.target.closest('.buildopt');if(!b||locked||index>=BUILD.length)return;
+    var nav=e.target.closest('[data-nav]');
+    if(nav){
+      if(nav.disabled)return;
+      if(nav.dataset.nav==='prev'){ if(index>0){index--;paint()} }
+      else if(index<BUILD.length&&answers[index]){index++;paint()}
+      return;
+    }
+    var b=e.target.closest('.buildopt');if(!b||index>=BUILD.length||answers[index])return;
     var x=BUILD[index],ok=b.dataset.v===x.n,fb=$('buildFb');
     b.classList.add(ok?'good':'bad');
     fb.className='buildfb show '+(ok?'ok':'no');
     if(!ok){fb.innerHTML='<b>جرّب مرة أخرى · </b>هذه الخاصية لا تضيف ما تحتاجه هذه المرحلة';return}
-    locked=true;
+    answers[index]=b.dataset.v;
     [].slice.call(stage.querySelectorAll('.buildopt')).forEach(function(o){o.disabled=true});
     fb.innerHTML='<b>اختيار صحيح · </b>'+x.why;
-    index++;paintStack();
-    setTimeout(function(){locked=false;paint()},4200);
+    paintStack();
+    var nextBtn=stage.querySelector('[data-nav="next"]');if(nextBtn)nextBtn.disabled=false;
   });
   paint();
 })();

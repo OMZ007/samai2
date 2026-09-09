@@ -132,6 +132,9 @@ span.susp.checked::after{content:"\f00c";font-family:"Font Awesome 6 Free"!impor
 .pc .val{font-size:15px;color:var(--body);margin:0;font-weight:600;line-height:1.9}
 .pc .row.how{background:#f4fbf9} .pc .row.how .lbl{color:#155e51}
 .insp-done{display:none;margin-top:16px} .insp-done.show{display:block;animation:fade .4s ease}
+.cl-restart-wrap{display:flex;justify-content:center;margin-top:16px}
+.cl-restart{appearance:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:1px solid rgba(36,55,113,.16);background:var(--primary);color:#fff;border-radius:11px;padding:10px 18px;font-size:12.5px;font-weight:900;transition:.18s}
+.cl-restart:hover{transform:translateY(-1px);background:#2c4a8a}.cl-restart i{font-size:11px}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 /* flip cards (expanded) */
@@ -1098,7 +1101,7 @@ span.susp.checked::after{content:"\f00c";font-family:"Font Awesome 6 Free"!impor
   <div class="cl-item" data-correct="remove">
     <div class="cl-qhead"><span class="cl-qnum">الحالة الثالثة</span></div>
     <div class="cl-txt"><i class="fa-solid fa-envelope"></i><span>مسودة رد على مستفيد بشأن تأخر معاملة</span></div>
-    <p class="cl-question">تتضمن اسم المستفيد، ورقم طلبه، وجواله، وبريده الإلكتروني؛ بينما المطلوب من أداة الذكاء الاصطناعي فقط تحسين صياغة الرد</p>
+    <p class="cl-question">تتضمن اسم المستفيد، ورقم طلبه، وجواله، وبريده الإلكتروني، بينما المطلوب من أداة الذكاء الاصطناعي فقط تحسين صياغة الرد</p>
     <div class="cl-opts">
       <button class="cl-opt" type="button" data-v="safe">شارك البيانات</button>
       <button class="cl-opt" type="button" data-v="remove">إزالة البيانات أولاً</button>
@@ -1141,11 +1144,11 @@ span.susp.checked::after{content:"\f00c";font-family:"Font Awesome 6 Free"!impor
       <button class="cl-opt" type="button" data-v="never">لا تشارك البيانات أبداً</button>
     </div>
     <div class="cl-fb"><strong>القرار الصحيح: لا تشارك البيانات أبداً</strong>، استخدم تطبيقاً معتمداً داخل الجهة</div>
-    <button class="cl-next" type="button" data-final="true">اعرض الخلاصة <i class="fa-solid fa-arrow-left"></i></button>
   </div>
 </div>
 <div class="insp-done" id="clDone">
-  <div class="callout teal" style="margin-top:0"><i class="fa-solid fa-circle-check"></i><div><strong>القاعدة: </strong>إزالة الاسم أو استخدام تطبيق «داخلي» لا يغيّران تصنيف البيانات؛ فالتصنيف يتغيّر بقرار مؤسسي مكتوب، لا باجتهاد فردي</div></div>
+  <div class="callout teal" style="margin-top:0"><i class="fa-solid fa-circle-check"></i><div><strong>القاعدة: </strong>إزالة الاسم أو استخدام تطبيق «داخلي» لا يغيّران تصنيف البيانات، فالتصنيف يتغيّر بقرار مؤسسي مكتوب</div></div>
+<div class="cl-restart-wrap"><button class="cl-restart" id="clRestart" type="button"><i class="fa-solid fa-rotate-right"></i> ابدأ من جديد</button></div>
 </div>
 </section>
 
@@ -1529,6 +1532,7 @@ span.susp.checked::after{content:"\f00c";font-family:"Font Awesome 6 Free"!impor
         item.querySelectorAll('.cl-opt').forEach(function(button){ button.disabled=true; });
         var feedback=item.querySelector('.cl-fb'); if(feedback) feedback.classList.add('show');
         if(clScoreEl) clScoreEl.textContent=clScore;
+        if(index===clItems.length-1&&clDoneEl){ clDoneEl.classList.add('show'); }
       });
     });
     var next=item.querySelector('.cl-next');
@@ -1543,6 +1547,20 @@ span.susp.checked::after{content:"\f00c";font-family:"Font Awesome 6 Free"!impor
       if(following) following.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'});
     }); }
   });
+  var clRestart=document.getElementById('clRestart');
+  if(clRestart){ clRestart.addEventListener('click',function(){
+    clScore=0; if(clScoreEl) clScoreEl.textContent=clScore;
+    if(clDoneEl) clDoneEl.classList.remove('show');
+    clItems.forEach(function(item){
+      item.removeAttribute('data-answered');
+      item.classList.remove('answered','was-wrong');
+      item.querySelectorAll('.cl-opt').forEach(function(button){ button.disabled=false; button.classList.remove('correct','wrong'); });
+      var feedback=item.querySelector('.cl-fb'); if(feedback) feedback.classList.remove('show');
+    });
+    setClassifierItem(0);
+    var section=document.getElementById('classify');
+    if(section) section.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  }); }
 
   /* replace unnecessary details with reusable placeholders */
   var sanitize=document.getElementById('sanitizeExercise');
