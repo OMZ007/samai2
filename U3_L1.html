@@ -344,7 +344,7 @@ html,body,*:not(.fa):not(.fa-solid):not(.fa-regular){font-family:"IBM Plex Sans 
 }
 
 /* ---------- 0 · المقارنة (الهوك) ---------- */
-.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:1000px;margin:0 auto;align-items:stretch}
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:1000px;margin:0 auto;align-items:start}
 .compare-card{background:linear-gradient(180deg,#fff,#f9fbfd);border:1.5px solid var(--border);border-radius:22px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;transition:.3s}
 .compare-card.bad{border-color:rgba(192,57,43,.25)}
 .compare-card.good{border-color:rgba(63,174,154,.35)}
@@ -843,6 +843,20 @@ var WHO_BOT='<span class="who"><i class="fa-solid fa-sparkles"></i> الأداة
     if(document.fonts&&document.fonts.ready)document.fonts.ready.then(sync);
   })();
 
+  /* توحيد ارتفاع البطاقتين عندما تكونان في الحالة نفسها (كلتاهما قبل التنفيذ أو بعده)،
+     وتركهما بارتفاعهما الطبيعي عند اختلاف الحالة حتى لا تتمدّد البطاقة المغلقة فارغة */
+  var pair=[document.getElementById('cBad'),document.getElementById('cGood')];
+  function equalize(){
+    pair.forEach(function(c){c.style.minHeight=''});
+    if(window.matchMedia('(max-width:880px)').matches)return;
+    if(pair[0].classList.contains('executed')!==pair[1].classList.contains('executed'))return;
+    var h=Math.max(pair[0].offsetHeight,pair[1].offsetHeight);
+    pair.forEach(function(c){c.style.minHeight=h+'px'});
+  }
+  window.addEventListener('resize',equalize);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(equalize);
+  equalize();
+
   [].slice.call(document.querySelectorAll('.compare-btn')).forEach(function(btn){
     btn.addEventListener('click',function(){
       var which=btn.dataset.c,
@@ -855,6 +869,7 @@ var WHO_BOT='<span class="who"><i class="fa-solid fa-sparkles"></i> الأداة
         if(which==='bad'){
           typeInto(out,BAD_T,BAD_R,function(){
             btn.innerHTML='<i class="fa-solid fa-check"></i> تم التنفيذ';
+            equalize();
           });
         }else{
           out.innerHTML=tableHTML();
@@ -862,6 +877,7 @@ var WHO_BOT='<span class="who"><i class="fa-solid fa-sparkles"></i> الأداة
           trs.forEach(function(tr,i){setTimeout(function(){tr.classList.add('in')},220+i*230)});
           setTimeout(function(){
             btn.innerHTML='<i class="fa-solid fa-check"></i> تم التنفيذ';
+            equalize();
           },220+trs.length*230);
         }
       },620);

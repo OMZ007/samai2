@@ -53,7 +53,7 @@
    خاص بالدرس — الاتجاهات المستقبلية ومواكبة المستجدات
    ========================================================== */
 .h3{color:var(--primary);font-size:17px;font-weight:900;margin:26px 0 12px;line-height:1.5}/* ---------- 1 · الاتجاهات ---------- */
-.trends{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.trend{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:0;box-shadow:var(--shadow);overflow:hidden;transition:.28s;display:flex;flex-direction:column}.trend:hover{border-color:rgba(63,174,154,.42);box-shadow:var(--hover)}.trend.open{border-color:rgba(63,174,154,.5)}.trend-btn{width:100%;appearance:none;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:start;padding:18px 18px 14px;display:flex;align-items:flex-start;gap:14px}.trend-viz{width:74px;height:58px;flex:0 0 auto;border-radius:14px;background:linear-gradient(150deg,#f2f8ff,#eefaf7);border:1px solid var(--border);display:grid;place-items:center;overflow:hidden}.trend-viz svg{width:100%;height:100%;display:block}.trend-head{min-width:0;flex:1}.trend-num{font-size:10.5px;font-weight:900;color:var(--g2);letter-spacing:.08em}.trend-head h3{margin:2px 0 4px;color:var(--primary);font-size:15.5px;font-weight:900;line-height:1.45}.trend-head p{margin:0;color:var(--muted);font-size:13px;font-weight:700;line-height:1.85}.trend-chev{flex:0 0 auto;width:28px;height:28px;border-radius:9px;background:rgba(36,55,113,.06);color:var(--primary);display:grid;place-items:center;font-size:11px;transition:.3s;margin-top:3px}.trend.open .trend-chev{transform:rotate(180deg);background:var(--g2);color:#fff}.trend-body{display:none;margin:0 14px 14px;padding:14px;background:linear-gradient(180deg,#f8fbfd,#f3f9f7);border:1px solid rgba(36,55,113,.09);border-radius:15px;animation:fade .3s ease}.trend.open .trend-body{display:block}.trend-row{display:flex;gap:12px;padding:13px 14px;background:#fff;border:1px solid rgba(36,55,113,.09);border-radius:13px;box-shadow:0 4px 12px rgba(36,55,113,.035)}.trend-row+.trend-row{margin-top:9px}.trend-row i{width:34px;height:34px;flex:0 0 auto;border-radius:11px;display:grid;place-items:center;font-size:13px;background:rgba(63,174,154,.11);color:var(--g2)}.trend-row.act{border-color:rgba(115,194,103,.26);background:linear-gradient(145deg,#fff,#f8fcf6)}.trend-row.act i{background:rgba(115,194,103,.16);color:#4b8f40}.trend-row div{min-width:0}.trend-row>div>b{display:block;font-size:12.5px;font-weight:900;color:var(--g2);margin-bottom:3px}.trend-row.act>div>b{color:#4b8f40}.trend-row span b{display:inline;margin:0;font-size:inherit;font-weight:900;color:var(--primary)}.trend-row span{font-size:13px;font-weight:700;color:var(--body);line-height:1.9}/* رسوم الاتجاهات */
+.trends{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:13px}/* اللوحة تمتد إلى أسفل القائمة، والفراغ يبقى تحت المحتوى داخل البطاقة */.trend-stage{display:grid;min-width:0}.trend-list{display:grid;gap:13px;align-content:start;min-width:0}/* الموضع الشاغر: يحتفظ بمكان البطاقة المعروضة داخل تسلسل الاتجاهات */.trend-slot{display:flex;align-items:center;gap:11px;border:1.5px dashed rgba(63,174,154,.55);background:linear-gradient(145deg,rgba(63,174,154,.07),rgba(115,194,103,.05));border-radius:20px;padding:15px 17px;animation:fade .3s ease}.trend-slot i{width:34px;height:34px;flex:0 0 auto;border-radius:11px;background:rgba(63,174,154,.16);color:var(--g2);display:grid;place-items:center;font-size:12px}.trend-slot div{min-width:0}.trend-slot b{display:block;color:var(--primary);font-size:13px;font-weight:900;line-height:1.5}.trend-slot span{display:block;color:var(--g2);font-size:11.5px;font-weight:800;line-height:1.7}/* بطاقات القائمة مختصرة: العنوان يكفي للاختيار، والشرح يظهر عند فتحها في اللوحة */.trend-list .trend-head p{display:none}.trend-list .trend-btn{padding:15px 16px;align-items:center}.trend-list .trend-viz{width:56px;height:44px}.trend-list .trend-chev{margin-top:0}/* البطاقة المعروضة مفتوحة أصلًا، فزرّها مؤشّر حالة لا زر طيّ */.trend-stage .trend-btn{cursor:default}.trend-stage .trend-chev{display:none}.trend{background:#fff;border:1.5px solid var(--border);border-radius:20px;padding:0;box-shadow:var(--shadow);overflow:hidden;transition:.28s;display:flex;flex-direction:column}.trend:hover{border-color:rgba(63,174,154,.42);box-shadow:var(--hover)}.trend.open{border-color:rgba(63,174,154,.5)}.trend-btn{width:100%;appearance:none;background:transparent;border:none;cursor:pointer;font-family:inherit;text-align:start;padding:18px 18px 14px;display:flex;align-items:flex-start;gap:14px}.trend-viz{width:74px;height:58px;flex:0 0 auto;border-radius:14px;background:linear-gradient(150deg,#f2f8ff,#eefaf7);border:1px solid var(--border);display:grid;place-items:center;overflow:hidden}.trend-viz svg{width:100%;height:100%;display:block}.trend-head{min-width:0;flex:1}.trend-num{font-size:10.5px;font-weight:900;color:var(--g2);letter-spacing:.08em}.trend-head h3{margin:2px 0 4px;color:var(--primary);font-size:15.5px;font-weight:900;line-height:1.45}.trend-head p{margin:0;color:var(--muted);font-size:13px;font-weight:700;line-height:1.85}.trend-chev{flex:0 0 auto;width:28px;height:28px;border-radius:9px;background:rgba(36,55,113,.06);color:var(--primary);display:grid;place-items:center;font-size:11px;transition:.3s;margin-top:3px}.trend.open .trend-chev{transform:rotate(180deg);background:var(--g2);color:#fff}.trend-body{display:none;margin:0 14px 14px;padding:14px;background:linear-gradient(180deg,#f8fbfd,#f3f9f7);border:1px solid rgba(36,55,113,.09);border-radius:15px;animation:fade .3s ease}.trend.open .trend-body{display:block}.trend-row{display:flex;gap:12px;padding:13px 14px;background:#fff;border:1px solid rgba(36,55,113,.09);border-radius:13px;box-shadow:0 4px 12px rgba(36,55,113,.035)}.trend-row+.trend-row{margin-top:9px}.trend-row i{width:34px;height:34px;flex:0 0 auto;border-radius:11px;display:grid;place-items:center;font-size:13px;background:rgba(63,174,154,.11);color:var(--g2)}.trend-row.act{border-color:rgba(115,194,103,.26);background:linear-gradient(145deg,#fff,#f8fcf6)}.trend-row.act i{background:rgba(115,194,103,.16);color:#4b8f40}.trend-row div{min-width:0}.trend-row>div>b{display:block;font-size:12.5px;font-weight:900;color:var(--g2);margin-bottom:3px}.trend-row.act>div>b{color:#4b8f40}.trend-row span b{display:inline;margin:0;font-size:inherit;font-weight:900;color:var(--primary)}.trend-row span{font-size:13px;font-weight:700;color:var(--body);line-height:1.9}/* رسوم الاتجاهات */
 .tv-node,.tv-seg,.tv-ray,.tv-brick,.tv-shield{opacity:.22;transition:opacity .4s ease}.trend.open .tv-node{animation:tvpop 2.6s ease-in-out infinite}.trend.open .tv-node:nth-of-type(2){animation-delay:.22s}.trend.open .tv-node:nth-of-type(3){animation-delay:.44s}.trend.open .tv-node:nth-of-type(4){animation-delay:.66s}
 @keyframes tvpop{0%,70%,100%{opacity:.22}18%,52%{opacity:1}}.trend.open .tv-seg{animation:tvconv 3s ease-in-out infinite}.trend.open .tv-seg:nth-of-type(2){animation-delay:.18s}.trend.open .tv-seg:nth-of-type(3){animation-delay:.36s}.trend.open .tv-seg:nth-of-type(4){animation-delay:.54s}
 @keyframes tvconv{0%,100%{opacity:.22;transform:translate(0,0)}45%,60%{opacity:1;transform:translate(0,0)}}.trend.open .tv-ray{animation:tvdraw 2.8s ease-in-out infinite}.trend.open .tv-ray:nth-of-type(2){animation-delay:.2s}.trend.open .tv-ray:nth-of-type(3){animation-delay:.4s}
@@ -156,6 +156,10 @@
 
   <div class="trends">
 
+    <div class="trend-stage" id="trendStage"></div>
+
+    <div class="trend-list" id="trendList">
+
     <article class="trend" data-t="embed">
       <button class="trend-btn" type="button" aria-expanded="false">
         <span class="trend-viz">
@@ -172,7 +176,7 @@
           <h3>من تطبيقات منفصلة إلى ذكاء مدمج في أنظمة التعليم</h3>
           <p>تندمج قدرات الذكاء الاصطناعي تدريجيًا داخل أنظمة إدارة التعلّم والمنصات التعليمية، بدل الاعتماد على تطبيقات منفصلة.</p>
         </span>
-        <span class="trend-chev"><i class="fa-solid fa-chevron-down"></i></span>
+        <span class="trend-chev"><i class="fa-solid fa-chevron-right"></i></span>
       </button>
       <div class="trend-body">
         <div class="trend-row"><i class="fa-solid fa-school"></i><div><b>كيف يتغيّر المشهد التعليمي؟</b><span>يظهر المساعد داخل نظام إدارة التعلّم نفسه؛ فينشئ مسودة نشاط من أهداف المقرر، ويلخص نقاش الصف، أو يقترح تغذية راجعة ضمن سياق المقرر والصلاحيات المتاحة للمستخدم، دون نسخ العمل يدويًا بين تطبيقات متعددة.</span></div></div>
@@ -197,7 +201,7 @@
           <h3>من روبوت محادثة عام إلى مساعد تربوي مصمم للتعلّم</h3>
           <p>مساعد لا يكتفي بإعطاء الإجابة؛ بل يسأل ويوجّه ويقدم تلميحًا مناسبًا لهدف تعليمي محدد.</p>
         </span>
-        <span class="trend-chev"><i class="fa-solid fa-chevron-down"></i></span>
+        <span class="trend-chev"><i class="fa-solid fa-chevron-right"></i></span>
       </button>
       <div class="trend-body">
         <div class="trend-row"><i class="fa-solid fa-school"></i><div><b>كيف يتغيّر المشهد التعليمي؟</b><span>يتحوّل المساعد من أداة تقدم إجابة مباشرة إلى أداة تدعم عملية التعلّم؛ فتستكشف فهم المتعلم، وتطرح أسئلة متدرجة، وتقدم تلميحات، وتكيّف أسلوبها مع استجابته، مع بقاء المعلم مشرفًا على العملية.</span></div></div>
@@ -221,7 +225,7 @@
           <h3>من محتوى واحد للجميع إلى تعلّم تكيفي وحواري</h3>
           <p>يتغير الشرح والتلميح ومستوى التحدي وفق استجابة المتعلم، بدل تقديم المسار نفسه للجميع.</p>
         </span>
-        <span class="trend-chev"><i class="fa-solid fa-chevron-down"></i></span>
+        <span class="trend-chev"><i class="fa-solid fa-chevron-right"></i></span>
       </button>
       <div class="trend-body">
         <div class="trend-row"><i class="fa-solid fa-school"></i><div><b>كيف يتغيّر المشهد التعليمي؟</b><span>يتفاعل النظام مع أداء المتعلم أثناء التعلّم؛ فيغيّر المثال، أو يقدّم تلميحًا إضافيًا، أو يرفع مستوى التحدي بحسب استجابته، بدل تقديم تجربة واحدة للجميع.</span></div></div>
@@ -244,7 +248,7 @@
           <h3>من تقييم المنتج النهائي إلى تتبّع عملية التعلّم</h3>
           <p>لا تكفي جودة الإجابة أو المنتج النهائي للحكم على تعلّم المتعلم؛ بل يصبح مهمًا النظر في كيفية توصّله إليه، وما الذي يستطيع تفسيره وتطبيقه.</p>
         </span>
-        <span class="trend-chev"><i class="fa-solid fa-chevron-down"></i></span>
+        <span class="trend-chev"><i class="fa-solid fa-chevron-right"></i></span>
       </button>
       <div class="trend-body">
         <div class="trend-row"><i class="fa-solid fa-school"></i><div><b>كيف يتغيّر المشهد التعليمي؟</b><span>يتجه التقييم إلى الاعتماد على أكثر من دليل للتعلّم، مثل المسودات، والتعديلات التي أجراها المتعلم، وتفسيره لقراراته، وتطبيقه للمفهوم في موقف جديد، وبيان مواضع استخدام الذكاء الاصطناعي.</span></div></div>
@@ -265,7 +269,7 @@
           <h3>من استخدام فردي متفرق إلى تبني مؤسسي منظم</h3>
           <p>ينتقل الذكاء الاصطناعي من اجتهادات شخصية إلى سياسة وبنية تحتية وتدريب ومسؤوليات واضحة.</p>
         </span>
-        <span class="trend-chev"><i class="fa-solid fa-chevron-down"></i></span>
+        <span class="trend-chev"><i class="fa-solid fa-chevron-right"></i></span>
       </button>
       <div class="trend-body">
         <div class="trend-row"><i class="fa-solid fa-school"></i><div><b>كيف يتغيّر المشهد التعليمي؟</b><span>تضع الجهة إطارًا واضحًا لاستخدام الذكاء الاصطناعي؛ يحدد التطبيقات المعتمدة، وكيفية التعامل مع البيانات، ومتطلبات الإفصاح والمراجعة البشرية، والتدريب اللازم للمستخدمين، بدل أن يقرر كل فرد طريقة الاستخدام بمفرده.</span></div></div>
@@ -273,6 +277,7 @@
       </div>
     </article>
 
+    </div>
   </div>
   <div class="keyline">
     <i class="fa-solid fa-arrow-down"></i>
@@ -476,15 +481,45 @@ if('IntersectionObserver' in window){
 })();
 
 /* ================= 1 · الاتجاهات ================= */
+/* بطاقة واحدة مفتوحة في اللوحة، وبقية البطاقات مغلقة في القائمة،
+   مع موضع شاغر يوضّح مكان البطاقة المعروضة داخل التسلسل */
 (function(){
-  [].slice.call(document.querySelectorAll('.trend')).forEach(function(card){
-    var btn=card.querySelector('.trend-btn');
-    btn.addEventListener('click',function(){
-      var open=!card.classList.contains('open');
-      card.classList.toggle('open',open);
-      btn.setAttribute('aria-expanded',open?'true':'false');
+  var stage=document.getElementById('trendStage'),
+      list=document.getElementById('trendList');
+  if(!stage||!list)return;
+
+  var cards=[].slice.call(list.querySelectorAll('.trend')),
+      active=0;
+
+  var slot=document.createElement('div');
+  slot.className='trend-slot';
+  slot.setAttribute('aria-hidden','true');
+
+  function render(){
+    /* القائمة بترتيب الاتجاهات الأصلي، والشاغر مكان البطاقة المفتوحة */
+    cards.forEach(function(c,i){list.appendChild(i===active?slot:c)});
+    stage.appendChild(cards[active]);
+    cards.forEach(function(c,i){
+      var on=(i===active);
+      c.classList.toggle('open',on);
+      c.querySelector('.trend-btn').setAttribute('aria-expanded',on?'true':'false');
+    });
+    var num=cards[active].querySelector('.trend-num');
+    slot.innerHTML='<i class="fa-solid fa-eye"></i><div><b>'
+      +(num?num.textContent.trim():'')+'</b><span>معروض الآن</span></div>';
+  }
+
+  cards.forEach(function(card,i){
+    card.querySelector('.trend-btn').addEventListener('click',function(){
+      if(i===active)return;
+      active=i;
+      render();
+      /* نقل البطاقة بين الحاويتين يفقدها التركيز، فنعيده إلى زرّها */
+      try{card.querySelector('.trend-btn').focus({preventScroll:true})}catch(e){}
     });
   });
+
+  render();
 })();
 
 /* ================= 2 · اختبر فهمك ================= */

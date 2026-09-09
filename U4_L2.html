@@ -3506,9 +3506,9 @@ async function doPublish(){
 async function fillPrompt(){
   if(busy||promptFilled)return;
   busy=true;spotOff(lbFill);lbFill.disabled=true;navPaint();
-  spotOn(lbText,'يُكتب الوصف الآن');
+  spotOn(launchBox,'يُكتب الوصف الآن');
   await typeInto(lbText,PROMPT_ONE);
-  spotOff(lbText);launchBox.classList.add('wready');promptFilled=true;
+  spotOff(launchBox);launchBox.classList.add('wready');promptFilled=true;
   spotOn(sNext,'الوصف جاهز اضغط هنا');
   busy=false;navPaint();
 }
@@ -3604,9 +3604,9 @@ sNext.addEventListener('click',async function(){
     if(!reviewDone){
       busy=true;pushHist();navPaint();
       stComposer.classList.add('wready');cHint.textContent='طلب المراجعة جاهز يُرسل الآن';
-      spotOn(cBox,'يُكتب طلب المراجعة');
+      spotOn(stComposer,'يُكتب طلب المراجعة');
       await typeInto(cBox,REVIEW_PROMPT);
-      spotOff(cBox);
+      spotOff(stComposer);
       await spotClick(cSendTag,'ضغط المحاكي «إرسال»',450);
       bubble('me',esc(REVIEW_PROMPT));
       cBox.textContent='سيظهر هنا الأمر التالي عند الضغط على «التالي»…';cBox.classList.remove('filled');
