@@ -191,7 +191,9 @@ html,body,*:not(.fa):not(.fa-solid):not(.fa-regular){font-family:"IBM Plex Sans 
 .ruleline{margin-top:18px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(36,55,113,.05),rgba(63,174,154,.08));border:1px solid rgba(63,174,154,.24);border-radius:18px;padding:16px 20px}
 .ruleline>i{width:38px;height:38px;flex:0 0 auto;border-radius:12px;background:#fff;color:var(--g2);display:grid;place-items:center;font-size:16px;box-shadow:0 6px 16px rgba(36,55,113,.08)}
 .ruleline p{margin:0;font-size:14.5px;font-weight:900;color:var(--primary);line-height:1.85}
-.ruleline p b{color:var(--g2)}
+.ruleline p b{color:#243771;font-weight:inherit}
+.ruleline.hidden{display:none}
+.ruleline.reveal{animation:fade .45s ease}
 
 /* ---------- 2 · ثلاثة سيناريوهات ---------- */
 .scpick{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
@@ -386,7 +388,7 @@ html,body,*:not(.fa):not(.fa-solid):not(.fa-regular){font-family:"IBM Plex Sans 
     </div>
   </div>
 
-  <div class="ruleline">
+  <div class="ruleline" id="splitRule">
     <i class="fa-solid fa-key"></i>
     <p>بعد أن تعرّفت على كيفية تقسيم المهمة عند الحاجة، ننتقل إلى سؤال مهم: <b>هل يكفي تطبيق واحد لتنفيذ المهمة، أم تحتاج إلى أكثر من تطبيق؟</b></p>
   </div>
@@ -553,7 +555,12 @@ if('IntersectionObserver' in window){
       parts=document.getElementById('parts'),
       badge=document.getElementById('stepBadge'),
       btn=document.getElementById('splitBtn'),
+      rule=document.getElementById('splitRule'),
       cur=TASKS[0],timers=[];
+
+  /* البطاقة الختامية تظهر بعد أول تقسيم مكتمل، ويخفيها الجافاسكربت حتى تبقى
+     ظاهرة لمن يعطّله بدل أن تختفي عنه نهائيًا */
+  if(rule)rule.classList.add('hidden');
 
   pick.innerHTML=TASKS.map(function(t,i){
     return '<button type="button" class="'+(i===0?'on':'')+'" data-t="'+t.k+'"><i class="fa-solid '+t.i+'"></i>'+t.n+'</button>';
@@ -624,6 +631,7 @@ if('IntersectionObserver' in window){
     timers.push(setTimeout(function(){
       btn.disabled=false;
       btn.innerHTML='<i class="fa-solid fa-rotate-left"></i> أعد الضبط';
+      if(rule&&rule.classList.contains('hidden')){rule.classList.remove('hidden');rule.classList.add('reveal');}
     },620+els.length*160));
   }
   /* تبديل: الزر يقسّم المهمة، ثم يعيد القسم إلى حالته الأصلية قبل التقسيم */
@@ -655,7 +663,7 @@ if('IntersectionObserver' in window){
   var SC=[
     {k:'s0',i:'fa-circle-check',t:'تطبيق واحد يكفي',sub:'',
      lane:['own','own','own','own','you'],
-     cap:'أنجزت المحطات الأربع في مكان واحد، <b>وهذا يكفي في كثير من المهام</b>',
+     cap:'أُنجزت المحطات الأربع في مكان واحد، <b>وهذا يكفي في كثير من المهام</b>',
      eg:'مثل: تخطيط الدرس وكتابة أسئلته وتصميم بطاقة له، كلها من مكان واحد'},
     {k:'s1',i:'fa-star',t:'قد يكون غيره أفضل في جزء',sub:'',hot:3,
      lane:['own','own','own','own','you'],maybe:3,maybeText:'قد تجد أفضل منه في تطبيق آخر',
